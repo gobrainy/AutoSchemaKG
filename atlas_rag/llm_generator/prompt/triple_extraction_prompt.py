@@ -9,7 +9,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Relation": "{a verb}",
                 "Tail": "{a noun}",
             }...
-        ]""",
+        ]
+        Here is the passage:""",
 
         "event_entity":  """Please analyze and summarize the participation relations between the events and entities in the given paragraph. Each event is a single independent sentence. Additionally, identify all the entities that participated in the events. Do not use ellipses. 
         You must **strictly output in the following JSON format**:\n
@@ -18,8 +19,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Event": "{a simple sentence describing an event}",
                 "Entity": ["entity 1", "entity 2", "..."]
             }...
-        ] """,
-    
+        ]
+        Here is the passage:""",
         "event_relation":  """Please analyze and summarize the relationships between the events in the paragraph. Each event is a single independent sentence. Identify temporal and causal relationships between the events using the following types: before, after, at the same time, because, and as a result. Each extracted triple should be specific, meaningful, and able to stand alone.  Do not use ellipses.  
         You must **strictly output in the following JSON format**:\n
         [
@@ -28,8 +29,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Relation": "{temporal or causality relation between the events}",
                 "Tail": "{a simple sentence describing the event 2}"
             }...
-        ]""",
-        "passage_start" : """Here is the passage."""
+        ]
+        Here is the passage:""",
     },
     "zh-CN": {
         "system": """"你是一个始终以有效JSON数组格式回应的助手""",
@@ -41,7 +42,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Relation": "{动词或关系描述}",  
                 "Tail": "{名词}"  
             }...  
-        ]""",
+        ]
+        给定以下段落：""",
 
         "event_entity": """分析段落中的事件及其参与实体。每个事件应为独立单句，列出所有相关实体（需具体，不含代词）。  
         返回格式必须为以下JSON结构,内容需用简体中文表述:
@@ -50,7 +52,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Event": "{描述事件的简单句子}",  
                 "Entity": ["实体1", "实体2", "..."]  
             }...  
-        ]""",
+        ]
+        给定以下段落：""",
        
         "event_relation": """分析事件间的时序或因果关系,关系类型包括:之前,之后,同时,因为,结果.每个事件应为独立单句。  
         返回格式必须为以下JSON结构.内容需用简体中文表述. 
@@ -60,9 +63,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Relation": "{时序/因果关系}",  
                 "Tail": "{事件2描述}"  
             }...  
-        ]""",
-        
-        "passage_start": "给定以下段落："
+        ]
+        给定以下段落：""",
     },
     "zh-HK": {
         "system": "你是一個始終以有效JSON數組格式回覆的助手",
@@ -74,7 +76,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Relation": "{動詞或關係描述}",  
                 "Tail": "{名詞}"  
             }...  
-        ]""",
+        ]
+        給定以下段落：""",
 
         "event_entity": """分析段落中的事件及其參與實體。每個事件應為獨立單句，列出所有相關實體（需具體，不含代詞）。  
         返回格式必須為以下JSON結構,內容需用繁體中文表述:
@@ -83,7 +86,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Event": "{描述事件的簡單句子}",  
                 "Entity": ["實體1", "實體2", "..."]  
             }...  
-        ]""",
+        ]
+        給定以下段落：""",
        
         "event_relation": """分析事件間的時序或因果關係,關係類型包括:之前,之後,同時,因為,結果.每個事件應為獨立單句。  
         返回格式必須為以下JSON結構.內容需用繁體中文表述. 
@@ -93,9 +97,8 @@ TRIPLE_INSTRUCTIONS = {
                 "Relation": "{時序/因果關係}",  
                 "Tail": "{事件2描述}"  
             }...  
-        ]""",
-        
-        "passage_start": "給定以下段落："
+        ]
+        給定以下段落：""",
     }
 }
 

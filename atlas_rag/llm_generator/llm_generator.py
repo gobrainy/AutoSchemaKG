@@ -8,7 +8,7 @@ from atlas_rag.llm_generator.prompt.rag_prompt import cot_system_instruction, co
 from atlas_rag.llm_generator.prompt.lkg_prompt import ner_prompt, keyword_filtering_prompt, simple_ner_prompt
 from atlas_rag.llm_generator.prompt.rag_prompt import filter_triple_messages
 from atlas_rag.llm_generator.format.validate_json_output import *
-from atlas_rag.llm_generator.format.validate_json_schema import filter_fact_json_schema, lkg_keyword_json_schema, stage_to_schema
+from atlas_rag.llm_generator.format.validate_json_schema import filter_fact_json_schema, lkg_keyword_json_schema, ATLAS_SCHEMA
 from transformers.pipelines import Pipeline
 import jsonschema
 import time
@@ -37,11 +37,7 @@ def serialize_openai_tool_call_message(message) -> dict:
         serialized["tool_calls"].append(serialized_tool_call)
     
     return serialized
-stage_to_prompt_type = {
-    1: "entity_relation",
-    2: "event_entity",
-    3: "event_relation",
-}
+
 retry_decorator = retry(
     stop=(stop_after_delay(120) | stop_after_attempt(5)),  # Max 2 minutes or 5 attempts
     wait=wait_exponential(multiplier=1, min=2, max=30) + wait_random(min=0, max=2),
@@ -405,13 +401,12 @@ class LLMGenerator():
         return self.generate_response(messages, max_new_tokens=max_new_tokens)
 
     
-    def triple_extraction(self, messages, max_tokens=4096, stage=None, record=False, allow_empty=True):
+    def triple_extraction(self, messages, result_schema, max_tokens=4096, stage=None, record=False, allow_empty=True):
         if isinstance(messages[0], dict):
             messages = [messages]
         validate_kwargs = {
-            'schema': stage_to_schema.get(stage, None),
-            'fix_function': fix_triple_extraction_response,
-            'prompt_type': stage_to_prompt_type.get(stage, None),
+            'schema': result_schema,
+            'fix_function': fix_triple_extraction_response, # modify the fix according to provided schema
             'allow_empty': allow_empty
         }
         try:

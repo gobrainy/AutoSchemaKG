@@ -52,9 +52,9 @@ def csvs_to_temp_graphml(triple_node_file, triple_edge_file, config:ProcessingCo
     
     
 
-def csvs_to_graphml(triple_node_file, text_node_file, concept_node_file,
-                    triple_edge_file, text_edge_file, concept_edge_file,
-                    output_file):
+def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edge_file, 
+                    concept_node_file = None, concept_edge_file = None,
+                    output_file = "kg.graphml"):
     '''
     Convert multiple CSV files into a single GraphML file.
     
@@ -103,13 +103,14 @@ def csvs_to_graphml(triple_node_file, text_node_file, concept_node_file,
                 g.add_node(node_id, file_id=node_id, id=row["original_text"], type="passage")
 
     # Add concept nodes
-    with open(concept_node_file, 'r') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            node_id = row["concept_id:ID"]
-            # Check if node already exists to prevent duplicates
-            if node_id not in g.nodes:
-                g.add_node(node_id, file_id="concept_file", id=row["name"], type="concept")
+    if concept_node_file is not None:
+        with open(concept_node_file, 'r') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                node_id = row["concept_id:ID"]
+                # Check if node already exists to prevent duplicates
+                if node_id not in g.nodes:
+                    g.add_node(node_id, file_id="concept_file", id=row["name"], type="concept")
 
     # Add file id for triple nodes and concept nodes when add the edges
     
@@ -155,13 +156,14 @@ def csvs_to_graphml(triple_node_file, text_node_file, concept_node_file,
                     g.nodes[start_id]['file_id'] = str(end_id)
 
     # Add concept edges between triple nodes and concept nodes
-    with open(concept_edge_file, 'r') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            start_id = get_node_id(row[":START_ID"], entity_to_id)
-            end_id = row[":END_ID"] # end id is concept node id
-            if not g.has_edge(start_id, end_id):
-                g.add_edge(start_id, end_id, relation=row["relation"], type=row[":TYPE"])
+    if concept_edge_file is not None:
+        with open(concept_edge_file, 'r') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                start_id = get_node_id(row[":START_ID"], entity_to_id)
+                end_id = row[":END_ID"] # end id is concept node id
+                if not g.has_edge(start_id, end_id):
+                    g.add_edge(start_id, end_id, relation=row["relation"], type=row[":TYPE"])
 
     # Write to GraphML
     # check if output file directory exists

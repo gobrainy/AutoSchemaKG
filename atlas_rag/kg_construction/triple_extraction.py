@@ -12,6 +12,7 @@ from typing import List, Dict, Any, Tuple
 from pathlib import Path
 import torch
 from datasets import load_dataset
+from collections import defaultdict
 from tqdm import tqdm
 import json_repair
 from atlas_rag.llm_generator import LLMGenerator
@@ -23,14 +24,17 @@ from atlas_rag.kg_construction.concept_to_csv import all_concept_triples_csv_to_
 from atlas_rag.kg_construction.utils.csv_processing.csv_add_numeric_id import add_csv_columns
 from atlas_rag.vectorstore.embedding_model import BaseEmbeddingModel
 from atlas_rag.vectorstore.create_neo4j_index import create_faiss_index
-from atlas_rag.llm_generator.prompt.triple_extraction_prompt import TRIPLE_INSTRUCTIONS
 from atlas_rag.kg_construction.triple_config import ProcessingConfig
+from atlas_rag.llm_generator.prompt.triple_extraction_prompt import TRIPLE_INSTRUCTIONS
+from atlas_rag.llm_generator.format.validate_json_schema import ATLAS_SCHEMA
 # Constants
-TOKEN_LIMIT = 1024
+TOKEN_LIMIT = 4096
 INSTRUCTION_TOKEN_ESTIMATE = 200
 CHAR_TO_TOKEN_RATIO = 3.5
-
-
+ 
+# Prompt instructions and schema, will be modified during the initialization of KnowledgeGraphExtractor according to the config if provided
+PROMPT_INSTRUCTIONS = TRIPLE_INSTRUCTIONS
+RESULT_SCHEMA = ATLAS_SCHEMA
 
 class TextChunker:
     """Handles text chunking based on token limits."""
@@ -59,7 +63,6 @@ class TextChunker:
             
         return chunks
 
-
 class DatasetProcessor:
     """Processes and prepares dataset for knowledge graph extraction."""
     
@@ -71,7 +74,7 @@ class DatasetProcessor:
         """Check if content is in English."""
         metadata = sample.get("metadata", {})
         language = metadata.get("lang", "en")  # Default to English if not specified
-        supported_languages = list(TRIPLE_INSTRUCTIONS.keys())
+        supported_languages = list(PROMPT_INSTRUCTIONS.keys())
         return language in supported_languages
     
     
@@ -149,7 +152,6 @@ class DatasetProcessor:
         print(f"Generated {len(processed_samples)} chunks for shard {self.config.current_shard_triple+1}/{self.config.total_shards_triple}")
         return processed_samples
 
-
 class CustomDataLoader:
     """Custom data loader for knowledge graph extraction."""
     
@@ -167,33 +169,18 @@ class CustomDataLoader:
         return len(self.processed_data)
     
     def create_batch_instructions(self, batch_data: List[Dict[str, Any]]) -> List[str]:
-        messages_dict = {
-            'stage_1': [],
-            'stage_2': [],
-            'stage_3': []
-        }
+        messages_dict = {key: [] for key in RESULT_SCHEMA.keys()}
         for item in batch_data:
             # get language
             language = item.get("metadata",{}).get("lang", "en")
-            system_msg = TRIPLE_INSTRUCTIONS.get(language, TRIPLE_INSTRUCTIONS["en"])['system'] 
-            stage_1_msg = TRIPLE_INSTRUCTIONS.get(language, TRIPLE_INSTRUCTIONS["en"])['entity_relation'] + TRIPLE_INSTRUCTIONS.get(language, TRIPLE_INSTRUCTIONS["en"])['passage_start'] + '\n' + item["text"]
-            stage_2_msg = TRIPLE_INSTRUCTIONS.get(language, TRIPLE_INSTRUCTIONS["en"])['event_entity'] + TRIPLE_INSTRUCTIONS.get(language, TRIPLE_INSTRUCTIONS["en"])['passage_start'] + '\n'+ item["text"]
-            stage_3_msg = TRIPLE_INSTRUCTIONS.get(language, TRIPLE_INSTRUCTIONS["en"])['event_relation'] + TRIPLE_INSTRUCTIONS.get(language, TRIPLE_INSTRUCTIONS["en"])['passage_start'] + '\n'+ item["text"]
-            stage_one_message = [
-                {"role": "system", "content": system_msg},
-                {"role": "user", "content": stage_1_msg}
-            ]
-            stage_two_message = [
-                {"role": "system", "content": system_msg},
-                {"role": "user", "content": stage_2_msg}
-            ]
-            stage_three_message = [
-                {"role": "system", "content": system_msg},
-                {"role": "user", "content": stage_3_msg}
-            ]
-            messages_dict['stage_1'].append(stage_one_message)
-            messages_dict['stage_2'].append(stage_two_message)
-            messages_dict['stage_3'].append(stage_three_message)
+            system_msg = PROMPT_INSTRUCTIONS.get(language, PROMPT_INSTRUCTIONS["en"])['system'] 
+
+            for key in RESULT_SCHEMA.keys():
+                stage_msg = PROMPT_INSTRUCTIONS.get(language, PROMPT_INSTRUCTIONS["en"])[key] + '\n' + item["text"]
+                messages_dict[key].append([
+                    {"role": "system", "content": system_msg},
+                    {"role": "user", "content": stage_msg}
+                ])
         
         return messages_dict
     
@@ -215,7 +202,6 @@ class CustomDataLoader:
             
             yield instructions, batch_ids, batch_texts, batch_metadata
 
-
 class OutputParser:
     """Parses model outputs and extracts structured data."""
     def __init__(self):
@@ -230,17 +216,14 @@ class OutputParser:
             
         return results
 
-
 class KnowledgeGraphExtractor:
     """Main class for knowledge graph extraction pipeline."""
     
     def __init__(self, model:LLMGenerator, config: ProcessingConfig):
         self.config = config
-        self.model = None
-        self.parser = None
         self.model = model
         self.model_name = model.model_name
-        self.parser = OutputParser()
+        self.parser = OutputParser()        
     
     def load_dataset(self) -> Any:
         """Load and prepare dataset."""
@@ -258,9 +241,9 @@ class KnowledgeGraphExtractor:
         dataset_config = {"train": data_files}
         return load_dataset(self.config.data_directory, data_files=dataset_config["train"])
     
-    def process_stage(self, instructions: Dict[str, str], stage = 1) -> Tuple[List[str], List[List[Dict[str, Any]]]]:
+    def process_stage(self, instructions: Dict[str, str], result_schema: Dict) -> Tuple[List[str], List[List[Dict[str, Any]]]]:
         """Process first stage: entity-relation extraction."""
-        outputs = self.model.triple_extraction(messages=instructions, max_tokens=self.config.max_new_tokens, stage=stage, record=self.config.record)
+        outputs = self.model.triple_extraction(messages=instructions, max_tokens=self.config.max_new_tokens, record=self.config.record, result_schema=result_schema)
         if self.config.record:
             text_outputs = [output[0] for output in outputs]
         else:
@@ -280,44 +263,29 @@ class KnowledgeGraphExtractor:
         os.makedirs(extraction_dir, exist_ok=True)
         
         return os.path.join(extraction_dir, filename)
-    
-    def prepare_result_dict(self, batch_data: Tuple, stage_outputs: Tuple, index: int) -> Dict[str, Any]:
+
+    def prepare_result_dict(self, id: str, text: str, metadata: Dict[str, Any], stage_outputs: List[Any], result_keys: List[str]) -> Dict[str, Any]:
         """Prepare result dictionary for a single sample."""
-        ids, original_texts, metadata = batch_data
-        (stage1_results, entity_relations), (stage2_results, event_entities), (stage3_results, event_relations) = stage_outputs
+        sample_dict = {}
+        llm_outputs, result_dicts = stage_outputs
         if self.config.record:
-            stage1_outputs = [output[0] for output in stage1_results]
-            stage1_usage = [output[1] for output in stage1_results]
-            stage2_outputs = [output[0] for output in stage2_results]
-            stage2_usage = [output[1] for output in stage2_results]
-            stage3_outputs = [output[0] for output in stage3_results]
-            stage3_usage = [output[1] for output in stage3_results]
-        else:
-            stage1_outputs = stage1_results
-            stage2_outputs = stage2_results
-            stage3_outputs = stage3_results
-        result = {
-            "id": ids[index],
-            "metadata": metadata[index],
-            "original_text": original_texts[index],
-            "entity_relation_dict": entity_relations[index],
-            "event_entity_relation_dict": event_entities[index],
-            "event_relation_dict": event_relations[index],
-            "output_stage_one": stage1_outputs[index],
-            "output_stage_two": stage2_outputs[index],
-            "output_stage_three": stage3_outputs[index],
-        }
+            llm_usage = [output[1] for output in llm_outputs]
+            llm_outputs = [output[0] for output in llm_outputs]
+
+        for key, llm_output, result_dict in zip(result_keys, llm_outputs, result_dicts):
+            sample_dict[f'{key}_dict'] = result_dict
+            sample_dict[f'output_{key}'] = llm_output
         if self.config.record:
-            result['usage_stage_one'] = stage1_usage[index]
-            result['usage_stage_two'] = stage2_usage[index]
-            result['usage_stage_three'] = stage3_usage[index]
+            for key, llm_usage in zip(result_keys, llm_usage):
+                sample_dict[f'usage_{key}'] = llm_usage
         
-        # Handle date serialization
-        if 'date_download' in result['metadata']:
-            result['metadata']['date_download'] = str(result['metadata']['date_download'])
-            
-        return result
-    
+        sample_dict['id'] = id
+        sample_dict['text'] = text
+        sample_dict['metadata'] = metadata
+        if 'date_download' in sample_dict['metadata']:
+            sample_dict['metadata']['date_download'] = str(sample_dict['metadata']['date_download'])
+        return sample_dict
+
     def debug_print_result(self, result: Dict[str, Any]):
         """Print result for debugging."""
         for key, value in result.items():
@@ -348,20 +316,24 @@ class KnowledgeGraphExtractor:
                     batch_counter += 1
                     messages_dict, batch_ids, batch_texts, batch_metadata = batch
                     
-                    # Process all three stages
-                    stage1_results = self.process_stage(messages_dict['stage_1'],1)
-                    stage2_results = self.process_stage(messages_dict['stage_2'],2)
-                    stage3_results = self.process_stage(messages_dict['stage_3'],3)
-                    
-                    # Combine results
-                    batch_data = (batch_ids, batch_texts, batch_metadata)
-                    stage_outputs = (stage1_results, stage2_results, stage3_results)
+                    stage_outputs = defaultdict(list)
+                    result_keys = list(messages_dict.keys())
+                    for key in result_keys:
+                        temp_result = self.process_stage(messages_dict[key], result_schema = RESULT_SCHEMA[key])
+                        stage_outputs[key].append(temp_result)
+
 
                     # Write results
                     print(f"Processed {batch_counter} batches ({batch_counter * self.config.batch_size_triple} chunks)")
                     for i in range(len(batch_ids)):
-                        result = self.prepare_result_dict(batch_data, stage_outputs, i)
-                        
+                        id = batch_ids[i]
+                        text = batch_texts[i]
+                        metadata = batch_metadata[i]
+                        current_output = []
+                        for key in result_keys:
+                            current_output.append(stage_outputs[key][i])
+                        result = self.prepare_result_dict(id, text, metadata, current_output, result_keys)
+
                         if self.config.debug_mode:
                             self.debug_print_result(result)
    
@@ -413,10 +385,10 @@ class KnowledgeGraphExtractor:
         csvs_to_graphml(
             triple_node_file=f"{self.config.output_directory}/triples_csv/triple_nodes_{self.config.filename_pattern}_from_json_without_emb.csv",
             text_node_file=f"{self.config.output_directory}/triples_csv/text_nodes_{self.config.filename_pattern}_from_json.csv",
-            concept_node_file=f"{self.config.output_directory}/concept_csv/concept_nodes_{self.config.filename_pattern}_from_json_with_concept.csv",
             triple_edge_file=f"{self.config.output_directory}/concept_csv/triple_edges_{self.config.filename_pattern}_from_json_with_concept.csv",
             text_edge_file=f"{self.config.output_directory}/triples_csv/text_edges_{self.config.filename_pattern}_from_json.csv",
-            concept_edge_file=f"{self.config.output_directory}/concept_csv/concept_edges_{self.config.filename_pattern}_from_json_with_concept.csv",
+            concept_node_file=f"{self.config.output_directory}/concept_csv/concept_nodes_{self.config.filename_pattern}_from_json_with_concept.csv" if self.config.include_concept else None,
+            concept_edge_file=f"{self.config.output_directory}/concept_csv/concept_edges_{self.config.filename_pattern}_from_json_with_concept.csv" if self.config.include_concept else None,
             output_file=f"{self.config.output_directory}/kg_graphml/{self.config.filename_pattern}_graph.graphml",
         )
     
@@ -485,13 +457,11 @@ def parse_command_line_arguments() -> ProcessingConfig:
         resume_from=args.resume
     )
 
-
 def main():
     """Main entry point for the knowledge graph extraction pipeline."""
     config = parse_command_line_arguments()
     extractor = KnowledgeGraphExtractor(config)
     extractor.run_extraction()
-
 
 if __name__ == "__main__":
     main() 
