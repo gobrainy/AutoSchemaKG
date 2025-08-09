@@ -224,7 +224,39 @@ class KnowledgeGraphExtractor:
         self.model = model
         self.model_name = model.model_name
         self.parser = OutputParser()        
-    
+        # check both prompt and schema is provided if one of them is provided
+        self.custom_prompt = None
+        self.custom_schema = None
+        if self.config.triple_extraction_prompt_path is not None:
+            assert self.config.triple_extraction_schema_path is not None, "Schema path must be provided if prompt path is provided"
+            with open(self.config.triple_extraction_prompt_path, 'r') as f:
+                self.custom_prompt = json_repair.loads(f.read())
+            print(f"Using custom kg extraction prompt:\n{self.custom_prompt}")
+        if self.config.triple_extraction_schema_path is not None:
+            assert self.config.triple_extraction_prompt_path is not None, "Prompt path must be provided if schema path is provided"
+            with open(self.config.triple_extraction_schema_path, 'r') as f:
+                self.custom_schema = json_repair.loads(f.read())
+            print(f"Using custom kg extraction schema:\n{self.custom_schema}")
+
+            # validate one-to-one and one-to-many triple schema
+            for triple_schema in self.custom_schema.values():
+                print(triple_schema)
+                triples = triple_schema['items']['properties']
+                # check for one-to-one or one-to-many
+                one_to_many = any(prop.get('type') == "array" for prop in triples.values())
+                one_to_one = not one_to_many
+                if one_to_many:
+                    continue
+                # check relation exist
+                assert "Relation" in list(triples.keys()) or "relation" in list(triples.keys()), "Relation field must be present in triple schema for one-to-one triple"
+                if one_to_one:
+                    assert len(triples) == 3, "One-to-one triple schema must have exactly three fields: subject, relation, object"
+
+            global RESULT_SCHEMA
+            RESULT_SCHEMA = self.custom_schema
+            global PROMPT_INSTRUCTIONS
+            PROMPT_INSTRUCTIONS = self.custom_prompt
+
     def load_dataset(self) -> Any:
         """Load and prepare dataset."""
         data_path = Path(self.config.data_directory)
@@ -267,6 +299,9 @@ class KnowledgeGraphExtractor:
     def prepare_result_dict(self, id: str, text: str, metadata: Dict[str, Any], stage_outputs: List[Any], result_keys: List[str]) -> Dict[str, Any]:
         """Prepare result dictionary for a single sample."""
         sample_dict = {}
+        sample_dict['id'] = id
+        sample_dict['original_text'] = text
+        sample_dict['metadata'] = metadata
         llm_outputs, result_dicts = stage_outputs
         if self.config.record:
             llm_usage = [output[1] for output in llm_outputs]
@@ -274,14 +309,11 @@ class KnowledgeGraphExtractor:
 
         for key, llm_output, result_dict in zip(result_keys, llm_outputs, result_dicts):
             sample_dict[f'{key}_dict'] = result_dict
-            sample_dict[f'output_{key}'] = llm_output
+            sample_dict[f'{key}_output'] = llm_output
         if self.config.record:
             for key, llm_usage in zip(result_keys, llm_usage):
-                sample_dict[f'usage_{key}'] = llm_usage
-        
-        sample_dict['id'] = id
-        sample_dict['text'] = text
-        sample_dict['metadata'] = metadata
+                sample_dict[f'{key}_usage'] = llm_usage
+
         if 'date_download' in sample_dict['metadata']:
             sample_dict['metadata']['date_download'] = str(sample_dict['metadata']['date_download'])
         return sample_dict
@@ -316,11 +348,13 @@ class KnowledgeGraphExtractor:
                     batch_counter += 1
                     messages_dict, batch_ids, batch_texts, batch_metadata = batch
                     
-                    stage_outputs = defaultdict(list)
+                    stage_outputs = {}
                     result_keys = list(messages_dict.keys())
                     for key in result_keys:
-                        temp_result = self.process_stage(messages_dict[key], result_schema = RESULT_SCHEMA[key])
-                        stage_outputs[key].append(temp_result)
+                        batch_result = self.process_stage(messages_dict[key], result_schema = RESULT_SCHEMA[key])
+                        # each batch_result is (llm_rawoutput, triple-dict), and at the same time llm_rawoutput can be (llm_rawoutput, llm_usage)
+                        
+                        stage_outputs[key] = batch_result
 
 
                     # Write results
@@ -329,10 +363,17 @@ class KnowledgeGraphExtractor:
                         id = batch_ids[i]
                         text = batch_texts[i]
                         metadata = batch_metadata[i]
-                        current_output = []
+
+                        triple_dicts = []
+                        llm_outputs = []
                         for key in result_keys:
-                            current_output.append(stage_outputs[key][i])
-                        result = self.prepare_result_dict(id, text, metadata, current_output, result_keys)
+                            temp_batch_result = stage_outputs[key]
+                            llm_output, triple_dict = temp_batch_result
+    
+                            triple_dicts.append(triple_dict[i])
+                            llm_outputs.append(llm_output[i])
+
+                        result = self.prepare_result_dict(id, text, metadata, (llm_outputs, triple_dicts), result_keys)
 
                         if self.config.debug_mode:
                             self.debug_print_result(result)
@@ -344,7 +385,9 @@ class KnowledgeGraphExtractor:
         json2csv(
             dataset = self.config.filename_pattern, 
             output_dir=f"{self.config.output_directory}/triples_csv",
-            data_dir=f"{self.config.output_directory}/kg_extraction"
+            data_dir=f"{self.config.output_directory}/kg_extraction",
+            schema = RESULT_SCHEMA,
+            custom = self.custom_schema != None
         )
         csvs_to_temp_graphml(
             triple_node_file=f"{self.config.output_directory}/triples_csv/triple_nodes_{self.config.filename_pattern}_from_json_without_emb.csv",

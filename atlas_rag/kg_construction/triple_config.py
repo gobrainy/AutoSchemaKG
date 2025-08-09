@@ -23,3 +23,4 @@ class ProcessingConfig:
     include_concept: bool = True
     # Custom configuration for triple extraction
     triple_extraction_prompt_path: str = None
+    triple_extraction_schema_path: str = None
