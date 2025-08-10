@@ -54,7 +54,8 @@ def csvs_to_temp_graphml(triple_node_file, triple_edge_file, config:ProcessingCo
 
 def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edge_file, 
                     concept_node_file = None, concept_edge_file = None,
-                    output_file = "kg.graphml"):
+                    output_file = "kg.graphml",
+                    include_concept = True):
     '''
     Convert multiple CSV files into a single GraphML file.
     
@@ -128,16 +129,17 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
                     if g.nodes[node_id]['type'] in ['triple', 'concept'] and 'file_id' not in g.nodes[node_id]:
                         g.nodes[node_id]['file_id'] = row.get("file_id", "triple_file")
             
+            if include_concept:
             # Add concepts to the edge
-            concepts = ast.literal_eval(row["concepts"])
-            for concept in concepts:
-                if "concepts" not in g.edges[start_id, end_id]:
-                    g.edges[start_id, end_id]['concepts'] = str(concept)
-                else:
-                    # Avoid duplicate concepts by checking if concept is already in the list
-                    current_concepts = g.edges[start_id, end_id]['concepts'].split(",")
-                    if str(concept) not in current_concepts:
-                        g.edges[start_id, end_id]['concepts'] += "," + str(concept)
+                concepts = ast.literal_eval(row["concepts"])
+                for concept in concepts:
+                    if "concepts" not in g.edges[start_id, end_id]:
+                        g.edges[start_id, end_id]['concepts'] = str(concept)
+                    else:
+                        # Avoid duplicate concepts by checking if concept is already in the list
+                        current_concepts = g.edges[start_id, end_id]['concepts'].split(",")
+                        if str(concept) not in current_concepts:
+                            g.edges[start_id, end_id]['concepts'] += "," + str(concept)
             
 
     # Add text edges
