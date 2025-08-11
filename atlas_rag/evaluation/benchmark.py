@@ -53,6 +53,7 @@ class BenchMarkConfig:
     encoder_model_name: str = "nvidia/NV-Embed-v2"
     number_of_samples: int = -1  # Default to -1 to use all samples
     react_max_iterations: int = 5
+    result_dir: str = "./result"
 
         
 
@@ -135,7 +136,7 @@ class RAGBenchmark:
                     sorted_context, sorted_context_ids = retriever.retrieve(question, topN=5)
                     
                     if isinstance(retriever, BaseEdgeRetriever):
-                        retrieved_context = ". ".join(sorted_context)
+                        retrieved_context = "\n".join(sorted_context)
                         llm_generated_answer = llm_generator.generate_with_context_kg(question, retrieved_context, max_new_tokens=2048, temperature=0.5)
                     elif isinstance(retriever, BasePassageRetriever):
                         retrieved_context = "\n".join(sorted_context)
@@ -187,11 +188,11 @@ class RAGBenchmark:
         if "/" in reader_model_name:
             reader_model_name = reader_model_name.split("/")[-1]
 
-        summary_file = f"./result/{dataset_name}/summary_{formatted_time}_event{include_events}_concept{include_concept}_{encoder_model_name}_{reader_model_name}.json"
+        summary_file = f"{self.config.result_dir}/{dataset_name}/summary_{formatted_time}_event{include_events}_concept{include_concept}_{encoder_model_name}_{reader_model_name}.json"
         if not os.path.exists(os.path.dirname(summary_file)):
             os.makedirs(os.path.dirname(summary_file), exist_ok=True)
-        
-        result_dir = f"./result/{dataset_name}/result_{formatted_time}_event{include_events}_concept{include_concept}_{encoder_model_name}_{reader_model_name}.json"
+
+        result_dir = f"{self.config.result_dir}/{dataset_name}/result_{formatted_time}_event{include_events}_concept{include_concept}_{encoder_model_name}_{reader_model_name}.json"
         if not os.path.exists(os.path.dirname(result_dir)):
             os.makedirs(os.path.dirname(result_dir), exist_ok=True)
         

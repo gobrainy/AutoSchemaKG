@@ -37,11 +37,17 @@ class HippoRAG2Retriever(BasePassageRetriever):
         self.llm_generator = llm_generator
         self.sentence_encoder = sentence_encoder
 
-        self.node_embeddings = data["node_embeddings"]
         self.node_list = data["node_list"]
         self.edge_list = data["edge_list"]
+        self.node_embeddings = data["node_embeddings"]
         self.edge_embeddings = data["edge_embeddings"]
         self.text_embeddings = data["text_embeddings"]
+        if isinstance(self.node_embeddings, list):
+            self.node_embeddings = np.array(self.node_embeddings)
+        if isinstance(self.edge_embeddings, list):
+            self.edge_embeddings = np.array(self.edge_embeddings)
+        if isinstance(self.text_embeddings, list):
+            self.text_embeddings = np.array(self.text_embeddings)
         self.edge_faiss_index = data["edge_faiss_index"]
         self.passage_dict = data["text_dict"]
         self.text_id_list = list(self.passage_dict.keys())

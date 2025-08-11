@@ -16,6 +16,8 @@ class HippoRAGRetriever(BasePassageRetriever):
         self.llm_generator = llm_generator
         self.sentence_encoder = sentence_encoder
         self.node_embeddings = data["node_embeddings"]
+        if isinstance(self.node_embeddings, list):
+            self.node_embeddings = np.array(self.node_embeddings)
         self.node_list = data["node_list"]
         file_id_to_node_id = {}
         self.KG = data["KG"]

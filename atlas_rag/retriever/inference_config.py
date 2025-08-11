@@ -15,10 +15,17 @@ class InferenceConfig:
     keyword: str = "musique"
     topk: int = 5
     Dmax: int = 4
-    Wmax: int = 4
+    Wmax: int = 3
     weight_adjust: float = 1.0
     topk_edges: int = 50
     topk_nodes: int = 10
     ppr_alpha: float = 0.99
     ppr_max_iter: int = 2000
     ppr_tol: float = 1e-7
+
+    # tog config
+    topic_prune: bool = True
+    temperature_exploration:float = 0.0
+    temperature_reasoning:float = 0.0
+    num_sents_for_reasoning: int = 10
+    remove_unnecessary_rel: bool = False

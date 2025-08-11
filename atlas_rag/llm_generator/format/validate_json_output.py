@@ -86,8 +86,11 @@ def fix_triple_extraction_response(response: str, **kwargs) -> str:
             required_type = result_schema['items']['properties'].get(key, {}).get("type")
             if required_type == "string":
                 if not isinstance(corrected_item[key], str) or not corrected_item[key].strip():
-                    print(f"Item {idx} {key} must be a non-empty string. Problematic item: {corrected_item}")
-                    continue
+                    # convert to str for empty values
+                    if corrected_item[key] is None:
+                        continue
+                    corrected_item[key] = str(corrected_item[key]).strip()
+                    print(f"Fixed item {idx} {key} to string: {corrected_item[key]}")
             if required_type == "array":
                 if not isinstance(corrected_item[key], list) or not corrected_item[key]:
                     print(f"Item {idx} {key} must be a non-empty array. Problematic item: {corrected_item}")
