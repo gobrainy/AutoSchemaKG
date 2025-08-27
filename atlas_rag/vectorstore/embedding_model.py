@@ -133,6 +133,89 @@ class BaseEmbeddingModel(ABC):
                     batch_text_nodes = []
                     batch_rows = []
 
+
+class EmbeddingAPI(BaseEmbeddingModel):
+    def __init__(self, emb_client: OpenAI, model_name="text-embedding-3-small"):
+        """
+        Initializes the embedding API with an OpenAI client.
+
+        Args:
+            emb_client: An OpenAI client instance.
+            model_name: Name of the OpenAI embedding model to use.
+        """
+        self.emb_client = emb_client
+        self.model_name = model_name
+
+    def embed(self, input_texts: list) -> torch.Tensor:
+        """
+        Embeds the input texts using the OpenAI embedding client.
+
+        Args:
+            input_texts (list): A list of strings to embed.
+
+        Returns:
+            torch.Tensor: A tensor containing the embeddings for the input texts.
+        """
+        results = self.emb_client.embeddings.create(input=input_texts, model=self.model_name)
+        embeddings = torch.tensor([d.embedding for d in results.data])
+        return embeddings
+
+    def compute_similarity(self, queries: list, documents: list) -> torch.Tensor:
+        """
+        Computes similarity scores between queries and documents.
+
+        Args:
+            queries (list): A list of query strings.
+            documents (list): A list of document strings.
+
+        Returns:
+            torch.Tensor: A tensor containing similarity scores between queries and documents.
+        """
+        query_embeddings = self.embed(queries)
+        document_embeddings = self.embed(documents)
+        scores = query_embeddings @ document_embeddings.T
+        return scores
+
+    def encode(self, query, query_type=None, query_prefixes=None, **kwargs):
+        """
+        Encodes the input query or list of queries into vector representations.
+
+        Args:
+            query (str or list): The input query or queries to encode.
+            query_type (str, optional): Used to select a prefix from query_prefixes.
+            query_prefixes (dict, optional): Mapping from query_type to prefix string.
+            **kwargs: Additional keyword arguments (ignored).
+
+        Returns:
+            np.ndarray: The encoded vector(s) as a NumPy array.
+        """
+        if query_prefixes is None:
+            query_prefixes = kwargs.get('query_prefixes', {})
+
+        # Determine prefix
+        query_prefix = None
+        if query_type is not None and query_prefixes and query_type in query_prefixes:
+            query_prefix = query_prefixes[query_type]
+
+        # Prepare input texts
+        if query_prefix:
+            if isinstance(query, list):
+                input_texts = [query_prefix + q for q in query]
+            else:
+                input_texts = [query_prefix + query]
+        else:
+            if isinstance(query, list):
+                input_texts = query
+            else:
+                input_texts = [query]
+
+        embeddings = self.embed(input_texts)
+        # Normalize if requested
+        normalize_embeddings = kwargs.get('normalize_embeddings', True)
+        if normalize_embeddings:
+            embeddings = torch.nn.functional.normalize(embeddings, p=2, dim=1)
+        return embeddings.detach().cpu().numpy()
+
 class NvEmbed(BaseEmbeddingModel):
     def __init__(self, sentence_encoder: SentenceTransformer | AutoModel):
         self.sentence_encoder = sentence_encoder
