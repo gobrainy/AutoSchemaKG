@@ -20,6 +20,7 @@ class ProcessingConfig:
     max_new_tokens: int = 8192
     max_workers: int = 8
     remove_doc_spaces: bool = False
+    allow_empty: bool = True
     include_concept: bool = True
     # Custom configuration for triple extraction
     triple_extraction_prompt_path: str = None

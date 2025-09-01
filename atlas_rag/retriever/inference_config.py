@@ -8,7 +8,7 @@ class InferenceConfig:
     Attributes:
         topk (int): Number of top results to retrieve. Default is 5.
         Dmax (int): Maximum depth for search. Default is 4.
-        weight_adjust (float): Weight adjustment factor for passage retrieval. Default is 0.05.
+        weight_adjust (float): Weight adjustment factor for passage retrieval. Default is 1.0.
         topk_edges (int): Number of top edges to retrieve. Default is 50.
         topk_nodes (int): Number of top nodes to retrieve. Default is 10.
     """

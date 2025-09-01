@@ -275,7 +275,7 @@ class KnowledgeGraphExtractor:
     
     def process_stage(self, instructions: Dict[str, str], result_schema: Dict) -> Tuple[List[str], List[List[Dict[str, Any]]]]:
         """Process first stage: entity-relation extraction."""
-        outputs = self.model.triple_extraction(messages=instructions, max_tokens=self.config.max_new_tokens, record=self.config.record, result_schema=result_schema)
+        outputs = self.model.triple_extraction(messages=instructions, max_tokens=self.config.max_new_tokens, record=self.config.record, result_schema=result_schema, allow_empty=self.config.allow_empty)
         if self.config.record:
             text_outputs = [output[0] for output in outputs]
         else:

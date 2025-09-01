@@ -60,6 +60,7 @@ def fix_triple_extraction_response(response: str, **kwargs) -> str:
     seen_triples = set()
     for idx, item in enumerate(parsed_objects):
         if not isinstance(item, dict):
+            print(parsed_objects)
             print(f"Item {idx} must be a JSON object. Problematic item: {item}")
             continue
         

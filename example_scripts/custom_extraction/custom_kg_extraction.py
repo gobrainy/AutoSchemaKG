@@ -6,33 +6,23 @@ from configparser import ConfigParser
 import argparse
 parser = argparse.ArgumentParser(description="Custom KG Extraction")
 parser.add_argument("--keyword", type=str, default="musique", help="Keyword for extraction")
+parser.add_argument("--model", type=str, default="Qwen/Qwen2.5-7B-Instruct", help="Model name for LLM")
 args = parser.parse_args()
 # Load OpenRouter API key from config file
 config = ConfigParser()
 config.read('config.ini')
-# model_name = "meta-llama/Llama-3.3-70B-Instruct"
-# connection = AIProjectClient(
-#     endpoint=config["urls"]["AZURE_URL"],
-#     credential=DefaultAzureCredential(),
-# )
-# client = connection.inference.get_azure_openai_client(api_version="2024-12-01-preview")
 client = OpenAI(base_url="http://0.0.0.0:8129/v1", api_key="EMPTY")
-triple_generator = LLMGenerator(client=client, model_name="Qwen/Qwen2.5-7B-Instruct")
-
-# model_name = "meta-llama/Meta-Llama-3.1-8B-Instruct"
-# model_name = "meta-llama/Llama-3.2-3B-Instruct"
-# client = pipeline(
-#     "text-generation",
-#     model=model_name,
-#     device_map="auto",
-# )
+triple_generator = LLMGenerator(client=client, model_name=args.model)
 filename_pattern = args.keyword
-output_directory = f'benchmark_data/autograph/{filename_pattern}'
+# get model name for after slash
+dir_name = args.model.split("/")[-1]
+output_directory = f'/data/httsangaj/autograph/{dir_name}/{filename_pattern}'
+data_directory = f'benchmark_data/autograph/{filename_pattern}'
 # triple_generator = LLMGenerator(client, model_name=model_name)
-model_name = "Qwen/Qwen2.5-7B-Instruct"
+model_name = args.model
 kg_extraction_config = ProcessingConfig(
       model_path=model_name,
-      data_directory=f'{output_directory}',
+      data_directory=data_directory,
       filename_pattern=filename_pattern,
       batch_size_triple=16,
       batch_size_concept=16,

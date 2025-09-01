@@ -54,6 +54,7 @@ class BenchMarkConfig:
     number_of_samples: int = -1  # Default to -1 to use all samples
     react_max_iterations: int = 5
     result_dir: str = "./result"
+    upper_bound_mode: bool = False
 
         
 
@@ -89,13 +90,28 @@ class RAGBenchmark:
             answer = sample["answer"]
 
             gold_file_ids = []
+            gold_paragraphs = []
             if self.config.dataset_name in ("hotpotqa", "2wikimultihopqa"):
                 for fact in sample["supporting_facts"]:
                     gold_file_ids.append(fact[0])
+                    if self.config.dataset_name == "2wikimultihopqa":
+                        for text in sample["context"]:
+                            if text[0] == fact[0]:
+                                # text[1] in the form of [ "Teutberga( died 11 November 875) was a queen of Lotharingia by marriage to Lothair II.","She was a daughter of Bosonid Boso the Elder and sister of Hucbert, the lay- abbot of St. Maurice's Abbey."]
+                                # join them as one string
+                                gold_para = " ".join(text[1])
+                                gold_paragraphs.append(f"Title: {fact[0]}: {gold_para}")
+                            break
+                    elif self.config.dataset_name == "hotpotqa":
+                        for text in sample["context"]:
+                            if text[0] == fact[0]:
+                                gold_paragraphs.append(f"Title: {fact[0]}: {" ".join(text[1])}")
+                                break
             elif self.config.dataset_name == "musique":
                 for paragraph in sample["paragraphs"]:
                     if paragraph["is_supporting"]:
                         gold_file_ids.append(paragraph["paragraph_text"])
+                        gold_paragraphs.append(f'Title: {paragraph["title"]}: {paragraph["paragraph_text"]}')
             else:
                 print("Dataset not supported")
                 continue
@@ -131,6 +147,9 @@ class RAGBenchmark:
                     
                     sorted_context = "\n".join(all_contexts)
                     sorted_context_ids = []  # We don't track IDs in ReAct mode
+                elif self.config.upper_bound_mode:
+                    # use the golden doc for rag
+                    raise NotImplementedError("Upper bound mode is not implemented")
                 else:
                     # Original RAG implementation
                     sorted_context, sorted_context_ids = retriever.retrieve(question, topN=5)

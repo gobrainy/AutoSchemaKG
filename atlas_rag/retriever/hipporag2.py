@@ -161,6 +161,7 @@ class HippoRAG2Retriever(BasePassageRetriever):
             edge = self.edge_list[filtered_index]
             log_edge_list.append([self.KG.nodes[edge[0]]['id'], self.KG.edges[edge]['relation'], self.KG.nodes[edge[1]]['id']])
             head, tail = edge[0], edge[1]
+            # check if head/tails is concept, sim_score = sim_score / # edge of that node 
             sim_score = scores[filtered_index]
             
             if head not in node_score_dict:
