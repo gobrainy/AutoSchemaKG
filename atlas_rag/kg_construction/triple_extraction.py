@@ -69,7 +69,8 @@ class DatasetProcessor:
     def __init__(self, config: ProcessingConfig):
         self.config = config
         self.chunker = TextChunker()
-        
+        self.benchmark = config.benchmark
+
     def filter_language_content(self, sample: Dict[str, Any]) -> bool:
         """Check if content is in English."""
         metadata = sample.get("metadata", {})
@@ -101,8 +102,9 @@ class DatasetProcessor:
         """Process raw dataset into chunks suitable for processing with generalized slicing."""
         
         processed_samples = []
+        if self.benchmark:
+            raw_dataset = raw_dataset.select(range(min(100, len(raw_dataset))))
         total_texts = len(raw_dataset)
-        
         # Handle edge cases
         if total_texts == 0:
             print(f"No texts found for shard {self.config.current_shard_triple+1}/{self.config.total_shards_triple}")

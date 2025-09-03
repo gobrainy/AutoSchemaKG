@@ -283,7 +283,7 @@ def json2csv(dataset, data_dir, output_dir, schema, custom, test=False):
 
                     file_id = str(data["id"])
                     entity_relation_dict = data["entity_relation_dict"]
-                    event_entity_relation_dict = data["event_entity_relation_dict"]
+                    event_entity_relation_dict = data["event_entity_dict"]
                     event_relation_dict = data["event_relation_dict"]
 
                     # Process entity triples
