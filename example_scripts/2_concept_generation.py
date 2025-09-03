@@ -24,7 +24,11 @@ if __name__ == "__main__":
     #     credential=DefaultAzureCredential(),
     # )
     # client = connection.inference.get_azure_openai_client(api_version="2024-12-01-preview")
+    # model_name = "meta-llama/Llama-3.3-70B-Instruct"
+    # model_name = "Qwen/Qwen3-8B"
     model_name = "meta-llama/Llama-3.3-70B-Instruct"
+    # model_name = "Qwen/Qwen3-8B"
+    # model_name = "Qwen/Qwen3-30B-A3B-Instruct-2507"
     client = OpenAI(
         base_url="http://localhost:8122/v1",
         api_key="EMPTYKEY",
@@ -43,7 +47,7 @@ if __name__ == "__main__":
         current_shard_triple=args.slice,
         total_shards_triple=args.total_slices,
         record=True,
-        max_new_tokens=8192,
+        max_new_tokens=512,
         benchmark=True
     )
     kg_extractor = KnowledgeGraphExtractor(model=triple_generator, config=kg_extraction_config)

@@ -26,13 +26,15 @@ if __name__ == "__main__":
     # )
     # client = connection.inference.get_azure_openai_client(api_version="2024-12-01-preview")
     model_name = "meta-llama/Llama-3.3-70B-Instruct"
+    # model_name = "Qwen/Qwen3-8B"
+    # model_name = "Qwen/Qwen3-30B-A3B-Instruct-2507"
     client = OpenAI(
         base_url="http://localhost:8122/v1",
         api_key="EMPTYKEY",
     )
     # test client
     # check if model name has / if yes then split and use -1
-    triple_generator = LLMGenerator(client, model_name=model_name)
+    triple_generator = LLMGenerator(client, model_name=model_name,max_workers=6)
     if '/' in model_name:
         model_name = model_name.split('/')[-1]
     start_time = time.time()
@@ -40,13 +42,13 @@ if __name__ == "__main__":
         model_path=model_name,
         data_directory="/data/AutoSchema",
         filename_pattern=keyword,
-        batch_size_triple=4,
+        batch_size_triple=16,
         batch_size_concept=64,
         output_directory=f'/data/AutoSchema/{model_name}',
         current_shard_triple=args.shard,
         total_shards_triple=args.total_shards,
         record=True,
-        max_new_tokens=8192,
+        max_new_tokens=1024,
         benchmark=True
     )
     kg_extractor = KnowledgeGraphExtractor(model=triple_generator, config=kg_extraction_config)
