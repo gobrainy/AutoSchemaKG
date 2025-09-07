@@ -91,7 +91,7 @@ class RAGBenchmark:
 
             gold_file_ids = []
             gold_paragraphs = []
-            if self.config.dataset_name in ("hotpotqa", "2wikimultihopqa"):
+            if self.config.dataset_name in ("hotpotqa", "2wikimultihopqa","popqa","nq"):
                 for fact in sample["supporting_facts"]:
                     gold_file_ids.append(fact[0])
                     if self.config.dataset_name == "2wikimultihopqa":
