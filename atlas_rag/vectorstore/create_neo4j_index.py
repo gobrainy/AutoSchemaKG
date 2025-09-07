@@ -133,7 +133,7 @@ def build_faiss_from_npy(index_type, index_path, npy_path, faiss_gpu = True):
     
     # Convert the GPU index to a CPU index for saving
     if faiss_gpu:
-        index = faiss.index_cpu_to_all_gpus(index)
+        index = faiss.index_gpu_to_cpu(index)
 
     # Save the CPU index to a file
     faiss.write_index(index, index_path)

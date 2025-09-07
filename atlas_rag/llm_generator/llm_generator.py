@@ -1,7 +1,7 @@
 import json
 import asyncio
 from openai import OpenAI, AzureOpenAI, NOT_GIVEN
-from tenacity import retry, stop_after_attempt, stop_after_delay, wait_fixed, wait_exponential, wait_random
+from tenacity import retry, stop_after_attempt, stop_after_delay, wait_fixed, wait_exponential, wait_random, RetryCallState
 from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
 from atlas_rag.llm_generator.prompt.rag_prompt import cot_system_instruction, cot_system_instruction_kg, cot_system_instruction_no_doc, prompt_template
@@ -38,14 +38,25 @@ def serialize_openai_tool_call_message(message) -> dict:
     
     return serialized
 
+def print_retry(retry_state: RetryCallState):
+    # Access the instance via retry_state.args[0] if method is bound
+    instance = retry_state.args[0] if retry_state.args else None
+    if instance and hasattr(instance, 'retry_count'):
+        instance.retry_count += 1
+        print(f"Retrying {retry_state.fn.__name__}: attempt {retry_state.attempt_number}, total retries: {instance.retry_count}")
+    else:
+        print(f"Retrying {retry_state.fn.__name__}: attempt {retry_state.attempt_number}")
 retry_decorator = retry(
     stop=(stop_after_delay(120) | stop_after_attempt(5)),  # Max 2 minutes or 5 attempts
-    wait=wait_exponential(multiplier=1, min=2, max=30) + wait_random(min=0, max=2),
+    # wait=wait_exponential(multiplier=1, min=2, max=30) + wait_random(min=0, max=2),
+    wait=wait_fixed(0),
+    before_sleep=print_retry,
 )
 class LLMGenerator():
-    def __init__(self, client, model_name, backend='openai'):
+    def __init__(self, client, model_name, backend='openai', max_workers=8):
         self.model_name = model_name
         self.client : OpenAI|Pipeline  = client
+        self.max_workers = max_workers
         if isinstance(client, OpenAI|AzureOpenAI):
             self.inference_type = "openai"
         elif isinstance(client, Pipeline):
@@ -55,6 +66,7 @@ class LLMGenerator():
         
         if backend == 'vllm':
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+        self.retry_count = 0
 
     @retry_decorator
     def _api_inference(self, message, max_new_tokens=8192,
@@ -75,6 +87,10 @@ class LLMGenerator():
                 response_format = response_format if response_format is not None else {"type": "text"},
                 timeout = 120,
                 reasoning_effort= NOT_GIVEN if reasoning_effort is None else reasoning_effort,
+                extra_body = {
+                    "chat_template_kwargs": {"enable_thinking": False if reasoning_effort is None else True}
+                }
+                
             )
         time_cost = time.time() - start_time
         content = response.choices[0].message.content
@@ -106,10 +122,11 @@ class LLMGenerator():
         is_batch = isinstance(batch_messages[0], list)
         if not is_batch:
             batch_messages = [batch_messages]
+        batch_size = len(batch_messages)
         results = [None] * len(batch_messages)
         to_process = list(range(len(batch_messages)))
         if self.inference_type == "openai":
-            max_workers = kwargs.get('max_workers', 3)  # Default to 4 workers if not specified
+            max_workers = self.max_workers  # Default to 4 workers if not specified
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
                 def process_message(i):
                     try:
