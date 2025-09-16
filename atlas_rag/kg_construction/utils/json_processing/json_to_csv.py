@@ -13,6 +13,7 @@ csv.field_size_limit(10 * 1024 * 1024)  # 10 MB limit
 # Function to compute a hash ID from text
 def compute_hash_id(text):
     # Use SHA-256 to generate a hash
+    text = text + '_text'
     hash_object = hashlib.sha256(text.encode('utf-8'))
     return hash_object.hexdigest()  # Return hash as a hex string
 

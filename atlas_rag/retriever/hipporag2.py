@@ -73,12 +73,16 @@ class HippoRAG2Retriever(BasePassageRetriever):
 
         self.inference_config = inference_config if inference_config is not None else InferenceConfig()
         node_id_to_file_id = {}
-        for node_id in tqdm(list(self.KG.nodes)):
+        text_id_to_node_name = {}
+        for node_id in list(self.KG.nodes):
             if self.inference_config.keyword == "musique" and self.KG.nodes[node_id]['type']=="passage":
-                node_id_to_file_id[node_id] = self.KG.nodes[node_id]["id"]
+                text_id_to_node_name[node_id] = self.KG.nodes[node_id]["id"]
+            elif self.KG.nodes[node_id]['type']=="passage":
+                text_id_to_node_name[node_id] = self.KG.nodes[node_id]["id"]
             else:
                 node_id_to_file_id[node_id] = self.KG.nodes[node_id]["file_id"]
         self.node_id_to_file_id = node_id_to_file_id
+        self.text_id_to_node_name = text_id_to_node_name
 
     def ner(self, text):
         return self.llm_generator.ner(text)
@@ -146,7 +150,10 @@ class HippoRAG2Retriever(BasePassageRetriever):
         if self.logging:
             self.logger.info(f"HippoRAG2 Before Filter Edge: {before_filter_edge_json['fact']}")
         filtered_facts = self.llm_generator.filter_triples_with_entity_event(query, json.dumps(before_filter_edge_json, ensure_ascii=False))
-        filtered_facts = json_repair.loads(filtered_facts)['fact']
+        try:
+            filtered_facts = json_repair.loads(filtered_facts)['fact']
+        except Exception as e:
+            filtered_facts = before_filter_edge_json['fact']
         if len(filtered_facts) == 0:
             return {}
         # use filtered facts to get the edge id and check if it exists in the original candidate list.
@@ -212,7 +219,7 @@ class HippoRAG2Retriever(BasePassageRetriever):
             for passage_id, score in sorted_passages:
                 sorted_passages_contents.append(self.passage_dict[passage_id])
                 sorted_scores.append(float(score))
-                sorted_passage_ids.append(self.node_id_to_file_id[passage_id])
+                sorted_passage_ids.append(self.text_id_to_node_name[passage_id])
             return sorted_passages_contents, sorted_passage_ids
             
         personalization_dict.update(node_dict)
@@ -240,5 +247,5 @@ class HippoRAG2Retriever(BasePassageRetriever):
         for passage_id, score in sorted_passages_ids:
             sorted_passages_contents.append(self.passage_dict[passage_id])
             sorted_scores.append(score)
-            sorted_passage_ids.append(self.node_id_to_file_id[passage_id])
+            sorted_passage_ids.append(self.text_id_to_node_name[passage_id])
         return sorted_passages_contents, sorted_passage_ids

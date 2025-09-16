@@ -5,7 +5,7 @@ from typing import Optional
 from atlas_rag.retriever.base import BaseEdgeRetriever
 from atlas_rag.retriever.inference_config import InferenceConfig
 
-class TogRetriever(BaseEdgeRetriever):
+class TogV3Retriever(BaseEdgeRetriever):
     def __init__(self, llm_generator, sentence_encoder, data, inference_config: Optional[InferenceConfig] = None):
         self.KG = data["KG"]
 
@@ -136,32 +136,35 @@ class TogRetriever(BaseEdgeRetriever):
         return new_paths
     
     def prune(self, query, P, topN=3):
-        ratings = []
-
-        for path in P:
-            path_string = ""
-            for index, node_or_relation in enumerate(path):
-                if index % 2 == 0:
-                    id_path = self.KG.nodes[node_or_relation]["id"]
-                else:
-                    id_path = node_or_relation
-                path_string += f"{id_path} --->"
-            path_string = path_string[:-5]
-
-            prompt = f"Please rating the following path based on the relevance to the question. The ratings should be in the range of 1 to 5. 1 for least relevant and 5 for most relevant. Only provide the rating, do not provide any other information. The output should be a single integer number. If you think the path is not relevant, please provide 0. If you think the path is relevant, please provide a rating between 1 and 5. \n Query: {query} \n path: {path_string}" 
-
-            messages = [{"role": "system", "content": "Answer the question following the prompt."},
-            {"role": "user", "content": f"{prompt}"}]
-
-            response = self.llm_generator.generate_response(messages)
-            # print(response)
-            rating = int(response)
-            ratings.append(rating)
-            
-        # sort the paths based on the ratings
-        sorted_paths = [path for _, path in sorted(zip(ratings, P), reverse=True)]
+        # Create path strings for embedding comparison
+        path_strings = []
         
-        return sorted_paths[:topN]
+        for path in P:
+            # Format path for embedding model
+            formatted_nodes = []
+            for i, node_or_relation in enumerate(path):
+                if i % 2 == 0:
+                    formatted_nodes.append(self.KG.nodes[node_or_relation]["id"])
+                else:
+                    formatted_nodes.append(node_or_relation)
+            
+            # Join the formatted path elements
+            path_string = " ".join(formatted_nodes)
+            path_strings.append(path_string)
+        
+        # Encode query and paths
+        # Pass query_type='edge' for appropriate prefixing in embedding models that support it
+        query_embedding = self.sentence_encoder.encode([query], query_type='passage')[0]
+        path_embeddings = self.sentence_encoder.encode(path_strings)
+        
+        # Compute similarity scores
+        scores = path_embeddings @ query_embedding
+        
+        # Sort paths by similarity scores (higher is better)
+        sorted_indices = np.argsort(scores)[::-1]  # Descending order
+        sorted_paths = [P[i] for i in sorted_indices[:topN]]
+        
+        return sorted_paths
 
     def reasoning(self, query, P):
         triples = []

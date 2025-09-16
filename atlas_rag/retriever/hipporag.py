@@ -12,6 +12,7 @@ from atlas_rag.retriever.inference_config import InferenceConfig
 class HippoRAGRetriever(BasePassageRetriever):
     def __init__(self, llm_generator:LLMGenerator, sentence_encoder:BaseEmbeddingModel, 
                  data:dict,  inference_config: Optional[InferenceConfig] = None, logger = None, **kwargs):
+        self.inference_config = inference_config if inference_config is not None else InferenceConfig()  
         self.passage_dict = data["text_dict"]
         self.llm_generator = llm_generator
         self.sentence_encoder = sentence_encoder
@@ -29,8 +30,19 @@ class HippoRAGRetriever(BasePassageRetriever):
                         file_id_to_node_id[file_id] = []
                     file_id_to_node_id[file_id].append(node_id)
         # further filter any file_id that is not passage type
-
         self.file_id_to_node_id = file_id_to_node_id
+
+        node_id_to_file_id = {}
+        text_id_to_node_name = {}
+        for node_id in list(self.KG.nodes):
+            if self.inference_config.keyword == "musique" and self.KG.nodes[node_id]['type']=="passage":
+                text_id_to_node_name[node_id] = self.KG.nodes[node_id]["id"]
+            elif self.KG.nodes[node_id]['type']=="passage":
+                text_id_to_node_name[node_id] = self.KG.nodes[node_id]["id"]
+            else:
+                node_id_to_file_id[node_id] = self.KG.nodes[node_id]["file_id"]
+        self.node_id_to_file_id = node_id_to_file_id
+        self.text_id_to_node_name = text_id_to_node_name
         
         self.KG:nx.DiGraph = self.KG.subgraph(self.node_list)
         self.node_name_list = [self.KG.nodes[node]["id"] for node in self.node_list]
@@ -41,8 +53,8 @@ class HippoRAGRetriever(BasePassageRetriever):
             self.logging = False
         else:
             self.logging = True
-        
-        self.inference_config = inference_config if inference_config is not None else InferenceConfig()  
+
+
         
     def retrieve_personalization_dict(self, query, topN=10):
 
@@ -141,6 +153,6 @@ class HippoRAGRetriever(BasePassageRetriever):
         top_passages = sorted_passages[:topN]
         top_passages, scores = zip(*top_passages)
 
-        passag_contents = [self.passage_dict[passage_id] for passage_id in top_passages]
-        
-        return passag_contents, top_passages
+        passage_contents = [self.passage_dict[passage_id] for passage_id in top_passages]
+        top_passages = [self.text_id_to_node_name[passage_id] for passage_id in top_passages]
+        return passage_contents, top_passages

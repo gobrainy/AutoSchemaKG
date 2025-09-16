@@ -67,7 +67,6 @@ class QAJudger:
 
         # Limit the retrieved texts to the top k entries
         limited_retrieved_text = retrieved_text[:k]
-
         for ref_text in reference_text:
             for ret_text in limited_retrieved_text:
                 if ref_text in ret_text:

@@ -28,7 +28,7 @@ from atlas_rag.kg_construction.triple_config import ProcessingConfig
 from atlas_rag.llm_generator.prompt.triple_extraction_prompt import TRIPLE_INSTRUCTIONS
 from atlas_rag.llm_generator.format.validate_json_schema import ATLAS_SCHEMA
 # Constants
-TOKEN_LIMIT = 1024
+TOKEN_LIMIT = 4096
 INSTRUCTION_TOKEN_ESTIMATE = 200
 CHAR_TO_TOKEN_RATIO = 3.5
  

@@ -91,27 +91,36 @@ class RAGBenchmark:
 
             gold_file_ids = []
             gold_paragraphs = []
+            full_list_passages_contents = set()
+            full_list_passages_ids = set()
             if self.config.dataset_name in ("hotpotqa", "2wikimultihopqa","popqa","nq"):
                 for fact in sample["supporting_facts"]:
                     gold_file_ids.append(fact[0])
-                    if self.config.dataset_name == "2wikimultihopqa":
+                    if self.config.dataset_name in ["2wikimultihopqa", "popqa", "nq"]:
                         for text in sample["context"]:
                             if text[0] == fact[0]:
                                 # text[1] in the form of [ "Teutberga( died 11 November 875) was a queen of Lotharingia by marriage to Lothair II.","She was a daughter of Bosonid Boso the Elder and sister of Hucbert, the lay- abbot of St. Maurice's Abbey."]
                                 # join them as one string
                                 gold_para = " ".join(text[1])
-                                gold_paragraphs.append(f"Title: {fact[0]}: {gold_para}")
-                            break
+                                gold_paragraphs.append(f"{fact[0]}: {gold_para}")
+                            else:
+                                full_list_passages_contents.add(f"{text[0]}: {' '.join(text[1])}")
+                                full_list_passages_ids.add(text[0])
                     elif self.config.dataset_name == "hotpotqa":
                         for text in sample["context"]:
                             if text[0] == fact[0]:
-                                gold_paragraphs.append(f"Title: {fact[0]}: {" ".join(text[1])}")
-                                break
+                                gold_paragraphs.append(f"{fact[0]}: {' '.join(text[1])}")
+                            else:
+                                full_list_passages_contents.add(f"{text[0]}: {' '.join(text[1])}")
+                                full_list_passages_ids.add(text[0])
             elif self.config.dataset_name == "musique":
                 for paragraph in sample["paragraphs"]:
                     if paragraph["is_supporting"]:
                         gold_file_ids.append(paragraph["paragraph_text"])
-                        gold_paragraphs.append(f'Title: {paragraph["title"]}: {paragraph["paragraph_text"]}')
+                        gold_paragraphs.append(f'{paragraph["title"]}: {paragraph["paragraph_text"]}')
+                    else:
+                        full_list_passages_contents.add(f'{paragraph["title"]}: {paragraph["paragraph_text"]}')
+                        full_list_passages_ids.add(paragraph["paragraph_text"])
             else:
                 print("Dataset not supported")
                 continue
@@ -149,7 +158,12 @@ class RAGBenchmark:
                     sorted_context_ids = []  # We don't track IDs in ReAct mode
                 elif self.config.upper_bound_mode:
                     # use the golden doc for rag
-                    raise NotImplementedError("Upper bound mode is not implemented")
+                    sorted_context, sorted_context_ids = retriever.retrieve(question, topN=5, 
+                                                                          sorted_passages_contents=gold_paragraphs, 
+                                                                          sorted_passage_ids=gold_file_ids,
+                                                                          full_list_passages_contents=full_list_passages_contents,
+                                                                          full_list_passages_ids=full_list_passages_ids)
+                    llm_generated_answer = llm_generator.generate_with_context(question, sorted_context, max_new_tokens=2048, temperature=0.5)
                 else:
                     # Original RAG implementation
                     sorted_context, sorted_context_ids = retriever.retrieve(question, topN=5)
@@ -160,7 +174,6 @@ class RAGBenchmark:
                     elif isinstance(retriever, BasePassageRetriever):
                         retrieved_context = "\n".join(sorted_context)
                         llm_generated_answer = llm_generator.generate_with_context(question, retrieved_context, max_new_tokens=2048, temperature=0.5)
-
                 if self.logging:
                     self.logger.info(f"{retriever.__class__.__name__} retrieved passages: {sorted_context}")
                     self.logger.info(f"{retriever.__class__.__name__} generated answer: {llm_generated_answer}")
@@ -178,10 +191,7 @@ class RAGBenchmark:
                 
                 # Calculate recall
                 if not use_react:  # Only calculate recall for non-ReAct mode
-                    if self.config.dataset_name in ("hotpotqa", "2wikimultihopqa"):
-                        recall_2, recall_5 = qa_judge.recall(sorted_context_ids, gold_file_ids)
-                    elif self.config.dataset_name == "musique":
-                        recall_2, recall_5 = qa_judge.recall(sorted_context, gold_file_ids)
+                    recall_2, recall_5 = qa_judge.recall(sorted_context, gold_paragraphs)
                     
                     result[f"{retriever.__class__.__name__ }_recall@2"] = recall_2
                     result[f"{retriever.__class__.__name__ }_recall@5"] = recall_5

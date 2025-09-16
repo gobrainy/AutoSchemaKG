@@ -14,7 +14,7 @@ class InferenceConfig:
     """
     keyword: str = "musique"
     topk: int = 5
-    Dmax: int = 4
+    Dmax: int = 3
     Wmax: int = 3
     weight_adjust: float = 1.0
     topk_edges: int = 50
@@ -28,4 +28,7 @@ class InferenceConfig:
     temperature_exploration:float = 0.0
     temperature_reasoning:float = 0.0
     num_sents_for_reasoning: int = 10
-    remove_unnecessary_rel: bool = False
+    remove_unnecessary_rel: bool = True
+
+    # subgraph retriever config
+    num_hop: int = 1

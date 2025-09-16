@@ -5,11 +5,13 @@ import hashlib
 import os
 from atlas_rag.kg_construction.triple_config import ProcessingConfig
 import pickle
+import html
 
 def get_node_id(entity_name, entity_to_id={}):
     """Returns existing or creates new nX ID for an entity using a hash-based approach."""
     if entity_name not in entity_to_id:
         # Use a hash function to generate a unique ID
+        entity_name = entity_name+'_entity'
         hash_object = hashlib.sha256(entity_name.encode('utf-8'))
         hash_hex = hash_object.hexdigest()  # Get the hexadecimal representation of the hash
         # Use the first 8 characters of the hash as the ID (you can adjust the length as needed)
