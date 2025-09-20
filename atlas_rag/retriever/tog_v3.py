@@ -4,12 +4,16 @@ from atlas_rag.llm_generator.llm_generator import LLMGenerator
 from typing import Optional
 from atlas_rag.retriever.base import BaseEdgeRetriever
 from atlas_rag.retriever.inference_config import InferenceConfig
+import json_repair
+import networkx as nx
 
 class TogV3Retriever(BaseEdgeRetriever):
     def __init__(self, llm_generator, sentence_encoder, data, inference_config: Optional[InferenceConfig] = None):
         self.KG = data["KG"]
 
-        self.node_list = list(self.KG.nodes)
+        self.node_list = data["node_list"]
+        self.KG:nx.DiGraph = self.KG.subgraph(self.node_list)
+
         self.edge_list = list(self.KG.edges)
         self.edge_list_with_relation = [(edge[0], self.KG.edges[edge]["relation"], edge[1])  for edge in self.edge_list]
         self.edge_list_string = [f"{edge[0]}  {self.KG.edges[edge]['relation']}  {edge[1]}" for edge in self.edge_list]
@@ -23,31 +27,41 @@ class TogV3Retriever(BaseEdgeRetriever):
         self.inference_config = inference_config if inference_config is not None else InferenceConfig()
 
     def ner(self, text):
+        """Extract topic entities from the query using LLM."""
         messages = [
-            {"role": "system", "content": "Please extract the entities from the following question and output them separated by comma, in the following format: entity1, entity2, ..."},
-            {"role": "user", "content": f"Extract the named entities from: Are Portland International Airport and Gerald R. Ford International Airport both located in Oregon?"},
-            {"role": "system", "content": "Portland International Airport, Gerald R. Ford International Airport, Oregon"},
-            {"role": "user", "content": f"Extract the named entities from: {text}"},
+            {
+                "role": "system",
+                "content": "Extract the named entities from the provided question and output them as a JSON object in the format: {\"entities\": [\"entity1\", \"entity2\", ...]}"
+            },
+            {
+                "role": "user",
+                "content": f"Extract all the named entities from: {text}"
+            }
         ]
-
-        
         response = self.llm_generator.generate_response(messages)
-        generated_text = response
-        # print(generated_text)
-        return generated_text
+        try:
+            entities_json = json_repair.loads(response)
+        except Exception as e:
+            return {}
+        if "entities" not in entities_json or not isinstance(entities_json["entities"], list):
+            return {}
+        return entities_json
     
 
 
     def retrieve_topk_nodes(self, query, topN=5, **kwargs):
         # extract entities from the query
         entities = self.ner(query)
-        entities = entities.split(", ")
+        entities = entities.get("entities", [])
 
         if len(entities) == 0:
             # If the NER cannot extract any entities, we 
             # use the query as the entity to do approximate search
             entities = [query]
-
+            query_embeddings = self.sentence_encoder.encode([query], query_type='entity')
+            scores = self.node_embeddings @ query_embeddings[0].T
+            top_indices = np.argsort(scores)[-topN:][::-1]
+            return [self.node_list[i] for i in top_indices]
         # evenly distribute the topk for each entity
         topk_for_each_entity = topN//len(entities)
     
@@ -89,7 +103,6 @@ class TogV3Retriever(BaseEdgeRetriever):
         while D <= Dmax:
             P = self.search(query, P)
             P = self.prune(query, P, topN)
-            
             if self.reasoning(query, P):
                 generated_text = self.generate(query, P)
                 break
@@ -118,9 +131,9 @@ class TogV3Retriever(BaseEdgeRetriever):
            
             # remove the entity that is already in the path
             sucessors = [neighbour for neighbour in sucessors if neighbour not in path]
-            predecessors = [neighbour for neighbour in predecessors if neighbour not in path]
+            # predecessors = [neighbour for neighbour in predecessors if neighbour not in path]
 
-            if len(sucessors) == 0 and len(predecessors) == 0:
+            if len(sucessors) == 0:
                 new_paths.append(path)
                 continue
             for neighbour in sucessors:
@@ -128,10 +141,10 @@ class TogV3Retriever(BaseEdgeRetriever):
                 new_path = path + [relation, neighbour]
                 new_paths.append(new_path)
             
-            for neighbour in predecessors:
-                relation = self.KG.edges[(neighbour, tail_entity)]["relation"]
-                new_path = path + [relation, neighbour]
-                new_paths.append(new_path)
+            # for neighbour in predecessors:
+            #     relation = self.KG.edges[(neighbour, tail_entity)]["relation"]
+            #     new_path = path + [relation, neighbour]
+            #     new_paths.append(new_path)
         
         return new_paths
     
@@ -154,9 +167,12 @@ class TogV3Retriever(BaseEdgeRetriever):
         
         # Encode query and paths
         # Pass query_type='edge' for appropriate prefixing in embedding models that support it
-        query_embedding = self.sentence_encoder.encode([query], query_type='passage')[0]
+        query_embedding = self.sentence_encoder.encode([query], query_type='edge')[0]
         path_embeddings = self.sentence_encoder.encode(path_strings)
         
+        query_embedding = query_embedding / np.linalg.norm(query_embedding)
+        path_embeddings = path_embeddings / np.linalg.norm(path_embeddings, axis=1, keepdims=True)
+
         # Compute similarity scores
         scores = path_embeddings @ query_embedding
         

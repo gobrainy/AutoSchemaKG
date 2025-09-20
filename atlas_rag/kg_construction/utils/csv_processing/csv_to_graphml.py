@@ -1,3 +1,4 @@
+import json
 import networkx as nx
 import csv
 import ast
@@ -6,6 +7,24 @@ import os
 from atlas_rag.kg_construction.triple_config import ProcessingConfig
 import pickle
 import html
+import re
+
+# Regex to match *illegal* XML characters (XML 1.0 spec)
+_ILLEGAL_XML_RE = re.compile(
+    "[" +
+    "\x00-\x08" +
+    "\x0B" +
+    "\x0C" +
+    "\x0E-\x1F" +
+    "\uD800-\uDFFF" +   # Surrogates
+    "\uFFFE\uFFFF" +    # Noncharacters
+    "]"
+)
+
+def sanitize_xml_string(s: str) -> str:
+    """Remove illegal XML characters from a string."""
+    return _ILLEGAL_XML_RE.sub("", s)
+
 
 def get_node_id(entity_name, entity_to_id={}):
     """Returns existing or creates new nX ID for an entity using a hash-based approach."""
@@ -52,7 +71,28 @@ def csvs_to_temp_graphml(triple_node_file, triple_edge_file, config:ProcessingCo
     with open(output_name, 'wb') as output_file:
         pickle.dump(g, output_file)
     
-    
+def validate_graphml(output_file):
+    """Validate that a GraphML file can be read back correctly."""
+    try:
+        # Try to read the file back
+        test_graph = nx.read_graphml(output_file)
+        node_count = test_graph.number_of_nodes()
+        edge_count = test_graph.number_of_edges()
+        print(f"GraphML validation successful: {node_count} nodes, {edge_count} edges")
+        return True
+    except Exception as e:
+        print(f"ERROR: GraphML validation failed: {str(e)}")
+        # Optionally print the line number where the error occurred
+        if hasattr(e, 'position'):
+            line_no = e.position[0]
+            print(f"Error at line {line_no}")
+            
+            # Read the problematic line
+            with open(output_file, 'r') as f:
+                lines = f.readlines()
+                if line_no - 1 < len(lines):
+                    print(f"Problematic line: {lines[line_no-1].strip()}")
+        return False
 
 def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edge_file, 
                     concept_node_file = None, concept_edge_file = None,
@@ -94,8 +134,8 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
             mapped_id = get_node_id(node_id, entity_to_id)
             # Check if node already exists to prevent duplicates
             if mapped_id not in g.nodes:
-                g.add_node(mapped_id, id=node_id, type=row["type"])
-            
+                g.add_node(mapped_id, id=sanitize_xml_string(node_id), type=row["type"])
+
     # Add text nodes
     with open(text_node_file, 'r') as f:
         reader = csv.DictReader(f)
@@ -103,7 +143,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
             node_id = row["text_id:ID"]
             # Check if node already exists to prevent duplicates
             if node_id not in g.nodes:
-                g.add_node(node_id, file_id=node_id, id=row["original_text"], type="passage")
+                g.add_node(sanitize_xml_string(node_id), file_id=sanitize_xml_string(node_id), id=row["original_text"], type="passage")
 
     # Add concept nodes
     if concept_node_file is not None:
@@ -113,7 +153,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
                 node_id = row["concept_id:ID"]
                 # Check if node already exists to prevent duplicates
                 if node_id not in g.nodes:
-                    g.add_node(node_id, file_id="concept_file", id=row["name"], type="concept")
+                    g.add_node(sanitize_xml_string(node_id), file_id="concept_file", id=row["name"], type="concept")
 
     # Add file id for triple nodes and concept nodes when add the edges
     
@@ -175,7 +215,10 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir)
     nx.write_graphml(g, output_file, infer_numeric_types=True)
-    
+    if validate_graphml(output_file):
+        print(f"Successfully created GraphML file: {output_file}")
+    else:
+        print(f"Failed to create valid GraphML file: {output_file}")
 if __name__ == "__main__":
     import argparse
 

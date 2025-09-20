@@ -15,7 +15,7 @@ from atlas_rag.llm_generator.llm_generator import LLMGenerator
 from atlas_rag.evaluation.evaluation import QAJudger
 from dataclasses import dataclass
 from atlas_rag.llm_generator.prompt.react import ReAct
-
+from dataclasses import asdict
 
 def normalize_embeddings(embeddings):
     """Normalize the embeddings to unit length (L2 norm)."""
@@ -44,6 +44,10 @@ class BenchMarkConfig:
         reader_model_name (str): Name of the reader model. Default is "meta-llama/Llama-2-7b-chat-hf".
         encoder_model_name (str): Name of the encoder model. Default is "nvidia/NV-Embed-v2".
         number_of_samples (int): Number of samples to use from the dataset. Default is -1 (use all samples).
+        react_max_iterations (int): Maximum iterations for ReAct. Default is 5.
+        result_dir (str): Directory to store results. Default is "./result".
+        upper_bound_mode (bool): Whether to use upper bound mode. Default is False.
+        topN (int): Number of top passages to retrieve. Default is 5.
     """
     dataset_name: str = "hotpotqa"
     question_file: str = "hotpotqa"
@@ -55,8 +59,11 @@ class BenchMarkConfig:
     react_max_iterations: int = 5
     result_dir: str = "./result"
     upper_bound_mode: bool = False
+    topN: int = 5  # Number of top passages to retrieve
 
-        
+    def __str__(self):
+        return "\n".join(f"{key}: {value}" for key, value in asdict(self).items())
+    
 
 class RAGBenchmark:
     def __init__(self, config:BenchMarkConfig, logger:Logger = None):
@@ -158,7 +165,7 @@ class RAGBenchmark:
                     sorted_context_ids = []  # We don't track IDs in ReAct mode
                 elif self.config.upper_bound_mode:
                     # use the golden doc for rag
-                    sorted_context, sorted_context_ids = retriever.retrieve(question, topN=5, 
+                    sorted_context, sorted_context_ids = retriever.retrieve(question, topN=self.config.topN, 
                                                                           sorted_passages_contents=gold_paragraphs, 
                                                                           sorted_passage_ids=gold_file_ids,
                                                                           full_list_passages_contents=full_list_passages_contents,
@@ -166,7 +173,7 @@ class RAGBenchmark:
                     llm_generated_answer = llm_generator.generate_with_context(question, sorted_context, max_new_tokens=2048, temperature=0.5)
                 else:
                     # Original RAG implementation
-                    sorted_context, sorted_context_ids = retriever.retrieve(question, topN=5)
+                    sorted_context, sorted_context_ids = retriever.retrieve(question, topN=self.config.topN)
                     
                     if isinstance(retriever, BaseEdgeRetriever):
                         retrieved_context = "\n".join(sorted_context)

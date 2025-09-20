@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 @dataclass
 class InferenceConfig:
@@ -32,3 +32,6 @@ class InferenceConfig:
 
     # subgraph retriever config
     num_hop: int = 1
+
+    def __str__(self):
+        return "\n".join(f"{key}: {value}" for key, value in asdict(self).items())
