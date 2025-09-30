@@ -7,7 +7,18 @@ from logging import Logger
 from typing import Optional
 from atlas_rag.retriever.base import BasePassageRetriever
 from atlas_rag.retriever.inference_config import InferenceConfig
-
+import json_repair
+import json
+def min_max_normalize(x):
+    min_val = np.min(x)
+    max_val = np.max(x)
+    range_val = max_val - min_val
+    
+    # Handle the case where all values are the same (range is zero)
+    if range_val == 0:
+        return np.ones_like(x)  # Return an array of ones with the same shape as x
+    
+    return (x - min_val) / range_val
 
 class HippoRAGRetriever(BasePassageRetriever):
     def __init__(self, llm_generator:LLMGenerator, sentence_encoder:BaseEmbeddingModel, 
@@ -20,6 +31,11 @@ class HippoRAGRetriever(BasePassageRetriever):
         if isinstance(self.node_embeddings, list):
             self.node_embeddings = np.array(self.node_embeddings)
         self.node_list = data["node_list"]
+        self.edge_list = data["edge_list"]
+        self.node_embeddings = data["node_embeddings"]
+        self.edge_embeddings = data["edge_embeddings"]
+        self.edge_embeddings = self.edge_embeddings / np.linalg.norm(self.edge_embeddings, axis=1, keepdims=True)
+        self.text_embeddings = data["text_embeddings"]
         file_id_to_node_id = {}
         self.KG = data["KG"]
         for node_id in tqdm(list(self.KG.nodes)):
@@ -47,6 +63,10 @@ class HippoRAGRetriever(BasePassageRetriever):
         self.KG:nx.DiGraph = self.KG.subgraph(self.node_list)
         self.node_name_list = [self.KG.nodes[node]["id"] for node in self.node_list]
         
+        if self.inference_config.hipporag_mode == "query2edge":
+            self.q2kg_fn = self.query2edge
+        else:
+            self.q2kg_fn = self.retrieve_personalization_dict
         
         self.logger :Logger = logger
         if self.logger is None:
@@ -54,7 +74,106 @@ class HippoRAGRetriever(BasePassageRetriever):
         else:
             self.logging = True
 
+    def query2edge(self, query, topN = 10):
+        query_emb = self.sentence_encoder.encode([query], query_type="edge")
+        # normalize the embeddings
+        query_emb = query_emb / np.linalg.norm(query_emb, axis=1, keepdims=True)
+        # compute the scores
+        scores = min_max_normalize(self.edge_embeddings@query_emb[0].T)
+        index_matrix = np.argsort(scores)[-topN:][::-1]
+        log_edge_list = []
+        for index in index_matrix:
+            edge = self.edge_list[index]
+            edge_str = [self.KG.nodes[edge[0]]['id'], self.KG.edges[edge]['relation'], self.KG.nodes[edge[1]]['id']]
+            log_edge_list.append(edge_str)
 
+        similarity_matrix = [scores[i] for i in index_matrix]
+        # construct the edge list
+        before_filter_edge_json = {}
+        before_filter_edge_json['fact'] = []
+        for index, sim_score in zip(index_matrix, similarity_matrix):
+            edge = self.edge_list[index]
+            edge_str = [self.KG.nodes[edge[0]]['id'], self.KG.edges[edge]['relation'], self.KG.nodes[edge[1]]['id']]
+            before_filter_edge_json['fact'].append(edge_str)
+        if self.logging:
+            self.logger.info(f"HippoRAG2 Before Filter Edge: {before_filter_edge_json['fact']}")
+        if not self.inference_config.is_filter_edges:
+            node_score_dict = {}
+            for index, sim_score in zip(index_matrix, similarity_matrix):
+                edge = self.edge_list[index]
+                head, tail = edge[0], edge[1]
+                if head not in node_score_dict:
+                    node_score_dict[head] = [sim_score]
+                else:
+                    node_score_dict[head].append(sim_score)
+                if tail not in node_score_dict:
+                    node_score_dict[tail] = [sim_score]
+                else:
+                    node_score_dict[tail].append(sim_score)
+            # average the scores
+            for node in node_score_dict:
+                node_score_dict[node] = sum(node_score_dict[node]) / len(node_score_dict[node])
+            
+            # get the topN nodes
+            if len(node_score_dict) > self.inference_config.topk_nodes:
+                sorted_nodes = sorted(node_score_dict.items(), key=lambda x: x[1], reverse=True)
+                sorted_nodes = sorted_nodes[:self.inference_config.topk_nodes]
+                node_score_dict = dict(sorted_nodes)
+
+            if self.logging:
+                self.logger.info(f"HippoRAG2: Unfiltered node: {node_score_dict}")
+            
+            return node_score_dict
+            
+        filtered_facts = self.llm_generator.filter_triples_with_entity_event(query, json.dumps(before_filter_edge_json, ensure_ascii=False))
+        try:
+            filtered_facts = json_repair.loads(filtered_facts)['fact']
+        except Exception as e:
+            filtered_facts = before_filter_edge_json['fact']
+        if len(filtered_facts) == 0:
+            return {}
+        # use filtered facts to get the edge id and check if it exists in the original candidate list.
+        node_score_dict = {}
+        log_edge_list = []
+        for edge in filtered_facts:
+            edge_str = f'{edge[0]} {edge[1]} {edge[2]}'
+            search_emb = self.sentence_encoder.encode([edge_str], query_type="search")
+            D, I = self.edge_faiss_index.search(search_emb, 1)
+            filtered_index = I[0][0]
+            # get the edge and the original score
+            edge = self.edge_list[filtered_index]
+            log_edge_list.append([self.KG.nodes[edge[0]]['id'], self.KG.edges[edge]['relation'], self.KG.nodes[edge[1]]['id']])
+            head, tail = edge[0], edge[1]
+            # check if head/tails is concept, sim_score = sim_score / # edge of that node 
+            sim_score = scores[filtered_index]
+            
+            if head not in node_score_dict:
+                node_score_dict[head] = [sim_score]
+            else:
+                node_score_dict[head].append(sim_score)
+            if tail not in node_score_dict:
+                node_score_dict[tail] = [sim_score]
+            else:
+                node_score_dict[tail].append(sim_score)
+        # average the scores
+        if self.logging:
+            self.logger.info(f"HippoRAG: Filtered edges: {log_edge_list}")
+        
+        # take average of the scores
+        for node in node_score_dict:
+            node_score_dict[node] = sum(node_score_dict[node]) / len(node_score_dict[node])
+        
+        # get the topN nodes
+        if len(node_score_dict) > self.inference_config.topk_nodes:
+            sorted_nodes = sorted(node_score_dict.items(), key=lambda x: x[1], reverse=True)
+            sorted_nodes = sorted_nodes[:self.inference_config.topk_nodes]
+            node_score_dict = dict(sorted_nodes)
+
+        if self.logging:
+            self.logger.info(f"HippoRAG: Filtered node: {node_score_dict}")
+        
+        
+        return node_score_dict
         
     def retrieve_personalization_dict(self, query, topN=10):
 
@@ -98,8 +217,8 @@ class HippoRAGRetriever(BasePassageRetriever):
         topk_nodes = list(set(topk_nodes))
 
         # assert len(topk_nodes) <= topN
-        if len(topk_nodes) > 2*topN:
-            topk_nodes = topk_nodes[:2*topN]
+        if len(topk_nodes) > topN:
+            topk_nodes = topk_nodes[:topN]
 
         
         # print("Topk nodes:", topk_nodes)
@@ -121,10 +240,14 @@ class HippoRAGRetriever(BasePassageRetriever):
 
     def retrieve(self, query, topN=5, **kwargs):
         topN_nodes = self.inference_config.topk_nodes
-        personaliation_dict = self.retrieve_personalization_dict(query, topN=topN_nodes)
-        
+        if not self.inference_config.is_filter_edges:
+            personalization_dict = self.q2kg_fn(query, topN=self.inference_config.topk_edges)
+        else:
+            personalization_dict = self.q2kg_fn(query, topN=topN_nodes)
+
         # retrieve the top N passages
-        pr = nx.pagerank(self.KG, personalization=personaliation_dict)
+        pr = nx.pagerank(self.KG, personalization=personalization_dict, alpha=self.inference_config.ppr_alpha, 
+                         max_iter=self.inference_config.ppr_max_iter, tol=self.inference_config.ppr_tol)
 
         for node in pr:
             pr[node] = round(pr[node], 4)

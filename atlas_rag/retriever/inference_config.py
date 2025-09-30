@@ -32,6 +32,10 @@ class InferenceConfig:
 
     # subgraph retriever config
     num_hop: int = 1
+    
+    # hipporag 1 and 2 config
+    is_filter_edges: bool = True
+    hipporag_mode: str = "query2edge"  # options: query2edge, query2node
 
     def __str__(self):
         return "\n".join(f"{key}: {value}" for key, value in asdict(self).items())

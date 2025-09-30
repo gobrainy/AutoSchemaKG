@@ -177,10 +177,10 @@ class RAGBenchmark:
                     
                     if isinstance(retriever, BaseEdgeRetriever):
                         retrieved_context = "\n".join(sorted_context)
-                        llm_generated_answer = llm_generator.generate_with_context_kg(question, retrieved_context, max_new_tokens=2048, temperature=0.5)
+                        llm_generated_answer = llm_generator.generate_with_context_kg(question, retrieved_context, max_new_tokens=2048, temperature=0.0)
                     elif isinstance(retriever, BasePassageRetriever):
                         retrieved_context = "\n".join(sorted_context)
-                        llm_generated_answer = llm_generator.generate_with_context(question, retrieved_context, max_new_tokens=2048, temperature=0.5)
+                        llm_generated_answer = llm_generator.generate_with_context(question, retrieved_context, max_new_tokens=2048, temperature=0.0)
                 if self.logging:
                     self.logger.info(f"{retriever.__class__.__name__} retrieved passages: {sorted_context}")
                     self.logger.info(f"{retriever.__class__.__name__} generated answer: {llm_generated_answer}")

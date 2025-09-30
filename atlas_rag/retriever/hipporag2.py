@@ -41,6 +41,7 @@ class HippoRAG2Retriever(BasePassageRetriever):
         self.edge_list = data["edge_list"]
         self.node_embeddings = data["node_embeddings"]
         self.edge_embeddings = data["edge_embeddings"]
+        self.edge_embeddings = self.edge_embeddings / np.linalg.norm(self.edge_embeddings, axis=1, keepdims=True)
         self.text_embeddings = data["text_embeddings"]
         if isinstance(self.node_embeddings, list):
             self.node_embeddings = np.array(self.node_embeddings)
@@ -61,7 +62,7 @@ class HippoRAG2Retriever(BasePassageRetriever):
         else:
             self.logging = True
         
-        hipporag2mode = "query2edge"
+        hipporag2mode = self.inference_config.hipporag_mode if inference_config is not None else "query2edge"
         if hipporag2mode == "query2edge":
             self.retrieve_node_fn = self.query2edge
         elif hipporag2mode == "query2node":
@@ -131,6 +132,8 @@ class HippoRAG2Retriever(BasePassageRetriever):
     
     def query2edge(self, query, topN = 10):
         query_emb = self.sentence_encoder.encode([query], query_type="edge")
+        # normalize the embeddings
+        query_emb = query_emb / np.linalg.norm(query_emb, axis=1, keepdims=True)
         scores = min_max_normalize(self.edge_embeddings@query_emb[0].T)
         index_matrix = np.argsort(scores)[-topN:][::-1]
         log_edge_list = []
@@ -149,6 +152,34 @@ class HippoRAG2Retriever(BasePassageRetriever):
             before_filter_edge_json['fact'].append(edge_str)
         if self.logging:
             self.logger.info(f"HippoRAG2 Before Filter Edge: {before_filter_edge_json['fact']}")
+        if not self.inference_config.is_filter_edges:
+            node_score_dict = {}
+            for index, sim_score in zip(index_matrix, similarity_matrix):
+                edge = self.edge_list[index]
+                head, tail = edge[0], edge[1]
+                if head not in node_score_dict:
+                    node_score_dict[head] = [sim_score]
+                else:
+                    node_score_dict[head].append(sim_score)
+                if tail not in node_score_dict:
+                    node_score_dict[tail] = [sim_score]
+                else:
+                    node_score_dict[tail].append(sim_score)
+            # average the scores
+            for node in node_score_dict:
+                node_score_dict[node] = sum(node_score_dict[node]) / len(node_score_dict[node])
+            
+            # get the topN nodes
+            if len(node_score_dict) > self.inference_config.topk_nodes:
+                sorted_nodes = sorted(node_score_dict.items(), key=lambda x: x[1], reverse=True)
+                sorted_nodes = sorted_nodes[:self.inference_config.topk_nodes]
+                node_score_dict = dict(sorted_nodes)
+
+            if self.logging:
+                self.logger.info(f"HippoRAG2: Unfiltered node: {node_score_dict}")
+            
+            return node_score_dict
+        
         filtered_facts = self.llm_generator.filter_triples_with_entity_event(query, json.dumps(before_filter_edge_json, ensure_ascii=False))
         try:
             filtered_facts = json_repair.loads(filtered_facts)['fact']
@@ -181,11 +212,21 @@ class HippoRAG2Retriever(BasePassageRetriever):
                 node_score_dict[tail].append(sim_score)
         # average the scores
         if self.logging:
-            self.logger.info(f"HippoRAG2: Filtered edges: {log_edge_list}")
+            self.logger.info(f"HippoRAG: Filtered edges: {log_edge_list}")
         
         # take average of the scores
         for node in node_score_dict:
             node_score_dict[node] = sum(node_score_dict[node]) / len(node_score_dict[node])
+        
+        # get the topN nodes
+        if len(node_score_dict) > self.inference_config.topk_nodes:
+            sorted_nodes = sorted(node_score_dict.items(), key=lambda x: x[1], reverse=True)
+            sorted_nodes = sorted_nodes[:self.inference_config.topk_nodes]
+            node_score_dict = dict(sorted_nodes)
+
+        if self.logging:
+            self.logger.info(f"HippoRAG: Filtered node: {node_score_dict}")
+        
         
         return node_score_dict
     
