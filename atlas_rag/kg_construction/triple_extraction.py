@@ -70,6 +70,7 @@ class DatasetProcessor:
         self.config = config
         self.chunker = TextChunker()
         self.benchmark = config.benchmark
+        self.deduplicate_text = config.deduplicate_text
 
     def filter_language_content(self, sample: Dict[str, Any]) -> bool:
         """Check if content is in English."""
@@ -86,8 +87,12 @@ class DatasetProcessor:
             original_text = re.sub(r'\s+', ' ',original_text).strip()
         text_chunks = self.chunker.split_text(original_text)
         chunks = []
-        
+        self.text_set = set()  # For deduplication
         for chunk_idx, chunk_text in enumerate(text_chunks):
+            if self.deduplicate_text:
+                if chunk_text in self.text_set:
+                    continue
+                self.text_set.add(chunk_text)
             chunk_data = {
                 "id": sample["id"],
                 "text": chunk_text,
