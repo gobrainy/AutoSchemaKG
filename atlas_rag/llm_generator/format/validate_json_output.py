@@ -42,12 +42,11 @@ def fix_filter_triplets(data: str, **kwargs) -> dict:
 
 def fix_triple_extraction_response(response: str, **kwargs) -> str:
     """Attempt to fix and validate JSON response based on the prompt type."""
+    result_schema = kwargs.get("schema")
+    assert "items" in result_schema, "Schema must define 'items' for triple_extraction."
+    required_keys = result_schema['items'].get("required", [])
     # Extract the JSON list from the response
     # raise error if prompt_type is not provided
-    if "prompt_type" not in kwargs:
-        raise ValueError("The 'prompt_type' argument is required.")
-    prompt_type = kwargs.get("prompt_type")
-
     json_start_token = response.find("[")
     if json_start_token == -1:
         # add [ at the start
@@ -56,16 +55,12 @@ def fix_triple_extraction_response(response: str, **kwargs) -> str:
     if len(parsed_objects) == 0:
         return []
     # Define required keys for each prompt type
-    required_keys = {
-        "entity_relation": {"Head", "Relation", "Tail"},
-        "event_entity": {"Event", "Entity"},
-        "event_relation": {"Head", "Relation", "Tail"}
-    }
     
     corrected_data = []
     seen_triples = set()
     for idx, item in enumerate(parsed_objects):
         if not isinstance(item, dict):
+            print(parsed_objects)
             print(f"Item {idx} must be a JSON object. Problematic item: {item}")
             continue
         
@@ -73,7 +68,7 @@ def fix_triple_extraction_response(response: str, **kwargs) -> str:
         corrected_item = {}
         for key, value in item.items():
             norm_key = normalize_key(key)
-            matching_expected_keys = [exp_key for exp_key in required_keys[prompt_type] if normalize_key(exp_key) in norm_key]
+            matching_expected_keys = [exp_key for exp_key in required_keys if normalize_key(exp_key) in norm_key]
             if len(matching_expected_keys) == 1:
                 corrected_key = matching_expected_keys[0]
                 corrected_item[corrected_key] = value
@@ -81,33 +76,28 @@ def fix_triple_extraction_response(response: str, **kwargs) -> str:
                 corrected_item[key] = value
         
         # Check for missing keys in corrected_item
-        missing = required_keys[prompt_type] - corrected_item.keys()
+        missing = required_keys - corrected_item.keys()
         if missing:
             print(f"Item {idx} missing required keys: {missing}. Problematic item: {item}")
             continue
         
-        # Validate and correct the values in corrected_item
-        if prompt_type == "entity_relation":
-            for key in ["Head", "Relation", "Tail"]:
+        # Validate and correct the values according to the schema
+        for key in required_keys:
+            # since it a array of items, here for example it loop through Head
+            required_type = result_schema['items']['properties'].get(key, {}).get("type")
+            if required_type == "string":
                 if not isinstance(corrected_item[key], str) or not corrected_item[key].strip():
-                    print(f"Item {idx} {key} must be a non-empty string. Problematic item: {corrected_item}")
+                    # convert to str for empty values
+                    if corrected_item[key] is None:
+                        continue
+                    corrected_item[key] = str(corrected_item[key]).strip()
+                    print(f"Fixed item {idx} {key} to string: {corrected_item[key]}")
+            if required_type == "array":
+                if not isinstance(corrected_item[key], list) or not corrected_item[key]:
+                    print(f"Item {idx} {key} must be a non-empty array. Problematic item: {corrected_item}")
                     continue
-        
-        elif prompt_type == "event_entity":
-            if not isinstance(corrected_item["Event"], str) or not corrected_item["Event"].strip():
-                print(f"Item {idx} Event must be a non-empty string. Problematic item: {corrected_item}")
-                continue
-            if not isinstance(corrected_item["Entity"], list) or not corrected_item["Entity"]:
-                print(f"Item {idx} Entity must be a non-empty array. Problematic item: {corrected_item}")
-                continue
-            else:
-                corrected_item["Entity"] = [ent.strip() for ent in corrected_item["Entity"] if isinstance(ent, str)]
-        
-        elif prompt_type == "event_relation":
-            for key in ["Head", "Tail", "Relation"]:
-                if not isinstance(corrected_item[key], str) or not corrected_item[key].strip():
-                    print(f"Item {idx} {key} must be a non-empty sentence. Problematic item: {corrected_item}")
-                    continue
+                else:
+                    corrected_item[key] = [str(item).strip() for item in corrected_item[key] if isinstance(item, str)]
     
         triple_tuple = tuple((k, str(v)) for k, v in corrected_item.items())
         if triple_tuple in seen_triples:

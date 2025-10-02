@@ -31,63 +31,74 @@ lkg_keyword_json_schema = {
     "required": ["keywords"]
 }
 
-triple_json_schema = {
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
-            "Head": {
-                "type": "string"
-            },
-            "Relation": {
-                "type": "string"
-            },
-            "Tail": {
-                "type": "string"
-            }
-        },
-        "required": ["Head", "Relation", "Tail"]
-    },
-}
-event_relation_json_schema = {
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
-            "Head": {
-                "type": "string"
-            },
-            "Relation": {
-                "type": "string",
-            },
-            "Tail": {
-                "type": "string"
-            }
-        },
-        "required": ["Head", "Relation", "Tail"]
-    },
-}
-event_entity_json_schema = {
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
-            "Event": {
-                "type": "string"
-            },
-            "Entity": {
-                "type": "array",
-                "items": {
-                    "type": "string"
+ATLAS_SCHEMA = {
+    "entity_relation": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "Head": {
+                    "type": "string",
+                    "description": "The head entity in the relation, must be a non-empty string."
                 },
-                "minItems": 1
-            }
+                "Relation": {
+                    "type": "string",
+                    "description": "The relation between the head and tail entities, must be a non-empty string."
+                },
+                "Tail": {
+                    "type": "string",
+                    "description": "The tail entity in the relation, must be a non-empty string."
+                }
+            },
+            "required": ["Head", "Relation", "Tail"],
+            "additionalProperties": False
         },
-        "required": ["Event", "Entity"]
+        "description": "An array of entity-relation triples, where each triple consists of a head entity, a relation, and a tail entity."
     },
-}
-stage_to_schema = {
-    1: triple_json_schema,
-    2: event_entity_json_schema,
-    3: event_relation_json_schema
+    "event_entity": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "Event": {
+                    "type": "string",
+                    "description": "A simple sentence describing the event, must be a non-empty string."
+                },
+                "Entity": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "An entity related to the event, must be a non-empty string."
+                    },
+                    "description": "An array of entities related to the event, must not be empty."
+                }
+            },
+            "required": ["Event", "Entity"],
+            "additionalProperties": False
+        },
+        "description": "An array of event-entity pairs, where each pair consists of an event and an array of entities related to that event."
+    },
+    "event_relation": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "Head": {
+                    "type": "string",
+                    "description": "A simple sentence describing the first event, must be a non-empty string."
+                },
+                "Relation": {
+                    "type": "string",
+                    "description": "The relation between the two events, must be a non-empty string."
+                },
+                "Tail": {
+                    "type": "string",
+                    "description": "A simple sentence describing the second event, must be a non-empty string."
+                }
+            },
+            "required": ["Head", "Relation", "Tail"],
+            "additionalProperties": False
+        },
+        "description": "An array of event-relation triples, where each triple consists of a head event, a relation, and a tail event."
+    }
 }

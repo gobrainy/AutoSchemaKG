@@ -4,10 +4,18 @@ from typing import Tuple
 import argparse
 import json
 from tqdm import tqdm
+
 class QAJudger:
     def __init__(self):
         pass
-    
+    def normalize_for_retrieval(self, text: str) -> str:
+        """Normalize text for retrieval comparison."""
+        # Convert to lowercase
+        text = text.lower()
+        # Remove extra whitespace
+        text = ' '.join(text.split())
+        # Normalize whitespace again
+        return text
     def split_answer(self, generated_text):
         if "Answer:" in generated_text:
             generated_text = generated_text.split("Answer:")[-1]
@@ -67,10 +75,11 @@ class QAJudger:
 
         # Limit the retrieved texts to the top k entries
         limited_retrieved_text = retrieved_text[:k]
-
-        for ref_text in reference_text:
-            for ret_text in limited_retrieved_text:
-                if ref_text in ret_text:
+        normalized_reference_text = [self.normalize_for_retrieval(ref) for ref in reference_text]
+        normalized_retrieved_text = [self.normalize_for_retrieval(ret) for ret in limited_retrieved_text]
+        for ref_text in normalized_reference_text:
+            for ret_text in normalized_retrieved_text:
+                if ret_text in ref_text:
                     successful_retrievals += 1
                     break
 

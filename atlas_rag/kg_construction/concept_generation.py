@@ -24,6 +24,7 @@ def build_batch_data(sessions, batch_size):
 # Function to compute a hash ID from text
 def compute_hash_id(text):
     # Use SHA-256 to generate a hash
+    text = text + '_text'
     hash_object = hashlib.sha256(text.encode('utf-8'))
     return hash_object.hexdigest()  # Return hash as a hex string
 

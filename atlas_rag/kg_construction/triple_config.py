@@ -20,3 +20,11 @@ class ProcessingConfig:
     max_new_tokens: int = 8192
     max_workers: int = 8
     remove_doc_spaces: bool = False
+    allow_empty: bool = True
+    include_concept: bool = True
+    deduplicate_text: bool = False
+    # Custom configuration for triple extraction
+    triple_extraction_prompt_path: str = None
+    triple_extraction_schema_path: str = None
+    # for benchmarking the gpu-hour of first 100 document
+    benchmark : bool = False
