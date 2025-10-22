@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "atlas-rag"
-version = "0.0.4.post3"
+version = "0.0.4.post4"
 authors = [
     {name = "Jiaxin Bai", email = "jbai@connect.ust.hk"},
     {name = "Hong Ting TSANG", email = "httsangaj@connect.ust.hk"},
@@ -40,7 +40,7 @@ dependencies = [
     "pandas>=2.0.0",
     "sentence-transformers>=2.7.0",
     "transformers",
-    "datasets",
+    "datasets>=2.14.0,<3.0.0",
     "einops",
     "accelerate>=1.7.0",
     "nltk",
@@ -48,7 +48,8 @@ dependencies = [
     "azure-ai-projects",
     "azure-ai-inference",
     "azure-identity",
-    "json_repair"
+    "json_repair",
+    "faiss-cpu>=1.7.4"
 ]
 [project.optional-dependencies]
 nvembed = [

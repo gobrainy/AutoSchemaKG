@@ -266,6 +266,9 @@ class KnowledgeGraphExtractor:
 
     def load_dataset(self) -> Any:
         """Load and prepare dataset."""
+        import gzip
+        from datasets import Dataset
+        
         data_path = Path(self.config.data_directory)
         all_files = os.listdir(data_path)
         
@@ -276,9 +279,39 @@ class KnowledgeGraphExtractor:
         ]
         
         print(f"Found data files: {valid_files}")
-        data_files = valid_files
-        dataset_config = {"train": data_files}
-        return load_dataset(self.config.data_directory, data_files=dataset_config["train"])
+        
+        # Load JSON files directly to avoid LocalFileSystem caching issues
+        data = []
+        for filename in valid_files:
+            file_path = os.path.join(data_path, filename)
+            
+            if filename.endswith(".json.gz"):
+                with gzip.open(file_path, 'rt', encoding='utf-8') as f:
+                    content = json.load(f)
+            elif filename.endswith(".json"):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = json.load(f)
+            elif filename.endswith(".jsonl.gz"):
+                with gzip.open(file_path, 'rt', encoding='utf-8') as f:
+                    for line in f:
+                        if line.strip():
+                            data.append(json.loads(line))
+                    continue
+            elif filename.endswith(".jsonl"):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        if line.strip():
+                            data.append(json.loads(line))
+                    continue
+            
+            # For .json and .json.gz files, handle both list and single object formats
+            if isinstance(content, list):
+                data.extend(content)
+            else:
+                data.append(content)
+        
+        # Create dataset from list of dicts
+        return Dataset.from_list(data)
     
     def process_stage(self, instructions: Dict[str, str], result_schema: Dict) -> Tuple[List[str], List[List[Dict[str, Any]]]]:
         """Process first stage: entity-relation extraction."""

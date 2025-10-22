@@ -1,5 +1,14 @@
 # UPDATE
 
+## Compatibility Fixes (v0.0.4.post3 - v0.0.4.post4)
+
+**Important:** If upgrading to use atlas-rag with Python 3.11+, please see [COMPATIBILITY_FIXES.md](COMPATIBILITY_FIXES.md) for details on:
+- Removed `azure-cli` dependency causing Python 2 conflicts
+- Fixed `datasets` library LocalFileSystem compatibility issue
+- Added `faiss-cpu` dependency
+
+---
+
 ## Custom prompt
 In order to use custom prompt for KG construction, you need to define:
 1. custom prompt
