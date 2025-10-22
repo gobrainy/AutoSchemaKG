@@ -2,7 +2,7 @@
 
 ## ✅ Fixes Completed
 
-This AutoSchemaKG fork has been updated with **two critical compatibility fixes** to enable Python 3.11+ support.
+This AutoSchemaKG fork has been updated with **three critical compatibility fixes** to enable Python 3.11+ support.
 
 ---
 
@@ -38,6 +38,22 @@ This AutoSchemaKG fork has been updated with **two critical compatibility fixes*
 
 ### Version
 - **v0.0.4.post4**
+
+---
+
+## 🔧 Issue #3: DatasetDict Schema Mismatch (FIXED)
+
+### Problem
+- Code expects `dataset["train"]` but `load_dataset()` returned plain `Dataset`
+- Caused KeyError when trying to access train split
+
+### Solution
+- ✅ Import `DatasetDict` in addition to `Dataset`
+- ✅ Wrap Dataset in DatasetDict: `return DatasetDict({"train": dataset})`
+- ✅ Matches expected schema throughout codebase
+
+### Version
+- **v0.0.4.post5**
 
 ---
 
@@ -170,5 +186,5 @@ If you encounter issues:
 
 **Status**: ✅ Ready for Production  
 **Last Updated**: 2025-10-22  
-**Version**: 0.0.4.post4
+**Version**: 0.0.4.post5
 

@@ -267,7 +267,7 @@ class KnowledgeGraphExtractor:
     def load_dataset(self) -> Any:
         """Load and prepare dataset."""
         import gzip
-        from datasets import Dataset
+        from datasets import Dataset, DatasetDict
         
         data_path = Path(self.config.data_directory)
         all_files = os.listdir(data_path)
@@ -310,8 +310,9 @@ class KnowledgeGraphExtractor:
             else:
                 data.append(content)
         
-        # Create dataset from list of dicts
-        return Dataset.from_list(data)
+        # Create dataset from list of dicts and wrap in DatasetDict with "train" split
+        dataset = Dataset.from_list(data)
+        return DatasetDict({"train": dataset})
     
     def process_stage(self, instructions: Dict[str, str], result_schema: Dict) -> Tuple[List[str], List[List[Dict[str, Any]]]]:
         """Process first stage: entity-relation extraction."""
