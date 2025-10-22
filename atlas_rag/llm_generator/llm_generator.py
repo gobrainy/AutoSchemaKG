@@ -77,33 +77,111 @@ class LLMGenerator():
                            return_thinking=False,
                            reasoning_effort=None,
                            **kwargs):
+        print(f"\n{'='*60}")
+        print(f"[_api_inference START] response_format={response_format}")
+        print(f"[_api_inference START] validate_function={kwargs.get('validate_function', None)}")
+        print(f"{'='*60}\n")
         start_time = time.time()
-        response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=message,
-                max_tokens=max_new_tokens,
-                temperature=temperature,
-                frequency_penalty= NOT_GIVEN if frequency_penalty is None else frequency_penalty,
-                response_format = response_format if response_format is not None else {"type": "text"},
-                timeout = 120,
-                reasoning_effort= NOT_GIVEN if reasoning_effort is None else reasoning_effort,
-                extra_body = {
-                    "chat_template_kwargs": {"enable_thinking": False if reasoning_effort is None else True}
+        try:
+            # GPT-5 models use the Responses API, others use Chat Completions API
+            if self.model_name.startswith('gpt-5'):
+                print(f"[Using Responses API for GPT-5]")
+                
+                # Convert messages format for Responses API
+                # Chat Completions uses: [{"role": "user", "content": "text"}]
+                # Responses API uses: [{"role": "user", "content": "text"}] or just "text"
+                input_param = message
+                
+                # Build Responses API parameters
+                api_params = {
+                    "model": self.model_name,
+                    "input": input_param,
+                    "max_output_tokens": max_new_tokens,
+                    "timeout": 120,
                 }
                 
-            )
+                # Add reasoning effort if specified
+                if reasoning_effort:
+                    api_params["reasoning"] = {"effort": reasoning_effort}
+                else:
+                    # Default to "low" for faster responses
+                    api_params["reasoning"] = {"effort": "low"}
+                
+                # Responses API uses text format differently
+                if response_format and response_format.get("type") == "json_object":
+                    # For JSON output, we'd use structured outputs
+                    # For now, we'll add instructions in the input
+                    api_params["instructions"] = "Return your response as valid JSON."
+                
+                response = self.client.responses.create(**api_params)
+                print(f"[_api_inference] Responses API call SUCCESS")
+                
+                # Extract content from Responses API format
+                # Response has output_text property as a convenience
+                content = response.output_text if hasattr(response, 'output_text') else ""
+                
+            else:
+                # Use Chat Completions API for non-GPT-5 models
+                print(f"[Using Chat Completions API]")
+                
+                api_params = {
+                    "model": self.model_name,
+                    "messages": message,
+                    "response_format": response_format if response_format is not None else {"type": "text"},
+                    "timeout": 120,
+                }
+                
+                # o1 models use max_completion_tokens, older models use max_tokens
+                if self.model_name.startswith('o1'):
+                    api_params["max_completion_tokens"] = max_new_tokens
+                else:
+                    api_params["max_tokens"] = max_new_tokens
+                    api_params["temperature"] = temperature
+                    api_params["frequency_penalty"] = NOT_GIVEN if frequency_penalty is None else frequency_penalty
+                
+                # Only add reasoning_effort and extra_body for non-OpenAI models
+                if not self.model_name.startswith('gpt-') and not self.model_name.startswith('o1'):
+                    api_params["reasoning_effort"] = NOT_GIVEN if reasoning_effort is None else reasoning_effort
+                    api_params["extra_body"] = {
+                        "chat_template_kwargs": {"enable_thinking": False if reasoning_effort is None else True}
+                    }
+                
+                response = self.client.chat.completions.create(**api_params)
+                print(f"[_api_inference] Chat Completions API call SUCCESS")
+                
+                # Extract content from Chat Completions API format
+                content = response.choices[0].message.content
+                if content is None and hasattr(response.choices[0].message, 'reasoning_content'):
+                    content = response.choices[0].message.reasoning_content
+        
+            print(f"[API] Got response, length: {len(content) if content else 0}")
+            print(f"[API] Content preview: {content[:200] if content else 'NONE'}")
+        
+        except Exception as e:
+            print(f"[_api_inference] API call FAILED: {type(e).__name__}: {str(e)}")
+            raise
+        
         time_cost = time.time() - start_time
-        content = response.choices[0].message.content
-        if content is None and hasattr(response.choices[0].message, 'reasoning_content'):
-            content = response.choices[0].message.reasoning_content
+        
         validate_function = kwargs.get('validate_function', None)
-        content = validate_function(content, **kwargs) if validate_function else content
+        if validate_function:
+            print(f"[API] Calling validation...")
+            try:
+                content = validate_function(content, **kwargs)
+                print(f"[API] Validation SUCCESS")
+            except Exception as e:
+                print(f"[API] Validation FAILED: {type(e).__name__}: {str(e)[:200]}")
+                raise
+        else:
+            content = content
 
         if '</think>' in content and not return_thinking:
             content = content.split('</think>')[-1].strip()
         else:
-            if hasattr(response.choices[0].message, 'reasoning_content') and response.choices[0].message.reasoning_content is not None and return_thinking:
-                content = '<think>' + response.choices[0].message.reasoning_content + '</think>' + content
+            # Only check for reasoning_content in Chat Completions API responses
+            if not self.model_name.startswith('gpt-5'):
+                if hasattr(response, 'choices') and hasattr(response.choices[0].message, 'reasoning_content') and response.choices[0].message.reasoning_content is not None and return_thinking:
+                    content = '<think>' + response.choices[0].message.reasoning_content + '</think>' + content
         
 
         if return_text_only:
