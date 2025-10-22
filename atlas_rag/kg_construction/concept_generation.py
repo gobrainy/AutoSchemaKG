@@ -99,7 +99,7 @@ def batched_inference(model:LLMGenerator, inputs, record=False, **kwargs):
 
 def load_data_with_shard(input_file, shard_idx, num_shards):
 
-    with open(input_file, "r") as f:
+    with open(input_file, "r", encoding='utf-8') as f:
         csv_reader = list(csv.reader(f))
     
     # data = csv_reader  
@@ -168,7 +168,7 @@ def generate_concept(model: LLMGenerator,
 
     
     output_file = output_folder + f"/{output_file.rsplit('.', 1)[0]}_shard_{shard}.csv"
-    with open(output_file, "w", newline='') as file:
+    with open(output_file, "w", newline='', encoding='utf-8') as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(["node", "conceptualized_node", "node_type"])
 
@@ -197,10 +197,16 @@ def generate_concept(model: LLMGenerator,
                 # sample node from given node and replace context token.
                 if replace_context_token:
                     node_id = get_node_id(node)
-                    entity_predecessors = list(temp_kg.predecessors(node_id))
-                    entity_successors = list(temp_kg.successors(node_id))
-
                     context = ""
+                    
+                    # Check if node exists in graph before accessing
+                    if node_id not in temp_kg.nodes:
+                        # Skip this node if it doesn't exist in the graph
+                        entity_predecessors = []
+                        entity_successors = []
+                    else:
+                        entity_predecessors = list(temp_kg.predecessors(node_id))
+                        entity_successors = list(temp_kg.successors(node_id))
 
                     if len(entity_predecessors) > 0:
                         random_two_neighbors = random.sample(entity_predecessors, min(1, len(entity_predecessors)))
@@ -250,7 +256,7 @@ def generate_concept(model: LLMGenerator,
     conceptualized_entities = []
     conceptualized_relations = []
 
-    with open(output_file, "r") as file:
+    with open(output_file, "r", encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)
         for row in reader:

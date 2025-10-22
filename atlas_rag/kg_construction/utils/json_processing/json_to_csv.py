@@ -71,7 +71,7 @@ def custom_schema_json_2_csv(dataset, data_dir, output_dir, schema):
         # Process each file
         for file_dir in tqdm(file_dir_list):
             print("Processing file for file ids: ", file_dir)
-            with open(os.path.join(data_dir, file_dir), "r") as jsonfile:
+            with open(os.path.join(data_dir, file_dir), "r", encoding='utf-8') as jsonfile:
                 for line in jsonfile:
                     data = json.loads(line.strip())
                     original_text = data["original_text"]
@@ -265,7 +265,7 @@ def json2csv(dataset, data_dir, output_dir, schema, custom, test=False):
         # Process each file
         for file_dir in tqdm(file_dir_list):
             print("Processing file for file ids: ", file_dir)
-            with open(os.path.join(data_dir, file_dir), "r") as jsonfile:
+            with open(os.path.join(data_dir, file_dir), "r", encoding='utf-8') as jsonfile:
                 for line in jsonfile:
                     data = json.loads(line.strip())
                     original_text = data["original_text"]

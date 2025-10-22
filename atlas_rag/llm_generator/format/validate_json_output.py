@@ -45,13 +45,40 @@ def fix_triple_extraction_response(response: str, **kwargs) -> str:
     result_schema = kwargs.get("schema")
     assert "items" in result_schema, "Schema must define 'items' for triple_extraction."
     required_keys = result_schema['items'].get("required", [])
-    # Extract the JSON list from the response
-    # raise error if prompt_type is not provided
-    json_start_token = response.find("[")
-    if json_start_token == -1:
-        # add [ at the start
-        response = "[" + response.strip() + "]"
-    parsed_objects = json_repair.loads(response)
+    
+    # Debug logging
+    print(f"\n[VALIDATION] Response (first 300 chars): {response[:300]}")
+    
+    # Parse the response first
+    parsed = json_repair.loads(response)
+    print(f"[VALIDATION] Parsed type: {type(parsed)}")
+    
+    # Handle case where response is wrapped in an object (e.g., {"entities": [...]})
+    if isinstance(parsed, dict):
+        print(f"[VALIDATION] Dict keys: {list(parsed.keys())}")
+        # Try common wrapper keys
+        for key in ['triples', 'entities', 'relations', 'events', 'data', 'results', 'items', 'response', 'output']:
+            if key in parsed and isinstance(parsed[key], list):
+                parsed_objects = parsed[key]
+                print(f"[VALIDATION] Found {len(parsed_objects)} items in '{key}'")
+                break
+        else:
+            # If no known wrapper found, try to find any array value
+            for value in parsed.values():
+                if isinstance(value, list):
+                    parsed_objects = value
+                    print(f"[VALIDATION] Found {len(parsed_objects)} items in unnamed dict value")
+                    break
+            else:
+                parsed_objects = []
+                print("[VALIDATION] No array found in dict")
+    elif isinstance(parsed, list):
+        parsed_objects = parsed
+        print(f"[VALIDATION] Direct array with {len(parsed_objects)} items")
+    else:
+        parsed_objects = []
+        print(f"[VALIDATION] Unexpected type: {type(parsed)}")
+    
     if len(parsed_objects) == 0:
         return []
     # Define required keys for each prompt type

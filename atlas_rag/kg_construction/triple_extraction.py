@@ -350,7 +350,7 @@ class KnowledgeGraphExtractor:
         batch_counter = 0
         
         with torch.no_grad():
-            with open(output_file, "w") as output_stream:
+            with open(output_file, "w", encoding='utf-8') as output_stream:
                 for batch in data_loader:
                     batch_counter += 1
                     messages_dict, batch_ids, batch_texts, batch_metadata = batch

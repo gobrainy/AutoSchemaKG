@@ -42,7 +42,7 @@ def csvs_to_temp_graphml(triple_node_file, triple_edge_file, config:ProcessingCo
     entity_to_id = {}
 
     # Add triple nodes
-    with open(triple_node_file, 'r') as f:
+    with open(triple_node_file, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             node_id = row["name:ID"]
@@ -52,7 +52,7 @@ def csvs_to_temp_graphml(triple_node_file, triple_edge_file, config:ProcessingCo
             
 
     # Add triple edges
-    with open(triple_edge_file, 'r') as f:
+    with open(triple_edge_file, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             start_id = get_node_id(row[":START_ID"], entity_to_id)
@@ -127,7 +127,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
     entity_to_id = {}
 
     # Add triple nodes
-    with open(triple_node_file, 'r') as f:
+    with open(triple_node_file, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             node_id = row["name:ID"]
@@ -137,7 +137,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
                 g.add_node(mapped_id, id=sanitize_xml_string(node_id), type=row["type"])
 
     # Add text nodes
-    with open(text_node_file, 'r') as f:
+    with open(text_node_file, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             node_id = row["text_id:ID"]
@@ -147,7 +147,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
 
     # Add concept nodes
     if concept_node_file is not None:
-        with open(concept_node_file, 'r') as f:
+        with open(concept_node_file, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             for row in reader:
                 node_id = row["concept_id:ID"]
@@ -158,7 +158,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
     # Add file id for triple nodes and concept nodes when add the edges
     
     # Add triple edges
-    with open(triple_edge_file, 'r') as f:
+    with open(triple_edge_file, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             start_id = get_node_id(row[":START_ID"], entity_to_id)
@@ -185,7 +185,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
             
 
     # Add text edges
-    with open(text_edge_file, 'r') as f:
+    with open(text_edge_file, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             start_id = get_node_id(row[":START_ID"], entity_to_id)
@@ -201,7 +201,7 @@ def csvs_to_graphml(triple_node_file, text_node_file, triple_edge_file, text_edg
 
     # Add concept edges between triple nodes and concept nodes
     if concept_edge_file is not None:
-        with open(concept_edge_file, 'r') as f:
+        with open(concept_edge_file, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             for row in reader:
                 start_id = get_node_id(row[":START_ID"], entity_to_id)

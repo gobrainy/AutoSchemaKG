@@ -1,0 +1,2579 @@
+name:ID,type,concepts,synsets,:LABEL
+GraphMERT,entity,[],[],Node
+knowledge graphs,entity,[],[],Node
+encoder-only transformer,entity,[],[],Node
+masked language modeling,entity,[],[],Node
+masked node modeling,entity,[],[],Node
+high-quality domain-specific texts,entity,[],[],Node
+seed KG,entity,[],[],Node
+factual and valid domain-specific KG,entity,[],[],Node
+GraphMERT-extracted KG,entity,[],[],Node
+69.8% FActScore,entity,[],[],Node
+32B-parameter LLM baseline,entity,[],[],Node
+40.2% FActScore,entity,[],[],Node
+68.8% ValidityScore,entity,[],[],Node
+LLM-generated KG baseline,entity,[],[],Node
+43.0% ValidityScore,entity,[],[],Node
+"LLMs (e.g., Qwen3-32B)",entity,[],[],Node
+prompt sensitivity and hallucinations,entity,[],[],Node
+LLMs,entity,[],[],Node
+provenance for generated facts,entity,[],[],Node
+Knowledge graphs,entity,[],[],Node
+interpretability and provenance,entity,[],[],Node
+Seed KG,entity,[],[],Node
+ontological relation usage patterns,entity,[],[],Node
+GraphMERT framework,entity,[],[],Node
+small seed KG and ∼100M tokens,entity,[],[],Node
+GraphMERT (80M parameters),entity,[],[],Node
+large LLMs (billions of parameters),entity,[],[],Node
+Human experts,entity,[],[],Node
+edit and audit extracted KGs,entity,[],[],Node
+Neurosymbolic AI stack,entity,[],[],Node
+GraphMERT and its equivalent KG,entity,[],[],Node
+GraphMERT + KG,entity,[],[],Node
+"attributable, editable, and auditable AI",entity,[],[],Node
+Neurosymbolic AI synthesizes neural learning with symbolic reasoning,event,[],[],Node
+uniting the two paradigms combines flexibility with interpretability and sound reasoning,event,[],[],Node
+Most neurosymbolic AI frameworks fail to scale,event,[],[],Node
+implicit representations and approximate reasoning of purely neural approaches limit interpretability and trust,event,[],[],Node
+Automatically deriving reliable KGs from text corpora has remained an open problem,event,[],[],Node
+"existing approaches do not meet the requirements for factuality, validity, automation, scalability, domain generality, and global integration",event,[],[],Node
+GraphMERT distills high-quality KGs from unstructured text and internal representations,event,[],[],Node
+GraphMERT and its equivalent KG form a modular neurosymbolic stack,event,[],[],Node
+GraphMERT + KG achieves state-of-the-art benchmark accuracy and superior symbolic representations,event,[],[],Node
+GraphMERT is the first efficient and scalable neurosymbolic model to do so relative to baselines,event,[],[],Node
+Off-the-shelf LLMs generate domain-specific KGs that fall short on reliability,event,[],[],Node
+"LLMs suffer from prompt sensitivity, shallow domain expertise, and hallucinated relations",event,[],[],Node
+An 80M-parameter GraphMERT yields a KG with a 69.8% FActScore on PubMed diabetes text,event,[],[],Node
+a 32B-parameter baseline LLM yields a KG with only a 40.2% FActScore,event,[],[],Node
+The GraphMERT-extracted KG achieves a higher ValidityScore than the LLM baseline,event,[],[],Node
+GraphMERT preserves ontology alignment and relation usage patterns from the seed KG,event,[],[],Node
+Human experts can edit and audit the extracted KGs,event,[],[],Node
+the reliability of the extracted KGs can be further increased,event,[],[],Node
+LLMs are oblivious to their training sources,event,[],[],Node
+prompt-based KG distillation from an LLM's weights does not provide source attribution,event,[],[],Node
+Fine-tuned models demonstrate higher accuracy and fewer hallucinations,event,[],[],Node
+fine-tuning adapts models to the domains they are trained on,event,[],[],Node
+Fine-tuning requires labeled training data,event,[],[],Node
+fine-tuning negatively impacts generalization and reduces adaptability to other knowledge domains,event,[],[],Node
+KG extraction from off-the-shelf LLMs is confined to a single context window,event,[],[],Node
+extracted triples are often local and may reflect spurious correlations rather than global facts,event,[],[],Node
+Extending context length degrades output quality,event,[],[],Node
+hallucinations become more frequent and the model's ability to harness lengthy input degrades,event,[],[],Node
+High-quality data are scarce,event,[],[],Node
+building a reliable domain-specific KG from limited high-quality sources becomes the central question,event,[],[],Node
+GraphMERT jointly learns semantic representations from a seed KG and syntactic representations from text,event,[],[],Node
+it minimizes masked language modeling and masked node modeling losses,event,[],[],Node
+Researchers have pursued neurosymbolic artificial intelligence (AI) applications for nearly three decades because symbolic components provide abstraction while neural components provide generalization.,event,[],[],Node
+Researchers,entity,[],[],Node
+neurosymbolic artificial intelligence (AI) applications,entity,[],[],Node
+symbolic components,entity,[],[],Node
+neural components,entity,[],[],Node
+A marriage of the two components can lead to rapid advancements in AI.,event,[],[],Node
+AI,entity,[],[],Node
+Most neurosymbolic AI frameworks fail to scale.,event,[],[],Node
+neurosymbolic AI frameworks,entity,[],[],Node
+The implicit representations and approximate reasoning of purely neural approaches limit interpretability and trust.,event,[],[],Node
+implicit representations,entity,[],[],Node
+approximate reasoning,entity,[],[],Node
+purely neural approaches,entity,[],[],Node
+interpretability,entity,[],[],Node
+trust,entity,[],[],Node
+"Knowledge graphs (KGs), a gold-standard representation of explicit semantic knowledge, can address the symbolic side.",event,[],[],Node
+Knowledge graphs (KGs),entity,[],[],Node
+explicit semantic knowledge,entity,[],[],Node
+symbolic side,entity,[],[],Node
+Automatically deriving reliable KGs from text corpora has remained an open problem.,event,[],[],Node
+automatic KG derivation,entity,[],[],Node
+reliable KGs,entity,[],[],Node
+text corpora,entity,[],[],Node
+"We address the above challenges by introducing GraphMERT, a tiny graphical encoder-only model that distills high-quality KGs from unstructured text corpora and its own internal representations.",event,[],[],Node
+We,entity,[],[],Node
+graphical encoder-only model,entity,[],[],Node
+high-quality KGs,entity,[],[],Node
+unstructured text corpora,entity,[],[],Node
+internal representations,entity,[],[],Node
+"GraphMERT and its equivalent KG form a modular neurosymbolic stack: neural learning of abstractions, symbolic KGs for verifiable reasoning.",event,[],[],Node
+equivalent KG,entity,[],[],Node
+modular neurosymbolic stack,entity,[],[],Node
+neural learning,entity,[],[],Node
+symbolic KGs,entity,[],[],Node
+GraphMERT + KG is the first efficient and scalable neurosymbolic model to achieve state-of-the-art benchmark accuracy along with superior symbolic representations relative to baselines.,event,[],[],Node
+neurosymbolic model,entity,[],[],Node
+benchmark accuracy,entity,[],[],Node
+symbolic representations,entity,[],[],Node
+baselines,entity,[],[],Node
+We target reliable domain-specific KGs that are both factual (with provenance) and valid (ontology-consistent relations with domain-appropriate semantics).,event,[],[],Node
+reliable domain-specific KGs,entity,[],[],Node
+factual (with provenance),entity,[],[],Node
+valid (ontology-consistent relations),entity,[],[],Node
+"When an off-the-shelf large language model (LLM), e.g., Qwen3-32B, generates domain-specific KGs, it falls short on the reliability front due to prompt sensitivity, shallow domain expertise, and hallucinated relations.",event,[],[],Node
+off-the-shelf large language model (LLM),entity,[],[],Node
+Qwen3-32B,entity,[],[],Node
+domain-specific KGs,entity,[],[],Node
+prompt sensitivity,entity,[],[],Node
+shallow domain expertise,entity,[],[],Node
+hallucinated relations,entity,[],[],Node
+"Practitioners should avoid employing LLM-generated KGs in high-stakes domains, e.g., medicine, law, business, education.",event,[],[],Node
+Practitioners,entity,[],[],Node
+LLM-generated KGs,entity,[],[],Node
+high-stakes domains,entity,[],[],Node
+medicine,entity,[],[],Node
+law,entity,[],[],Node
+business,entity,[],[],Node
+education,entity,[],[],Node
+"On text obtained from PubMed papers related to diabetes, our KG extraction pipeline with a small 80M-parameter GraphMERT yields a KG with a 69.8% FActScore.",event,[],[],Node
+text from PubMed papers related to diabetes,entity,[],[],Node
+KG extraction pipeline,entity,[],[],Node
+80M-parameter GraphMERT,entity,[],[],Node
+KG,entity,[],[],Node
+A 32B-parameter baseline LLM yields a KG that achieves only a 40.2% FActScore.,event,[],[],Node
+32B-parameter baseline LLM,entity,[],[],Node
+The GraphMERT-extracted KG also achieves a significantly higher ValidityScore of 68.8% compared to an LLM-generated baseline (43.0%).,event,[],[],Node
+ValidityScore 68.8%,entity,[],[],Node
+LLM-generated baseline,entity,[],[],Node
+43.0%,entity,[],[],Node
+"Human experts can edit and audit the extracted KGs, further increasing their reliability.",event,[],[],Node
+extracted KGs,entity,[],[],Node
+edit,entity,[],[],Node
+audit,entity,[],[],Node
+reliability,entity,[],[],Node
+This is nearly impossible with purely-neural representations.,event,[],[],Node
+purely-neural representations,entity,[],[],Node
+editing and auditing capability,entity,[],[],Node
+"GraphMERT enables efficient, scalable, transparent, attributable, accountable, editable, auditable, and continually improvable state-of-the-art neurosymbolic AI.",event,[],[],Node
+neurosymbolic AI,entity,[],[],Node
+efficient,entity,[],[],Node
+scalable,entity,[],[],Node
+transparent,entity,[],[],Node
+attributable,entity,[],[],Node
+accountable,entity,[],[],Node
+editable,entity,[],[],Node
+auditable,entity,[],[],Node
+continually improvable,entity,[],[],Node
+Artificial intelligence (AI) has long oscillated between two dominant paradigms: symbolic reasoning and neural learning.,event,[],[],Node
+Artificial intelligence (AI),entity,[],[],Node
+symbolic reasoning,entity,[],[],Node
+"Symbolic systems excel at explicit (rule-based) inference, providing interpretability and strong exact reasoning, but they struggle with noisy or ambiguous data.",event,[],[],Node
+Symbolic systems,entity,[],[],Node
+explicit inference,entity,[],[],Node
+exact reasoning,entity,[],[],Node
+noisy or ambiguous data,entity,[],[],Node
+"Neural approaches thrive on large-scale and general-purpose pattern recognition, often outperforming hand-coded explicit representations.",event,[],[],Node
+Neural approaches,entity,[],[],Node
+large-scale pattern recognition,entity,[],[],Node
+hand-coded explicit representations,entity,[],[],Node
+"Neural networks operate as black boxes, offering little transparency in their decision-making and producing approximate, ambiguous, and difficult-to-control representations.",event,[],[],Node
+Neural networks,entity,[],[],Node
+black boxes,entity,[],[],Node
+transparency,entity,[],[],Node
+approximate representations,entity,[],[],Node
+Neurosymbolic AI is a synthesis that aims to combine the flexibility of neural models with the rigor and interpretability of symbolic systems.,event,[],[],Node
+Neurosymbolic AI,entity,[],[],Node
+neural models,entity,[],[],Node
+symbolic systems,entity,[],[],Node
+flexibility,entity,[],[],Node
+rigor,entity,[],[],Node
+"Large language models (LLMs) have generated enormous excitement, but their reasoning is probabilistic, often unable to perform causal inference, opaque to humans, and prone to hallucinations.",event,[],[],Node
+Large language models (LLMs),entity,[],[],Node
+probabilistic reasoning,entity,[],[],Node
+causal inference,entity,[],[],Node
+opacity,entity,[],[],Node
+hallucinations,entity,[],[],Node
+LLMs trained on general text corpora may fail to adapt to specialized domains or incorporate new knowledge without expensive retraining.,event,[],[],Node
+general text corpora,entity,[],[],Node
+specialized domains,entity,[],[],Node
+new knowledge,entity,[],[],Node
+expensive retraining,entity,[],[],Node
+"These limitations highlight the need for external, explicit sources of factual grounding in high-stakes use cases.",event,[],[],Node
+limitations of LLMs,entity,[],[],Node
+external explicit sources,entity,[],[],Node
+factual grounding,entity,[],[],Node
+high-stakes use cases,entity,[],[],Node
+"Unifying knowledge graphs (KGs) with LLMs could help overcome some of these limitations because KGs encode knowledge in structured, verifiable head-relation-tail triples.",event,[],[],Node
+structured head-relation-tail triples,entity,[],[],Node
+verifiable knowledge,entity,[],[],Node
+"KGs offer interpretability, auditability, and domain-specific depth that LLMs lack and can guide LLM inference while LLMs provide flexible reasoning and a natural language interface.",event,[],[],Node
+KGs,entity,[],[],Node
+auditability,entity,[],[],Node
+domain-specific depth,entity,[],[],Node
+flexible reasoning,entity,[],[],Node
+natural language interface,entity,[],[],Node
+"Constructing a KG from scratch in a new domain is a notoriously arduous task involving cleaning, preprocessing, multi-step knowledge acquisition, and post-processing.",event,[],[],Node
+Constructing a KG,entity,[],[],Node
+new domain,entity,[],[],Node
+cleaning,entity,[],[],Node
+preprocessing,entity,[],[],Node
+multi-step knowledge acquisition,entity,[],[],Node
+post,entity,[],[],Node
+GraphMERT pipeline,entity,[],[],Node
+domain-agnostic principles,entity,[],[],Node
+global concepts across the dataset,entity,[],[],Node
+Knowledge Graph,entity,[],[],Node
+Google,entity,[],[],Node
+"directed graph (V, E)",entity,[],[],Node
+KG node,entity,[],[],Node
+real-world entities,entity,[],[],Node
+KG directed edge,entity,[],[],Node
+relationships between entities,entity,[],[],Node
+KG triple,entity,[],[],Node
+head relation tail,entity,[],[],Node
+Metformin,entity,[],[],Node
+Type 2 Diabetes,entity,[],[],Node
+reasoning challenge,entity,[],[],Node
+Symbolic methods,entity,[],[],Node
+explicit rules over discrete concepts,entity,[],[],Node
+interpretability and verifiability,entity,[],[],Node
+scalability and brittleness issues,entity,[],[],Node
+multidimensional embeddings and gradient-based learning,entity,[],[],Node
+scalability and robustness to noise,entity,[],[],Node
+transparency and verifiable interpretability,entity,[],[],Node
+Neurosymbolic integration,entity,[],[],Node
+neural networks and symbolic layers,entity,[],[],Node
+Knowledge Graphs,entity,[],[],Node
+symbolic memory and rule repositories,entity,[],[],Node
+KG distilled from a neural network,entity,[],[],Node
+transparent view of learned representations,entity,[],[],Node
+explicit reasoning and knowledge transfer,entity,[],[],Node
+auditable and editable persistent knowledge bases,entity,[],[],Node
+implicitly in parameters,entity,[],[],Node
+Updating LLMs,entity,[],[],Node
+resource-intensive fine-tuning or RAG,entity,[],[],Node
+GraphRAG,entity,[],[],Node
+vector RAG and HybridRAG on arXiv datasets,entity,[],[],Node
+LLM context and evidence for retrieval,entity,[],[],Node
+scalability and factuality of retrieval,entity,[],[],Node
+policy-guided walks in reinforcement learning,entity,[],[],Node
+KG extraction from models,entity,[],[],Node
+interpretability and auditing of neural decisions,entity,[],[],Node
+discoveries via linking unconnected concepts,entity,[],[],Node
+Domain-specific KG,entity,[],[],Node
+domain-specific superintelligence,entity,[],[],Node
+Dedhia et al. (2025),entity,[],[],Node
+multi-hop KG paths boost small language model reasoning,entity,[],[],Node
+High-quality domain-specific KG,entity,[],[],Node
+deeper semantic representations and fine-tuning benefits,entity,[],[],Node
+Conventional text datasets,entity,[],[],Node
+mostly one-hop knowledge,entity,[],[],Node
+Scalable automatic KG extraction,entity,[],[],Node
+path to scalable superintelligence,entity,[],[],Node
+The rest of the article is organized as follows,event,[],[],Node
+"In Sec. 2, we review different KG extraction techniques and motivate the need for a reliable KG",event,[],[],Node
+"In Sec. 3, we provide a brief motivational example",event,[],[],Node
+"In Sec. 4, we give a detailed overview of our proposed GraphMERT framework and its architecture",event,[],[],Node
+The symbolic approach governed the AI field till the 90s,event,[],[],Node
+Its drawbacks became evident in the 90s,event,[],[],Node
+"Symbolic systems struggle with ambiguity, contextualization, and the fluidity of real-world knowledge",event,[],[],Node
+Neural approaches rely on multidimensional embeddings and approximate knowledge grounding,event,[],[],Node
+They are robust against outliers and inaccuracies in data and scale learning and inference well,event,[],[],Node
+Due to complementary advantages and limitations of symbolic and neural methods,event,[],[],Node
+Researchers are increasingly focused on neurosymbolic integration,event,[],[],Node
+KGs can be distilled directly from a neural network,event,[],[],Node
+"They provide a transparent view of the learned representations of the model, fostering trust and enabling cross-domain transfer",event,[],[],Node
+KGs provide an anchoring structure for LLMs to maintain context and make evidence clear,event,[],[],Node
+This improves scalability and lowers generation costs,event,[],[],Node
+Replacing standard RAG with GraphRAG,event,[],[],Node
+Recent work shows GraphRAG outperforms vector RAG and HybridRAG on arXiv datasets with superior factual accuracy and reasoning,event,[],[],Node
+By decoupling learning from reasoning,event,[],[],Node
+"KGs address interpretability, verifiability, and factuality gaps in modern AI systems",event,[],[],Node
+Auditable and editable KGs can serve as a persistent knowledge base in sensitive domains,event,[],[],Node
+"Facts can be inspected, verified, and updated directly",event,[],[],Node
+Removing knowledge from LLMs requires complex interventions and sophisticated strategies,event,[],[],Node
+"This risks catastrophic unlearning and raises concerns about access to harmful content, user privacy, and copyright violations",event,[],[],Node
+It relies on domain-agnostic principles.,event,[],[],Node
+We do not hard-code any domain-specific parameters to the proposed GraphMERT pipeline.,event,[],[],Node
+we,entity,[],[],Node
+domain-specific parameters,entity,[],[],Node
+It can connect global concepts across the whole dataset throughout training,event,[],[],Node
+global concepts,entity,[],[],Node
+whole dataset,entity,[],[],Node
+training,entity,[],[],Node
+The rest of the article is organized as follows.,event,[],[],Node
+article,entity,[],[],Node
+rest of the article,entity,[],[],Node
+"In Sec. 2, we review different KG extraction techniques and motivate the need for a reliable KG.",event,[],[],Node
+Sec. 2,entity,[],[],Node
+KG extraction techniques,entity,[],[],Node
+reliable KG,entity,[],[],Node
+"In Sec. 3, we provide a brief motivational example.",event,[],[],Node
+Sec. 3,entity,[],[],Node
+motivational example,entity,[],[],Node
+"In Sec. 4, we give a detailed overview of our proposed GraphMERT framework and its architecture.",event,[],[],Node
+Sec. 4,entity,[],[],Node
+architecture,entity,[],[],Node
+"In Sec. 5, we describe the experimental setup.",event,[],[],Node
+Sec. 5,entity,[],[],Node
+experimental setup,entity,[],[],Node
+"In Sec. 6, we provide experimental results.",event,[],[],Node
+Sec. 6,entity,[],[],Node
+experimental results,entity,[],[],Node
+"In Sec. 7, we discuss the limitations of our methodology and discuss future work.",event,[],[],Node
+Sec. 7,entity,[],[],Node
+limitations of our methodology,entity,[],[],Node
+future work,entity,[],[],Node
+We conclude in Sec. 8.,event,[],[],Node
+Sec. 8,entity,[],[],Node
+article conclusion,entity,[],[],Node
+"In this section, we review prior research that is relevant to our work, including applications of neurosymbolic AI and KGs.",event,[],[],Node
+prior research,entity,[],[],Node
+this section,entity,[],[],Node
+"We then examine existing KG extraction methods, their limitations, and how our framework addresses these gaps.",event,[],[],Node
+existing KG extraction methods,entity,[],[],Node
+their limitations,entity,[],[],Node
+our framework,entity,[],[],Node
+"Finally, we provide the technical background on graph transformer architectures that is necessary to understand the remainder of this work.",event,[],[],Node
+technical background,entity,[],[],Node
+graph transformer architectures,entity,[],[],Node
+remainder of this work,entity,[],[],Node
+The term 'Knowledge Graph' was coined by Google in a blog in 2012.,event,[],[],Node
+blog,entity,[],[],Node
+2012,entity,[],[],Node
+Google anticipated a great potential of graph representation in web search for discerning semantic connections in vast web data to respond to user queries.,event,[],[],Node
+graph representation,entity,[],[],Node
+web search,entity,[],[],Node
+semantic connections,entity,[],[],Node
+vast web data,entity,[],[],Node
+user queries,entity,[],[],Node
+"Since then, KGs have sparked a great deal of research on knowledge-aware applications.",event,[],[],Node
+research,entity,[],[],Node
+knowledge-aware applications,entity,[],[],Node
+"A KG G = (V, E) can be viewed as a directed graph where nodes V represent real-world entities and directed edges E represent relationships between them.",event,[],[],Node
+G,entity,[],[],Node
+V,entity,[],[],Node
+E,entity,[],[],Node
+nodes V,entity,[],[],Node
+directed edges E,entity,[],[],Node
+relationships,entity,[],[],Node
+"Each directed edge e = (u, v) ∈ E connects two nodes u, v ∈ V and encodes a relationship r between the corresponding entities.",event,[],[],Node
+directed edge e,entity,[],[],Node
+u,entity,[],[],Node
+v,entity,[],[],Node
+relationship r,entity,[],[],Node
+corresponding entities,entity,[],[],Node
+"Semantically, a KG can be thought of as a set of triples G = 〈h, r, t〉 = 〈head, relation, tail〉.",event,[],[],Node
+triples,entity,[],[],Node
+h,entity,[],[],Node
+r,entity,[],[],Node
+t,entity,[],[],Node
+head,entity,[],[],Node
+relation,entity,[],[],Node
+tail,entity,[],[],Node
+"For example, 〈Metformin, TREATS, Type 2 Diabetes〉 is one of the triples in the toy KG.",event,[],[],Node
+TREATS,entity,[],[],Node
+toy KG,entity,[],[],Node
+Reasoning is the defining challenge in neurosymbolic AI.,event,[],[],Node
+Reasoning,entity,[],[],Node
+Researchers have long struggled to combine the efficiency of neural learning with the rigor and interpretability of symbolic inference.,event,[],[],Node
+symbolic inference,entity,[],[],Node
+efficiency,entity,[],[],Node
+"Traditional AI research overwhelmingly associates reasoning with purely symbolic systems, such as expert systems or logic-based AI.",event,[],[],Node
+Traditional AI research,entity,[],[],Node
+reasoning,entity,[],[],Node
+expert systems,entity,[],[],Node
+logic-based AI,entity,[],[],Node
+"For decades, this paradigm shaped AI practice under the premise that human intelligence could be reduced to formal logic operating on symbols.",event,[],[],Node
+this paradigm,entity,[],[],Node
+AI practice,entity,[],[],Node
+human intelligence,entity,[],[],Node
+formal logic,entity,[],[],Node
+symbols,entity,[],[],Node
+"Symbolic methods offer clarity and structure by explicitly encoding rules over discrete concepts and are reliable, given suitable abstractions.",event,[],[],Node
+clarity,entity,[],[],Node
+structure,entity,[],[],Node
+rules,entity,[],[],Node
+discrete concepts,entity,[],[],Node
+suitable abstractions,entity,[],[],Node
+"The symbolic approach governed the AI field till the 90s, when its drawbacks became evident.",event,[],[],Node
+symbolic approach,entity,[],[],Node
+AI field,entity,[],[],Node
+90s,entity,[],[],Node
+drawbacks,entity,[],[],Node
+"Symbolic systems struggle with ambiguity, contextualization, and the fluidity of real-world knowledge.",event,[],[],Node
+ambiguity,entity,[],[],Node
+contextualization,entity,[],[],Node
+fluidity of real-world knowledge,entity,[],[],Node
+Computational complexity limits scalability of systems that are already prone to brittleness.,event,[],[],Node
+Computational complexity,entity,[],[],Node
+scalability,entity,[],[],Node
+systems,entity,[],[],Node
+brittleness,entity,[],[],Node
+Complete symbolic grounding of a knowledge base leads to a worst-case combinatorial explosion.,event,[],[],Node
+Complete symbolic grounding,entity,[],[],Node
+knowledge base,entity,[],[],Node
+worst-case combinatorial explosion,entity,[],[],Node
+Neural approaches rely on multidimensional embeddings and approximate knowledge grounding through gradient-based learning over a continuous parameter space.,event,[],[],Node
+multidimensional embeddings,entity,[],[],Node
+gradient-based learning,entity,[],[],Node
+continuous parameter space,entity,[],[],Node
+"They are robust against outliers and inaccuracies in data, and scale learning and inference well.",event,[],[],Node
+outliers,entity,[],[],Node
+inaccuracies in data,entity,[],[],Node
+learning,entity,[],[],Node
+inference,entity,[],[],Node
+Modern deep learning excels in domains such as image classification and machine translation.,event,[],[],Node
+Modern deep learning,entity,[],[],Node
+image classification,entity,[],[],Node
+machine translation,entity,[],[],Node
+Neural systems are efficient learners but forfeit transparency.,event,[],[],Node
+Neural systems,entity,[],[],Node
+Their decision pathways remain opaque and lack the verifiable interpretability of symbolic inference.,event,[],[],Node
+decision pathways,entity,[],[],Node
+opaque,entity,[],[],Node
+verifiable interpretability,entity,[],[],Node
+"They tend to memorize, thus undermining reliable generalization beyond observed facts, especially in out-of-distribution domains.",event,[],[],Node
+memorization,entity,[],[],Node
+reliable generalization,entity,[],[],Node
+observed facts,entity,[],[],Node
+out-of-distribution domains,entity,[],[],Node
+Probabilistic and approximate inference accommodates ambiguities but yields imprecise logical inference.,event,[],[],Node
+probabilistic inference,entity,[],[],Node
+approximate inference,entity,[],[],Node
+ambiguities,entity,[],[],Node
+imprecise logical inference,entity,[],[],Node
+KG generation,entity,[],[],Node
+KG extraction,entity,[],[],Node
+LLM,entity,[],[],Node
+triples conditioned on input texts,entity,[],[],Node
+model weights,entity,[],[],Node
+Rule-based information extraction systems,entity,[],[],Node
+heavy feature engineering and domain expertise,entity,[],[],Node
+Modern pipelines,entity,[],[],Node
+"named entity recognition, coreference resolution, and relation extraction",entity,[],[],Node
+Conditional random fields,entity,[],[],Node
+text preprocessing heuristics,entity,[],[],Node
+LSTM and CNN,entity,[],[],Node
+locality bias,entity,[],[],Node
+Errors,entity,[],[],Node
+the pipeline,entity,[],[],Node
+Embedding-based approach,entity,[],[],Node
+Embeddings,entity,[],[],Node
+triple completion and link prediction,entity,[],[],Node
+KG embedding models,entity,[],[],Node
+long multi-hop chains and handle n-ary/qualified relations,entity,[],[],Node
+Embedding methods,entity,[],[],Node
+"a largely closed-world, static graph",entity,[],[],Node
+Cold-start entities and evolving KGs,entity,[],[],Node
+expensive retraining or ad-hoc heuristics,entity,[],[],Node
+Largest publicly available KGs,entity,[],[],Node
+Wikidata and PubGraph,entity,[],[],Node
+unevenly across relation types,entity,[],[],Node
+LLM-based KG generation,entity,[],[],Node
+prompt brittleness and task-framing sensitivity,entity,[],[],Node
+Retrieval augmentation,entity,[],[],Node
+inconsistency and knowledge-cutoff issues,entity,[],[],Node
+conflicts between retrieved evidence and LLM parametric knowledge,entity,[],[],Node
+nonsensical or unfaithful outputs,entity,[],[],Node
+Hallucinations,entity,[],[],Node
+model size or training data scale,entity,[],[],Node
+inverse inference (reversal curse),entity,[],[],Node
+Factuality errors,entity,[],[],Node
+High-stakes domains,entity,[],[],Node
+"verification, interpretability, and explainability",entity,[],[],Node
+State-of-the-art LLM capabilities,entity,[],[],Node
+"model size, dataset scale, and compute are large",entity,[],[],Node
+Flawed data sources with misinformation and biases,entity,[],[],Node
+Domain adaptation with fine-tuning,entity,[],[],Node
+factuality and coherence but risks catastrophic forgetting,entity,[],[],Node
+Continued pretraining,entity,[],[],Node
+more smoothly to a target domain but requires substantial data,entity,[],[],Node
+Research efforts,entity,[],[],Node
+maximizing LLM performance with less data (quality-quantity trade-off),entity,[],[],Node
+knowledge graphs for global sense-making,entity,[],[],Node
+GraphRAG indexing stage,entity,[],[],Node
+an entity-level KG and partition it into nested communities,entity,[],[],Node
+GraphRAG querying stage,entity,[],[],Node
+a subgraph based on community summaries and the query,entity,[],[],Node
+GraphRAG hierarchical design,entity,[],[],Node
+vector-based RAG,entity,[],[],Node
+GraphRAG output accuracy,entity,[],[],Node
+"coverage, validity, and factuality of the KG",entity,[],[],Node
+Early rule-based information extraction systems demanded heavy feature engineering and domain expertise,event,[],[],Node
+"Modern pipelines sequentially chain machine learning components such as named entity recognition, coreference resolution, and relation extraction",event,[],[],Node
+These systems require sophisticated text preprocessing heuristics,event,[],[],Node
+Errors propagate over the pipeline,event,[],[],Node
+"Overall, these methods are very labor-intensive, not fully automatic, and hard to scale",event,[],[],Node
+An embedding-based approach seeks to train ML methods on KGs to capture semantic and structural patterns,event,[],[],Node
+Embeddings enable the model to predict missing links and estimate the likelihood of new relations,event,[],[],Node
+Most KG embedding models operate on local triple patterns,event,[],[],Node
+"They struggle to compose long multi-hop chains, handle negation, or respect ontological constraints",event,[],[],Node
+"Embedding-based approaches assume a largely closed-world, static graph",event,[],[],Node
+Cold-start entities and evolving KGs typically require expensive retraining or ad-hoc heuristics,event,[],[],Node
+"With the tremendous success of LLMs on many NLP tasks, modern research on KG extraction is skewed towards extracting relational knowledge from LLM weights using prompts",event,[],[],Node
+"The widespread adoption of LLMs can be attributed to their versatility across tasks, adaptability to diverse domains, and ease of use",event,[],[],Node
+LLMs are brittle with respect to prompts,event,[],[],Node
+KG extraction with prompts is biased towards prompt structure and sensitive to task framing,event,[],[],Node
+Retrieval augmentation can mitigate inconsistency and knowledge-cutoff issues,event,[],[],Node
+It introduces new failure modes such as conflicts between retrieved evidence and LLM parametric knowledge and imperfections in retrieval and ranking,event,[],[],Node
+LLMs hallucinate outputs that are nonsensical or unfaithful to the provided source content,event,[],[],Node
+Hallucinations persist regardless of model size or training data scale,event,[],[],Node
+Verifying or synthesizing high-quality data at the LLM scale is infeasible,event,[],[],Node
+There is a fundamental size-quality trade-off in acquiring reliable training data,event,[],[],Node
+In the GraphRAG indexing stage an LLM builds an entity-level KG and then partitions the graph into a hierarchy of nested communities,event,[],[],Node
+In the querying stage GraphRAG extracts a subgraph based on the pre-generated community summaries and the query and uses that subgraph as context to generate answers,event,[],[],Node
+A poorly constructed KG has incomplete entities or incorrect relationships,event,[],[],Node
+"GraphRAG produces fragmented, inaccurate, or nonsensical responses",event,[],[],Node
+We differentiate KG extraction from KG generation to clarify their advantages limitations and application scopes,event,[],[],Node
+We classify methods where an LLM plays a pivotal role in the KG construction pipeline under the category of KG generation,event,[],[],Node
+KG construction pipeline,entity,[],[],Node
+We refer to all other approaches as KG extraction,event,[],[],Node
+other approaches,entity,[],[],Node
+Early rule-based information extraction systems,entity,[],[],Node
+feature engineering,entity,[],[],Node
+domain expertise,entity,[],[],Node
+Modern pipelines sequentially chain machine learning components often relying on structured or semi-structured data,event,[],[],Node
+machine learning components,entity,[],[],Node
+structured data,entity,[],[],Node
+semi-structured data,entity,[],[],Node
+These systems,entity,[],[],Node
+Long short-term memories and convolutional neural networks introduce locality bias,event,[],[],Node
+Long short-term memories,entity,[],[],Node
+convolutional neural networks,entity,[],[],Node
+pipeline,entity,[],[],Node
+An embedding-based approach seeks to train ML methods on KGs to capture semantic and structural patterns into embeddings,event,[],[],Node
+embedding-based approach,entity,[],[],Node
+ML methods,entity,[],[],Node
+embeddings,entity,[],[],Node
+model,entity,[],[],Node
+missing links,entity,[],[],Node
+new relations,entity,[],[],Node
+This approach suffers from selection bias lack of scalability brittleness to KG errors and limited external world knowledge,event,[],[],Node
+This approach,entity,[],[],Node
+selection bias,entity,[],[],Node
+KG errors,entity,[],[],Node
+external/world knowledge,entity,[],[],Node
+Most KG embedding models operate on local triple patterns and struggle to compose long multi-hop chains handle negation or respect ontological constraints,event,[],[],Node
+local triple patterns,entity,[],[],Node
+multi-hop chains,entity,[],[],Node
+negation,entity,[],[],Node
+ontological constraints,entity,[],[],Node
+They also assume a largely closed-world static graph which requires expensive retraining for cold-start entities and evolving KGs,event,[],[],Node
+They,entity,[],[],Node
+closed-world static graph,entity,[],[],Node
+cold-start entities,entity,[],[],Node
+evolving KGs,entity,[],[],Node
+Embedding-based approaches face limitations due to sparsity limited information and vocabulary scale mismatches,event,[],[],Node
+Embedding-based approaches,entity,[],[],Node
+sparsity,entity,[],[],Node
+limited information,entity,[],[],Node
+vocabulary,entity,[],[],Node
+scale mismatches,entity,[],[],Node
+Embedding methods are useful in task-specific applications but fall short in extending KGs on their own,event,[],[],Node
+task-specific applications,entity,[],[],Node
+Embedding methods do not generalize well across different KGs,event,[],[],Node
+different KGs,entity,[],[],Node
+Cross-KG use requires costly alignment steps and may still suffer from out-of-vocabulary entities relations and schema drift,event,[],[],Node
+Cross-KG use,entity,[],[],Node
+alignment steps,entity,[],[],Node
+out-of-vocabulary entities,entity,[],[],Node
+out-of-vocabulary relations,entity,[],[],Node
+schema drift,entity,[],[],Node
+Modern research on KG extraction is skewed towards extracting relational knowledge from LLM weights using prompts,event,[],[],Node
+Modern research on KG extraction,entity,[],[],Node
+LLM weights,entity,[],[],Node
+prompts,entity,[],[],Node
+The widespread adoption of LLMs can be attributed to their versatility adaptability and ease of use,event,[],[],Node
+versatility,entity,[],[],Node
+adaptability,entity,[],[],Node
+ease of use,entity,[],[],Node
+LLMs capture relational knowledge unevenly being more accurate for some types and less accurate for others,event,[],[],Node
+relational knowledge,entity,[],[],Node
+some types,entity,[],[],Node
+other types,entity,[],[],Node
+LLMs are brittle with respect to prompts and instruction fine-tuning does not fully address this problem,event,[],[],Node
+instruction fine-tuning,entity,[],[],Node
+KG extraction with prompts is biased towards prompt structure,event,[],[],Node
+KG extraction with prompts,entity,[],[],Node
+prompt structure,entity,[],[],Node
+LLMs are sensitive to task-framing and answer consistency can shift with small syntactic changes and slight prompt variations,event,[],[],Node
+task-framing,entity,[],[],Node
+answer consistency,entity,[],[],Node
+syntactic changes,entity,[],[],Node
+prompt variations,entity,[],[],Node
+Retrieval augmentation can mitigate inconsistency and knowledge-cutoff issues but introduces conflicts between retrieved evidence and LLM's parametric knowledge,event,[],[],Node
+inconsistency,entity,[],[],Node
+knowledge-cutoff issues,entity,[],[],Node
+retrieved evidence,entity,[],[],Node
+LLM's parametric knowledge,entity,[],[],Node
+LLMs hallucinate producing nonsensical or unfaithful outputs regardless of model size or training data scale,event,[],[],Node
+model size,entity,[],[],Node
+training data scale,entity,[],[],Node
+Some scholars show that hallucinations may be innate to probabilistic generative methods,event,[],[],Node
+Some scholars,entity,[],[],Node
+probabilistic generative methods,entity,[],[],Node
+Methods to strengthen LLM reasoning improve accuracy but cannot eliminate nontrivial hallucinations,event,[],[],Node
+Methods to strengthen LLM reasoning,entity,[],[],Node
+LLM reasoning,entity,[],[],Node
+accuracy,entity,[],[],Node
+In KG generation LLMs struggle with inverse inference and may fail to infer inverse relations,event,[],[],Node
+inverse inference,entity,[],[],Node
+inverse relations,entity,[],[],Node
+LLMs are not factually accurate and factuality errors differ from hallucinations,event,[],[],Node
+factuality errors,entity,[],[],Node
+Verifying or synthesizing high-quality data at the LLM scale is infeasible creating a size-quality trade-off,event,[],[],Node
+Verifying or synthesizing high-quality data,entity,[],[],Node
+LLM scale,entity,[],[],Node
+size-quality trade-off,entity,[],[],Node
+No current LLM offers the factuality needed for trust and even advanced commercial systems make significant factual errors,event,[],[],Node
+current LLMs,entity,[],[],Node
+factuality,entity,[],[],Node
+advanced commercial systems,entity,[],[],Node
+factual errors,entity,[],[],Node
+In high-stakes domains verification alone is insufficient since outputs must be interpretable and explainable,event,[],[],Node
+verification,entity,[],[],Node
+outputs,entity,[],[],Node
+explainability,entity,[],[],Node
+State-of-the-art LLM capabilities emerge only when model size dataset scale and compute reach sufficient magnitude,event,[],[],Node
+state-of-the-art LLM capabilities,entity,[],[],Node
+dataset scale,entity,[],[],Node
+compute,entity,[],[],Node
+Modern pretraining corpora often favor scale over domain fidelity,event,[],[],Node
+Modern pretraining corpora,entity,[],[],Node
+scale,entity,[],[],Node
+domain fidelity,entity,[],[],Node
+Flawed data sources with misinformation and biases are a primary driver of hallucinations,event,[],[],Node
+Flawed data sources,entity,[],[],Node
+misinformation,entity,[],[],Node
+biases,entity,[],[],Node
+Domain adaptation with fine-tuning can improve factuality and coherence but risks catastrophic forgetting and cross-domain interference,event,[],[],Node
+Domain adaptation,entity,[],[],Node
+fine-tuning,entity,[],[],Node
+coherence,entity,[],[],Node
+catastrophic forgetting,entity,[],[],Node
+cross-domain interference,entity,[],[],Node
+Continued pretraining adapts knowledge more smoothly to a target domain but demands substantial additional data,event,[],[],Node
+target domain,entity,[],[],Node
+additional data,entity,[],[],Node
+Scarcity of diverse high-quality data at the scale required by LLMs is a key barrier to clinical LLM deployment,event,[],[],Node
+Scarcity of diverse high-quality data,entity,[],[],Node
+clinical LLM deployment,entity,[],[],Node
+Transformer model,entity,[],[],Node
+long-range dependencies in parallel,entity,[],[],Node
+Stackable blocks,entity,[],[],Node
+scaling to billions of parameters,entity,[],[],Node
+Transformers,entity,[],[],Node
+NLP field,entity,[],[],Node
+Native transformer self-attention module,entity,[],[],Node
+sequential input only,entity,[],[],Node
+Graph Transformer Architecture,entity,[],[],Node
+graph structure encoded into input or modified attention module,entity,[],[],Node
+relation embedding into input graph sequences,entity,[],[],Node
+attention weights to reflect spatial distance in input graphs,entity,[],[],Node
+"Graphormer (Ying et al., 2021)",entity,[],[],Node
+Hierarchical Graph Attention Network (H-GAT),entity,[],[],Node
+relation embeddings into semantic graph nodes,entity,[],[],Node
+Original H-GAT architecture,entity,[],[],Node
+intra-relation and inter-relation attention,entity,[],[],Node
+GraphMERT implementation,entity,[],[],Node
+inter-relation representations,entity,[],[],Node
+token embeddings instead of graph node embeddings,entity,[],[],Node
+W_r,entity,[],[],Node
+learnable relation embedding matrix,entity,[],[],Node
+a_r,entity,[],[],Node
+learnable relation embedding,entity,[],[],Node
+LeakyReLU,entity,[],[],Node
+activation function,entity,[],[],Node
+UMLS triples,entity,[],[],Node
+reverse test,entity,[],[],Node
+UMLS gold triple,entity,[],[],Node
+"〈chronic kidney disease, has_finding_site, kidney structure〉",entity,[],[],Node
+"Medical studies (Xiao et al., 2024)",entity,[],[],Node
+indirect abnormalities in cerebellar gray matter in CKD patients,entity,[],[],Node
+"LLMs (Gemini 2.5 Pro, Claude Sonnet 4.5, GPT-5, Grok 4)",entity,[],[],Node
+hallucinated or ontologically invalid KG triples,entity,[],[],Node
+GraphMERT model,entity,[],[],Node
+correct UMLS triple from the same sentence,entity,[],[],Node
+Terms like 'gray matter',entity,[],[],Node
+associated_with relation rather than has_finding_site,entity,[],[],Node
+'kidneys' as top predicted tail,entity,[],[],Node
+Gemini 2.5 Pro,entity,[],[],Node
+GraphMERT triple candidates,entity,[],[],Node
+GraphMERT KG-extraction Framework,entity,[],[],Node
+fusion of syntactic and semantic examples,entity,[],[],Node
+Chain graph (Ic),entity,[],[],Node
+syntactic knowledge from text corpora with semantic examples and relations from seed KG,entity,[],[],Node
+LLM helper,entity,[],[],Node
+raw semantic token completions into grammatically well-formed triple tails,entity,[],[],Node
+"Cloze-style prompts (Petroni et al., 2019)",entity,[],[],Node
+extract relational factual knowledge from pre-trained encoder-only models,entity,[],[],Node
+BERT,entity,[],[],Node
+cloze examples with syntactically plausible but non-factual tokens,entity,[],[],Node
+Our approach,entity,[],[],Node
+relations into an encoder via graph attention and trains relation embeddings in semantic space,entity,[],[],Node
+syntactic structure and leverages syntactic information as context for semantic knowledge,entity,[],[],Node
+Transformers let a model learn long-range dependencies in parallel,event,[],[],Node
+training is dramatically sped up compared to their predecessors,event,[],[],Node
+Their stackable blocks enable scaling to billions of parameters,event,[],[],Node
+transformers currently dominate the NLP field,event,[],[],Node
+The native transformer self-attention module handles only sequential input,event,[],[],Node
+to enable training of a transformer on graphical input the graph structure must either be encoded into the input or the attention module must be modified,event,[],[],Node
+We encode relation embedding into input graph sequences,event,[],[],Node
+we modify attention weights to reflect spatial distance in input graphs,event,[],[],Node
+We take inspiration from Graphormer,event,[],[],Node
+we implement our model with alternative graph encodings tailored to language tasks,event,[],[],Node
+H-GAT fuses relation embeddings into semantic graph nodes,event,[],[],Node
+the graph sequences are passed to the transformer layers,event,[],[],Node
+We discard unnecessary inter-relation representations and use a simplified architecture with token embeddings,event,[],[],Node
+we tailor H-GAT to chain vocabulary graphs,event,[],[],Node
+The new tail token fuses the relation embedding with its initial tail token embedding and all head token embeddings,event,[],[],Node
+the tail token embedding integrates relation and head token information,event,[],[],Node
+We design a simple reverse test using UMLS triples,event,[],[],Node
+we sample a ground-truth triple from UMLS,event,[],[],Node
+We manually create a sequence that implies a weak connection between CKD and cerebellar gray matter,event,[],[],Node
+we want an example appropriate for the associated_with relation,event,[],[],Node
+We prompt strong general-purpose LLMs to infer the triple from the sentence,event,[],[],Node
+these models frequently hallucinate relations or return ontologically invalid outputs,event,[],[],Node
+These models frequently hallucinate relations or return ontologically invalid outputs,event,[],[],Node
+their outputs show spurious correlations instead of semantic connections,event,[],[],Node
+Our GraphMERT model recovers the correct UMLS triple from the same sentence,event,[],[],Node
+strong general-purpose LLMs that produced non-factual or misaligned triples,event,[],[],Node
+This example underscores that adhering to biomedical ontologies matters,event,[],[],Node
+structure-aware training is essential for preventing errors like miscasting gray matter with finding_site,event,[],[],Node
+GraphMERT is trained on the fusion of syntactic and semantic examples and augments syntactic data with semantic tails,event,[],[],Node
+GraphMERT can predict novel semantic token completions using syntactic information as context,event,[],[],Node
+"lets a transformer model long-range dependencies in parallel, dramatically speeding up training compared to their predecessors.",event,[],[],Node
+transformer model,entity,[],[],Node
+long-range dependencies,entity,[],[],Node
+predecessors,entity,[],[],Node
+Their stackable blocks enable scaling to billions of parameters.,event,[],[],Node
+stackable blocks,entity,[],[],Node
+billions of parameters,entity,[],[],Node
+"Due to their scalability and unprecedented versatility on language tasks, transformers currently dominate the NLP field.",event,[],[],Node
+language tasks,entity,[],[],Node
+transformers,entity,[],[],Node
+"Yet, the native transformer self-attention module handles only sequential input.",event,[],[],Node
+native transformer self-attention module,entity,[],[],Node
+sequential input,entity,[],[],Node
+"To enable training of a transformer on graphical input, the graph structure must either be encoded into the input or the attention module must be modified.",event,[],[],Node
+training of a transformer,entity,[],[],Node
+graphical input,entity,[],[],Node
+graph structure,entity,[],[],Node
+input,entity,[],[],Node
+attention module,entity,[],[],Node
+We do both: (1) encode relation embedding into input graph sequences and (2) modify attention weights to reflect spatial distance in input graphs.,event,[],[],Node
+relation embedding,entity,[],[],Node
+input graph sequences,entity,[],[],Node
+attention weights,entity,[],[],Node
+spatial distance,entity,[],[],Node
+input graphs,entity,[],[],Node
+"To implement our model, we take inspiration from Graphormer (Ying et al., 2021) but design alternative graph encodings tailored to language tasks as well.",event,[],[],Node
+our model,entity,[],[],Node
+Graphormer,entity,[],[],Node
+alternative graph encodings,entity,[],[],Node
+"To incorporate semantic relations into GraphMERT, we combine a generic transformer architecture with a hierarchical graph attention network (H-GAT).",event,[],[],Node
+semantic relations,entity,[],[],Node
+generic transformer architecture,entity,[],[],Node
+hierarchical graph attention network,entity,[],[],Node
+H-GAT,entity,[],[],Node
+H-GAT fuses relation embeddings into semantic graph nodes before passing the graph sequences to the transformer layers.,event,[],[],Node
+relation embeddings,entity,[],[],Node
+semantic graph nodes,entity,[],[],Node
+graph sequences,entity,[],[],Node
+transformer layers,entity,[],[],Node
+The original H-GAT architecture hierarchically combines intra-relation and inter-relation attention to derive node embeddings by aggregating the embeddings of the neighbors of the graph node.,event,[],[],Node
+original H-GAT architecture,entity,[],[],Node
+intra-relation attention,entity,[],[],Node
+inter-relation attention,entity,[],[],Node
+node embeddings,entity,[],[],Node
+embeddings of the neighbors,entity,[],[],Node
+graph node,entity,[],[],Node
+"To tailor H-GAT to our input, we discard the unnecessary inter-relation representations and use the simplified architecture with token embeddings instead of graph node embeddings.",event,[],[],Node
+simplified architecture,entity,[],[],Node
+token embeddings,entity,[],[],Node
+graph node embeddings,entity,[],[],Node
+"In the GraphMERT implementation, given a triple < h, r, t > - head, relation, tail, where head and tail are represented by { h1, .., hm } and { t1, .., tn } at the token level, for any given tail token ti we have: where Wr is a learnable relation embedding matrix, ar is a learnable relation embedding, and LeakyReLU is an activation function.",event,[],[],Node
+triple,entity,[],[],Node
+head tokens {h1..hm},entity,[],[],Node
+tail tokens {t1..tn},entity,[],[],Node
+tail token ti,entity,[],[],Node
+Wr,entity,[],[],Node
+relation embedding matrix,entity,[],[],Node
+ar,entity,[],[],Node
+Then the final node embedding for the tail token is given by:,event,[],[],Node
+final node embedding,entity,[],[],Node
+tail token,entity,[],[],Node
+"Thus, the new tail token t'i fuses the relation embedding via Wr and ar with its initial tail token embedding ti and all head token embeddings { h1, ..., hm }.",event,[],[],Node
+new tail token t'i,entity,[],[],Node
+initial tail token embedding ti,entity,[],[],Node
+head token embeddings {h1..hm},entity,[],[],Node
+What follows is a motivating example to demonstrate the importance of reliability in our proposed pipeline.,event,[],[],Node
+motivating example,entity,[],[],Node
+importance of reliability,entity,[],[],Node
+proposed pipeline,entity,[],[],Node
+"To do this, we design a simple 'reverse test' using Unified Medical Language System (UMLS) triples.",event,[],[],Node
+simple 'reverse test',entity,[],[],Node
+Unified Medical Language System,entity,[],[],Node
+"First, we sample a ground-truth triple from UMLS: 〈 chronic kidney disease, has_finding_site, kidney structure 〉.",event,[],[],Node
+ground-truth triple,entity,[],[],Node
+UMLS,entity,[],[],Node
+chronic kidney disease,entity,[],[],Node
+has_finding_site,entity,[],[],Node
+kidney structure,entity,[],[],Node
+"Next, we manually create a sequence that implies a weak connection between CKD and cerebellar gray matter abnormalities.",event,[],[],Node
+manually created sequence,entity,[],[],Node
+CKD,entity,[],[],Node
+cerebellar gray matter abnormalities,entity,[],[],Node
+"We craft this sequence so that it reflects recent medical studies on brain imaging in patients with CKD, which show indirect abnormalities in the cerebellar gray matter.",event,[],[],Node
+sequence,entity,[],[],Node
+recent medical studies,entity,[],[],Node
+brain imaging,entity,[],[],Node
+patients with CKD,entity,[],[],Node
+indirect abnormalities,entity,[],[],Node
+cerebellar gray matter,entity,[],[],Node
+"Even with this indirect correlation, the logical triple should remain 〈 chronic kidney disease, has_finding_site, kidney structure 〉, as found in UMLS.",event,[],[],Node
+indirect correlation,entity,[],[],Node
+logical triple,entity,[],[],Node
+"Next, we prompt strong general-purpose LLMs (Gemini 2.5 Pro, Claude Sonnet 4.5, GPT-5, and Grok 4) to infer the triple from the sentence.",event,[],[],Node
+general-purpose LLMs,entity,[],[],Node
+Claude Sonnet 4.5,entity,[],[],Node
+GPT-5,entity,[],[],Node
+Grok 4,entity,[],[],Node
+sentence,entity,[],[],Node
+"Despite fluent rationales, these models frequently hallucinate relations or return ontologically invalid outputs, yielding triples that are non-factual or misaligned with UMLS constraints.",event,[],[],Node
+models,entity,[],[],Node
+fluent rationales,entity,[],[],Node
+ontologically invalid outputs,entity,[],[],Node
+UMLS constraints,entity,[],[],Node
+Their outputs seem to show spurious correlations instead of semantic connections.,event,[],[],Node
+their outputs,entity,[],[],Node
+spurious correlations,entity,[],[],Node
+"In contrast, our GraphMERT model, trained as detailed in the following sections, recovers the correct UMLS triple from the same sentence.",event,[],[],Node
+following sections,entity,[],[],Node
+correct UMLS triple,entity,[],[],Node
+This example underscores that adhering to biomedical ontologies matters.,event,[],[],Node
+example,entity,[],[],Node
+adhering to biomedical ontologies,entity,[],[],Node
+Terms like 'gray matter' should be used with an associated_with relation rather than being miscast with finding_site.,event,[],[],Node
+terms 'gray matter',entity,[],[],Node
+associated_with relation,entity,[],[],Node
+finding_site,entity,[],[],Node
+Structure-aware training is essential for preventing such errors.,event,[],[],Node
+structure-aware training,entity,[],[],Node
+errors,entity,[],[],Node
+This is only possible with the proposed GraphMERT pipeline.,event,[],[],Node
+proposed GraphMERT pipeline,entity,[],[],Node
+"Please complete the following medical KG triple (head, relation, tail): (chronic kidney disease, has_finding_site, ...) based on the sequence: Chronic kidney disease (CKD) is a renal disorder.",event,[],[],Node
+medical KG triple,entity,[],[],Node
+Chronic kidney disease (CKD),entity,[],[],Node
+renal disorder,entity,[],[],Node
+RoBERTa-style encoder-only transformer,entity,[],[],Node
+MLM + MNM objectives,entity,[],[],Node
+Leafy chain graph,entity,[],[],Node
+syntactic space and semantic space,entity,[],[],Node
+Chain graph roots,entity,[],[],Node
+syntactic space,entity,[],[],Node
+Chain graph leaves,entity,[],[],Node
+semantic tail nodes from seed KG,entity,[],[],Node
+"leaf token embeddings, relation embeddings, and head token embeddings",entity,[],[],Node
+Embedding layer,entity,[],[],Node
+initial leaf embeddings with derived semantic embeddings,entity,[],[],Node
+Attention decay mask,entity,[],[],Node
+spatial distances between graph nodes,entity,[],[],Node
+Exponential decay mask,entity,[],[],Node
+shortest-path distances with square-rooted exponent,entity,[],[],Node
+Floyd-Warshall algorithm,entity,[],[],Node
+shortest path for every node pair,entity,[],[],Node
+Masking schema for leaves,entity,[],[],Node
+entire leaf spans rather than subsets,entity,[],[],Node
+Relation embeddings,entity,[],[],Node
+backpropagation through H-GAT from masked leaves,entity,[],[],Node
+semantic triples for leaf injection,entity,[],[],Node
+clean domain-specific data and diverse vocabulary,entity,[],[],Node
+Data cleaning,entity,[],[],Node
+hallucinations during KG extraction,entity,[],[],Node
+Similarity filter,entity,[],[],Node
+external KG triples with target training data,entity,[],[],Node
+Helper LLM,entity,[],[],Node
+domain-specific head discovery,entity,[],[],Node
+Entity linking pipeline,entity,[],[],Node
+text entities to UMLS Concept Unique Identifiers,entity,[],[],Node
+SapBERT,entity,[],[],Node
+vector embeddings for biomedical terms,entity,[],[],Node
+ANN algorithm,entity,[],[],Node
+top-k similar UMLS entity embeddings,entity,[],[],Node
+Span-masking schema,entity,[],[],Node
+alignment among top-k tokens predicted within a leaf,entity,[],[],Node
+Attention weights,entity,[],[],Node
+exponential decay mask,entity,[],[],Node
+Dropout on relation embeddings,entity,[],[],Node
+overfitting on scarce semantic examples,entity,[],[],Node
+GraphMERT predicts a masked tail to complete a triple,event,[],[],Node
+it is designed as a masked node modeling (MNM) task,event,[],[],Node
+GraphMERT learns syntactic representations from text corpora via the MLM learning objective,event,[],[],Node
+GraphMERT predicts masked tails with MNM,event,[],[],Node
+We create a new textual data format that encapsulates semantic triples,event,[],[],Node
+GraphMERT can perform encoder-only extraction,event,[],[],Node
+GraphMERT performs syntactic-to-semantic knowledge conversion during prediction,event,[],[],Node
+the sentences in the dataset represent the syntactic space and the KG triples represent the semantic space,event,[],[],Node
+We propose leafy chain graph encoding that unifies the semantic and syntactic representations,event,[],[],Node
+chain graph roots lie in the syntactic space and leaves lie in the semantic space,event,[],[],Node
+Leaves play a crucial role in training semantic relation embeddings,event,[],[],Node
+they carry injected semantic tail tokens from the seed KG,event,[],[],Node
+All chain graphs have a fixed number of root nodes and a fixed number of leaves per root node,event,[],[],Node
+"the input graph class can be described using node encoding, semantic leaf relation encodings, and spatial distances",event,[],[],Node
+We parse the dataset into chain graphs with <pad> tokens in all leaf positions keeping only root nodes non-empty,event,[],[],Node
+we populate the empty leaves with semantic nodes and their relations from the seed KG,event,[],[],Node
+Most leaf nodes are pads while some contain semantic tail tokens from the seed KG,event,[],[],Node
+the graphical input has regularity that simplifies the choice of graph encodings,event,[],[],Node
+GraphMERT is a RoBERTa-style encoder-only transformer integrated with H-GAT,event,[],[],Node
+it is trained with the MLM + MNM objective,event,[],[],Node
+"H-GAT fuses leaves, relations, and head embeddings resulting in fused node features",event,[],[],Node
+the derived embedding replaces the initial leaf embedding encoding the whole semantic triple,event,[],[],Node
+Masking leaf nodes enables the training of relation embeddings with backpropagation,event,[],[],Node
+gradients flow back to relation embeddings through H-GAT during training,event,[],[],Node
+The attention decay mask encodes the spatial distance between graph nodes,event,[],[],Node
+attention between two nodes decreases with respect to their distance,event,[],[],Node
+We introduce a square root in the exponent of the exponential mask,event,[],[],Node
+vocabulary sequence graphs experimentally need a smoother attention decay with respect to the shortest path,event,[],[],Node
+GraphMERT jointly pretrains using MLM over syntactic tokens and MNM over semantic leaves,event,[],[],Node
+the transformer token encoder is coupled with the H-GAT relation encoder aligning surface form and KG semantics,event,[],[],Node
+In the semantic space we mask all the leaf tokens whenever a leaf span is selected,event,[],[],Node
+relation embeddings must receive gradients from the entire tail to capture its full meaning,event,[],[],Node
+The seed KG is a set of domain-specific triples that serve as initial relation examples,event,[],[],Node
+the seed KG defines the relation set for the extracted KG,event,[],[],Node
+We apply a similarity filter to the seed KG against the training data,event,[],[],Node
+the selected triples align with the target domain and identify triples most relevant to the context,event,[],[],Node
+For domain-specific head discovery in the dataset we use a helper LLM,event,[],[],Node
+we obtain candidate mappings to position triples within the semantic space,event,[],[],Node
+Entity linking uses SapBERT to produce vector embeddings for discovered entities and UMLS entities,event,[],[],Node
+we can efficiently retrieve similar UMLS concepts using an ANN algorithm,event,[],[],Node
+"To complete a triple, it predicts a masked tail",event,[],[],Node
+masked tail,entity,[],[],Node
+GraphMERT also learns syntactic representations from text corpora via the MLM learning objective,event,[],[],Node
+syntactic representations,entity,[],[],Node
+MLM learning objective,entity,[],[],Node
+We create a new textual data format that encapsulates semantic triples and engineer GraphMERT to work in this space,event,[],[],Node
+new textual data format,entity,[],[],Node
+semantic triples,entity,[],[],Node
+semantic space,entity,[],[],Node
+The sentences in the dataset represent the syntactic space,event,[],[],Node
+sentences,entity,[],[],Node
+dataset,entity,[],[],Node
+The KG triples represent the semantic space,event,[],[],Node
+KG triples,entity,[],[],Node
+We propose leafy chain graph encoding that unifies the semantic and syntactic representations into a joint representation,event,[],[],Node
+leafy chain graph encoding,entity,[],[],Node
+semantic representations,entity,[],[],Node
+"Chain graph roots lie in the syntactic space and leaves, along with their relations, lie in the semantic space",event,[],[],Node
+chain graph roots,entity,[],[],Node
+leaves,entity,[],[],Node
+relations,entity,[],[],Node
+semantic relation embeddings,entity,[],[],Node
+All chain graphs have a fixed number of root nodes and the number of leaves per root node is also fixed,event,[],[],Node
+chain graphs,entity,[],[],Node
+root nodes,entity,[],[],Node
+"Leaves of the same root are connected, introducing a shortest-path linkage between them",event,[],[],Node
+root,entity,[],[],Node
+shortest-path linkage,entity,[],[],Node
+All edges are undirected,event,[],[],Node
+edges,entity,[],[],Node
+"We parse the dataset into chain graphs with <pad> tokens in all leaf positions, keeping only root nodes non-empty",event,[],[],Node
+<pad> tokens,entity,[],[],Node
+leaf positions,entity,[],[],Node
+We populate the empty leaves with semantic nodes and their relations from the seed KG in a separate pipeline step,event,[],[],Node
+empty leaves,entity,[],[],Node
+semantic nodes,entity,[],[],Node
+leaf nodes,entity,[],[],Node
+pads,entity,[],[],Node
+semantic tail tokens,entity,[],[],Node
+The core architectural challenge in graph transformer design lies in encoding graphs into a sequential input for attention-based learning,event,[],[],Node
+core architectural challenge,entity,[],[],Node
+graph transformer design,entity,[],[],Node
+encoding graphs,entity,[],[],Node
+attention-based learning,entity,[],[],Node
+The proposed GraphMERT is a RoBERTa-style encoder-only transformer integrated with H-GAT trained with the MLM + MNM objective,event,[],[],Node
+MLM,entity,[],[],Node
+MNM,entity,[],[],Node
+The input consists of chain graphs with a fixed number of root and leaf nodes,event,[],[],Node
+"Node encoding, semantic leaf relation encodings, and spatial distances between node pairs are sufficient to describe the input graph class",event,[],[],Node
+node encoding,entity,[],[],Node
+semantic leaf relation encodings,entity,[],[],Node
+spatial distances,entity,[],[],Node
+node pairs,entity,[],[],Node
+input graph class,entity,[],[],Node
+The two core components of GraphMERT that encapsulate graph encoding are the input embedding layer and the attention decay mask,event,[],[],Node
+input embedding layer,entity,[],[],Node
+attention decay mask,entity,[],[],Node
+H-GAT encodes semantic triples in the embedding layer,event,[],[],Node
+embedding layer,entity,[],[],Node
+"H-GAT fuses leaves, relations, and head embeddings resulting in fused node feature",event,[],[],Node
+head embeddings,entity,[],[],Node
+fused node feature,entity,[],[],Node
+Attention weights are multiplied by a function that exponentially decreases with pairwise distance,event,[],[],Node
+function,entity,[],[],Node
+pairwise distance,entity,[],[],Node
+The embedding layer processes root nodes along with their leaves and semantic relations for each injected leaf node,event,[],[],Node
+injected leaf node,entity,[],[],Node
+"For every injected triple, its head lies in the root space and its tail lies in the leaf space",event,[],[],Node
+injected triple,entity,[],[],Node
+root space,entity,[],[],Node
+leaf space,entity,[],[],Node
+The embedding block fuses every leaf token embedding with its relation and all its head tokens via H-GAT,event,[],[],Node
+embedding block,entity,[],[],Node
+leaf token embedding,entity,[],[],Node
+head tokens,entity,[],[],Node
+"The derived embedding replaces the initial leaf embedding, effectively encoding the whole semantic triple into the leaf embedding space",event,[],[],Node
+derived embedding,entity,[],[],Node
+initial leaf embedding,entity,[],[],Node
+semantic triple,entity,[],[],Node
+leaf embedding space,entity,[],[],Node
+Masking leaf nodes during training enables the training of relation embeddings with backpropagation,event,[],[],Node
+masking leaf nodes,entity,[],[],Node
+backpropagation,entity,[],[],Node
+graph nodes,entity,[],[],Node
+We use an exponential function with base 0 < λ < 1 and the shortest path in the exponent,event,[],[],Node
+exponential function,entity,[],[],Node
+λ,entity,[],[],Node
+shortest path,entity,[],[],Node
+We introduce a square root in the exponent to obtain a smoother attention decay,event,[],[],Node
+square root,entity,[],[],Node
+exponent,entity,[],[],Node
+attention decay,entity,[],[],Node
+"For every injected triple, H-GAT fuses each leaf token with the relation and all the head tokens, yielding an embedding of the same dimension as the initial leaf token embedding",event,[],[],Node
+leaf token,entity,[],[],Node
+embedding,entity,[],[],Node
+The masked nodes (both roots and leaves) contribute to the loss calculation,event,[],[],Node
+masked nodes,entity,[],[],Node
+roots,entity,[],[],Node
+loss calculation,entity,[],[],Node
+"For masked leaves, the gradient flows back to them through H-GAT, updating the relation embeddings",event,[],[],Node
+masked leaves,entity,[],[],Node
+gradient,entity,[],[],Node
+The shortest path for every node pair is calculated using the Floyd-Warshall algorithm,event,[],[],Node
+node pair,entity,[],[],Node
+The exponential decay mask is an N × N matrix defined with p as a learnable parameter and λ as a hyperparameter,event,[],[],Node
+N × N matrix,entity,[],[],Node
+p,entity,[],[],Node
+"For sp(i, j) ≤ p the activation function GELU zeroes the exponent making the mask close to zero",event,[],[],Node
+"sp(i, j)",entity,[],[],Node
+GELU,entity,[],[],Node
+mask,entity,[],[],Node
+embedding-based retrieval,entity,[],[],Node
+top 10 UMLS candidates,entity,[],[],Node
+character-level 3-grams,entity,[],[],Node
+entity names,entity,[],[],Node
+Jaccard similarity,entity,[],[],Node
+3-gram sets,entity,[],[],Node
+Jaccard similarity score,entity,[],[],Node
+0.5,entity,[],[],Node
+entities that pass both stages,entity,[],[],Node
+Linked UMLS Entities,entity,[],[],Node
+Contextual triple selection,entity,[],[],Node
+contextually relevant triples,entity,[],[],Node
+triple head,entity,[],[],Node
+linked entity,entity,[],[],Node
+Gemini embedding model textembedding-004,entity,[],[],Node
+input sequences and linearized triples,entity,[],[],Node
+cosine similarity,entity,[],[],Node
+semantic relevance scores,entity,[],[],Node
+retrieved triples,entity,[],[],Node
+top 40 triples per linked entity,entity,[],[],Node
+KG injection algorithm,entity,[],[],Node
+seed KG triples,entity,[],[],Node
+injection algorithm,entity,[],[],Node
+triples to chain graph semantic space,entity,[],[],Node
+H-GAT and transformer attention,entity,[],[],Node
+injected chain graphs,entity,[],[],Node
+contextual relevance and relation diversity,entity,[],[],Node
+design goals,entity,[],[],Node
+elimination of low-relevance triples,entity,[],[],Node
+one triple injected per head,entity,[],[],Node
+diversified injected relations,entity,[],[],Node
+explicit graph triples from internal representations,entity,[],[],Node
+helper LLM,entity,[],[],Node
+predicted tail tokens into coherent phrases,entity,[],[],Node
+head entities and relations for prediction,entity,[],[],Node
+user-defined threshold β,entity,[],[],Node
+GraphMERT-predicted triples by semantic similarity,entity,[],[],Node
+LLM-generated KG pipeline,entity,[],[],Node
+open information extraction on text chunks,entity,[],[],Node
+relationships to a predefined relation set,entity,[],[],Node
+exact string matching,entity,[],[],Node
+multiple mentions into unique entity nodes,entity,[],[],Node
+Retrieve the top 10 UMLS candidates based on cosine similarity of their embeddings,event,[],[],Node
+Subject the top candidates to fine-grained filtering based on string similarity,event,[],[],Node
+Represent each entity name as a set of character-level 3-grams,event,[],[],Node
+We can compare entity names using standard set-based similarity metrics,event,[],[],Node
+Compute Jaccard similarity between the 3-gram sets of the source entity and each of the 10 candidate entities,event,[],[],Node
+A candidate entity can be confirmed as a valid link only if its Jaccard similarity score is greater than the threshold,event,[],[],Node
+Set the Jaccard similarity threshold to 0.5 based on manual inspection,event,[],[],Node
+Candidates with Jaccard similarity scores greater than 0.5 are confirmed as valid links,event,[],[],Node
+Entities that pass both embedding-based retrieval and string-matching filtering,event,[],[],Node
+Are considered the final Linked UMLS Entities and are used for the following task,event,[],[],Node
+Complete the entity linking stage,event,[],[],Node
+Associate each input sequence with a set of UMLS concepts,event,[],[],Node
+"A single concept can be involved in hundreds of triples, many irrelevant to the source text",event,[],[],Node
+A crucial subsequent step is to identify and select only the most contextually relevant triples for each sequence,event,[],[],Node
+Perform semantic similarity matching of triples to dataset sequences,event,[],[],Node
+Find the most relevant triples for each sequence,event,[],[],Node
+The triple head should almost literally match one of the entities discovered in Step (I),event,[],[],Node
+Pick the top triples whose tails are semantically close to the sequence,event,[],[],Node
+All matched triples,event,[],[],Node
+The injection algorithm that selects top-scoring triples and limits the number of equivalent triples,event,[],[],Node
+Injected triples,event,[],[],Node
+Comprise a seed KG,event,[],[],Node
+"For each sequence, retrieve the complete set of triples from the UMLS KG where any of the linked entities appear as the head",event,[],[],Node
+Compute a semantic relevance score for each triple with respect to the original input sequence,event,[],[],Node
+Transform each retrieved triple into a linearized sentence and encode it with the Gemini embedding model,event,[],[],Node
+Use cosine similarity between encoded vectors to obtain the semantic relevance score,event,[],[],Node
+Exclude triples with undesired relations from the search,event,[],[],Node
+Filter out relations that are not useful to have in the KG,event,[],[],Node
+Rank associated triples by semantic relevance scores for each linked entity and retain the top 40,event,[],[],Node
+Obtain a contextually filtered set of triples for the injection process,event,[],[],Node
+KG injection algorithm selects relevant triples based on similarity threshold α while maintaining diversity,event,[],[],Node
+The algorithm must prevent dominance of frequent tails and relations in the semantic space and training,event,[],[],Node
+Map selected triples to the chain graph semantic space with the head at the root and tail at the leaf,event,[],[],Node
+This aligns transformer attention with H-GAT during training on the chain graphs,event,[],[],Node
+Alignment between leaf and root tokens during training,event,[],[],Node
+Enables vocabulary transfer from the syntactic root space into the semantic leaf space,event,[],[],Node
+A naive strategy of injecting only the top-scoring triple per head,event,[],[],Node
+May be suboptimal for populating the semantic space and GraphMERT training,event,[],[],Node
+Similarity matching favors frequent terms and classificatory relations,event,[],[],Node
+A small set of ubiquitous tails would dominate the semantic space,event,[],[],Node
+Dominance of ubiquitous tails and relations in injected triples,event,[],[],Node
+Skews GraphMERT training distribution and causes relation embeddings to overfit,event,[],[],Node
+"Design injection algorithm around goals to eliminate low-relevance triples, inject one triple per head, and diversify relations",event,[],[],Node
+The algorithm iteratively drops undesired triples by maximizing score and then maximizing relation diversity,event,[],[],Node
+Surviving triples after the injection algorithm's two-phase selection,event,[],[],Node
+Are injected into the semantic space and comprise the seed KG,event,[],[],Node
+Distill GraphMERT representations into explicit graph triples by adding leaf nodes,event,[],[],Node
+Use MNM prediction conditioned on a sequence to predict masked tail tokens,event,[],[],Node
+Mask the leaf and set the target relation for a sampled head span,event,[],[],Node
+Ask the model to predict the masked tail tokens and obtain top-k candidate tokens,event,[],[],Node
+The helper LLM combines predicted tail tokens into coherent phrases and cleans them,event,[],[],Node
+An encoder-only model conditions each masked token independently and struggles with span decoding,event,[],[],Node
+Filter generated triples by computing semantic similarity between each triple and its source sequence with threshold β,event,[],[],Node
+Discard triples with score below β and retain surviving triples to expand the KG,event,[],[],Node
+Set a higher β,event,[],[],Node
+Yield fewer but more sequence-specific triples often explicitly included in the text,event,[],[],Node
+Set a lower β,event,[],[],Node
+"Allow broader, more general triples that may not be explicitly mentioned in the sequence",event,[],[],Node
+Constrain the helper LLM so it cannot invent new entities or relations,event,[],[],Node
+"Heads must be present in the dataset, relations are restricted to the seed KG, and only GraphMERT-predicted tokens are allowed in tails",event,[],[],Node
+Retrieve the top 10 UMLS candidates based on the cosine similarity of their embeddings,event,[],[],Node
+method,entity,[],[],Node
+Subject the top candidates from embedding-based retrieval to a more rigorous filtering process based on string similarity,event,[],[],Node
+top candidates,entity,[],[],Node
+filtering process,entity,[],[],Node
+string similarity,entity,[],[],Node
+entity name,entity,[],[],Node
+char-3grams,entity,[],[],Node
+set,entity,[],[],Node
+source entity,entity,[],[],Node
+10 candidate entities,entity,[],[],Node
+Confirm a candidate entity as a valid link only if its Jaccard similarity score is greater than the threshold,event,[],[],Node
+candidate entity,entity,[],[],Node
+valid link,entity,[],[],Node
+threshold,entity,[],[],Node
+Set the threshold to 0.5 based on manual inspection,event,[],[],Node
+manual inspection,entity,[],[],Node
+Consider entities that successfully pass both stages as the final Linked UMLS Entities,event,[],[],Node
+entities,entity,[],[],Node
+both stages,entity,[],[],Node
+final Linked UMLS Entities,entity,[],[],Node
+Associate each input sequence with a set of UMLS concepts following the entity linking stage,event,[],[],Node
+input sequence,entity,[],[],Node
+UMLS concepts,entity,[],[],Node
+entity linking stage,entity,[],[],Node
+Identify and select only the most contextually relevant triples for each sequence,event,[],[],Node
+Perform semantic similarity matching of triples to dataset sequences to find the most relevant triples,event,[],[],Node
+semantic similarity matching,entity,[],[],Node
+dataset sequences,entity,[],[],Node
+Require the triple head to almost literally match one of the discovered entities and pick top triples whose tails are semantically close to the sequence,event,[],[],Node
+discovered entities,entity,[],[],Node
+top triples,entity,[],[],Node
+tails,entity,[],[],Node
+Subject all matched triples to the injection algorithm which selects the top-scoring triples and limits the number of equivalent triples,event,[],[],Node
+matched triples,entity,[],[],Node
+top-scoring triples,entity,[],[],Node
+equivalent triples,entity,[],[],Node
+Use the injected triples together to comprise a seed KG,event,[],[],Node
+injected triples,entity,[],[],Node
+Retrieve the complete set of triples from the UMLS KG where any linked entities from a sequence appear as the head entity,event,[],[],Node
+complete set of triples,entity,[],[],Node
+UMLS KG,entity,[],[],Node
+linked entities,entity,[],[],Node
+head entity,entity,[],[],Node
+semantic relevance score,entity,[],[],Node
+original input sequence,entity,[],[],Node
+undesired relations,entity,[],[],Node
+search,entity,[],[],Node
+"Transform each retrieved triple into a linearized sentence by concatenating its head, relation, and tail",event,[],[],Node
+retrieved triple,entity,[],[],Node
+linearized sentence,entity,[],[],Node
+Encode both the original input sequence and each triple sentence into high-dimensional vectors using the Gemini embedding model and textembedding-004,event,[],[],Node
+triple sentence,entity,[],[],Node
+high-dimensional vectors,entity,[],[],Node
+Gemini embedding model,entity,[],[],Node
+textembedding-004,entity,[],[],Node
+Use cosine similarity as the semantic relevance score between sequence and triple encodings,event,[],[],Node
+sequence encodings,entity,[],[],Node
+triple encodings,entity,[],[],Node
+Rank each linked entity's associated triples by semantic relevance scores and retain the top 40 triples,event,[],[],Node
+associated triples,entity,[],[],Node
+top 40 triples,entity,[],[],Node
+Use the resulting contextually filtered set of triples in the subsequent injection process,event,[],[],Node
+contextually filtered set of triples,entity,[],[],Node
+injection process,entity,[],[],Node
+Prepare a GraphMERT-compatible dataset of leafy chain graphs by selecting relevant triples from an external KG source based on similarity score thresholded with hyperparameter alpha,event,[],[],Node
+GraphMERT-compatible dataset,entity,[],[],Node
+leafy chain graphs,entity,[],[],Node
+relevant triples,entity,[],[],Node
+external KG source,entity,[],[],Node
+similarity score,entity,[],[],Node
+hyperparameter α,entity,[],[],Node
+Map triples to the chain graph semantic space by placing the head at a root node and the tail at the root's leaf node,event,[],[],Node
+chain graph semantic space,entity,[],[],Node
+root node,entity,[],[],Node
+leaf node,entity,[],[],Node
+Maintain diversity in the injected relations and semantic vocabulary while selecting triples,event,[],[],Node
+diversity,entity,[],[],Node
+injected relations,entity,[],[],Node
+semantic vocabulary,entity,[],[],Node
+Align transformer attention with H-GAT during training on chain graphs to avoid noisy signals from extraneous tokens,event,[],[],Node
+transformer attention,entity,[],[],Node
+extraneous tokens,entity,[],[],Node
+Enable vocabulary transfer from the syntactic root space into the semantic leaf space by aligning leaf and root tokens,event,[],[],Node
+vocabulary transfer,entity,[],[],Node
+syntactic root space,entity,[],[],Node
+semantic leaf space,entity,[],[],Node
+leaf tokens,entity,[],[],Node
+root tokens,entity,[],[],Node
+Explain that similarity matching favors frequent terms leading ubiquitous tails to dominate the semantic space,event,[],[],Node
+similarity matching,entity,[],[],Node
+frequent terms,entity,[],[],Node
+ubiquitous tails,entity,[],[],Node
+Describe that scoring is biased towards classificatory relations like isa or inverse_isa,event,[],[],Node
+scoring,entity,[],[],Node
+classificatory relations,entity,[],[],Node
+isa,entity,[],[],Node
+inverse_isa,entity,[],[],Node
+State that over-injecting frequent tokens leads to a skewed training distribution and undertraining on other relations,event,[],[],Node
+over-injecting frequent tokens,entity,[],[],Node
+skewed training distribution,entity,[],[],Node
+other relations,entity,[],[],Node
+"Design the injection algorithm around three goals: eliminate low-relevance triples, select one triple per head, and diversify injected relations",event,[],[],Node
+low-relevance triples,entity,[],[],Node
+one triple per head,entity,[],[],Node
+diversify injected relations,entity,[],[],Node
+goals,entity,[],[],Node
+Satisfy goal (1) by thresholding similarity scores,event,[],[],Node
+goal (1),entity,[],[],Node
+thresholding,entity,[],[],Node
+similarity scores,entity,[],[],Node
+Iteratively drop undesired triples from all matched triples in two interleaving phases by maximizing score and maximizing relation diversity,event,[],[],Node
+undesired triples,entity,[],[],Node
+interleaving phases,entity,[],[],Node
+maximize score,entity,[],[],Node
+maximize relation diversity,entity,[],[],Node
+Inject the surviving triples into the semantic space to comprise the seed KG,event,[],[],Node
+surviving triples,entity,[],[],Node
+Distill internal GraphMERT representations into explicit graph triples by adding leaf nodes using purely-MNM prediction,event,[],[],Node
+internal GraphMERT representations,entity,[],[],Node
+GraphRAG Local Search,entity,[],[],Node
+entities and relations in the querying stage,entity,[],[],Node
+Entities within the KG,entity,[],[],Node
+entry points for retrieval of connected entities and relationships,entity,[],[],Node
+Retrieved data sources,entity,[],[],Node
+a single predefined context window,entity,[],[],Node
+FActScore,entity,[],[],Node
+atomic facts against a trusted text source,entity,[],[],Node
+atomic facts in the FActScore framework,entity,[],[],Node
+FActScore*,entity,[],[],Node
+validity verification of triple logical alignment to FActScore,entity,[],[],Node
+ValidityScore,entity,[],[],Node
+ontological alignment of triples via an LLM judge,entity,[],[],Node
+UMLS semantic rules,entity,[],[],Node
+"the triple 〈beta-receptor, part_of, plasma membrane〉 as valid",entity,[],[],Node
+"the triple 〈beta-receptor, part_of, adrenergic signaling〉 as invalid",entity,[],[],Node
+"UMLS Metathesaurus (SNOMED CT, US, GO)",entity,[],[],Node
+Seed KG extraction,entity,[],[],Node
+alpha = 0.55 with Gemini text-embedding-004,entity,[],[],Node
+a high-quality diabetes KG,entity,[],[],Node
+Training dataset,entity,[],[],Node
+peer-reviewed MEDLINE abstracts and the seed KG,entity,[],[],Node
+"helper LLM for entity discovery, relation matching, and tail generation",entity,[],[],Node
+Triple extraction pipeline,entity,[],[],Node
+cosine similarity with Gemini embeddings and threshold beta = 0.67,entity,[],[],Node
+GraphMERT architecture,entity,[],[],Node
+BioMedBERT tokenizer to reduce medical subword tokenization,entity,[],[],Node
+We use the Local Search method from GraphRAG,event,[],[],Node
+we modify it to rely exclusively on the entities and relations in the querying stage,event,[],[],Node
+This process begins by identifying a set of entities within the KG that are semantically related to the user query,event,[],[],Node
+these entities act as entry points for the retrieval of connected entities and relationships,event,[],[],Node
+The retrieved data sources are ranked and filtered to fit within a single predefined context window,event,[],[],Node
+the context window is used to generate a response to the user query,event,[],[],Node
+FActScore provides a fine-grained method for evaluating factual precision in long-form LLM outputs,event,[],[],Node
+its principles transfer naturally to KG verification,event,[],[],Node
+FActScore evaluates atomic facts against a trusted text source,event,[],[],Node
+KG triples can be treated as atomic facts of equal importance,event,[],[],Node
+Each triple can be paired with a reliable text source,event,[],[],Node
+the short context length minimizes conflicts and overlaps,event,[],[],Node
+We follow the Retrieve → LM variant of automatic evaluation,event,[],[],Node
+we strengthen triple evaluation with validity in the prompt,event,[],[],Node
+We strengthen triple evaluation with validity in the prompt,event,[],[],Node
+a fact may appear in the text yet the triple may still be malformed,event,[],[],Node
+Malformed triples should not be deemed reliable facts,event,[],[],Node
+they would inflate the score,event,[],[],Node
+ValidityScore isolates ontological alignment of triples,event,[],[],Node
+we use a strong LLM judge to semantically validate a triple with a prompt,event,[],[],Node
+To demonstrate the effectiveness of our framework,event,[],[],Node
+we extract a high-quality diabetes KG from a GraphMERT-compatible diabetes training dataset,event,[],[],Node
+We build a GraphMERT-compatible diabetes training dataset from two main sources,event,[],[],Node
+the resulting dataset contains 350k abstracts for training and 39k for evaluation,event,[],[],Node
+"From UMLS we select SNOMED CT, US and GO vocabularies",event,[],[],Node
+"together they cover a broad range of biomedical concepts across clinical documentation, molecular biology, and data exchange",event,[],[],Node
+For matched triples we use an injection algorithm with a similarity threshold α of 0.55,event,[],[],Node
+the resulting triples that are injected comprise the seed KG,event,[],[],Node
+We prompt Qwen3-32B with each abstract sequence to search for medical entities,event,[],[],Node
+the outputs are validated against sequences of origin to eliminate hallucinated or misspelled entities,event,[],[],Node
+GraphMERT predicts a distribution for each masked leaf,event,[],[],Node
+we select the top 20 tokens per leaf and use them to prompt the helper LLM to form tails,event,[],[],Node
+We compute cosine similarity between the triple and its originating sequence using embeddings,event,[],[],Node
+all triples with a score below the similarity check threshold β = 0.67 are discarded,event,[],[],Node
+Chain graphs are initialized with 128 root nodes each connected to seven leaves,event,[],[],Node
+the sequence has a fixed length of 1024 with the first 128 tokens reserved for roots,event,[],[],Node
+We train GraphMERT for 25 epochs on four H100 GPUs with BF16 precision,event,[],[],Node
+training totals 90 GPU hours,event,[],[],Node
+We use the BioMedBERT tokenizer trained on medical vocabulary,event,[],[],Node
+"the tokenizer vocabulary size is 30,522",event,[],[],Node
+We use the Local Search method from GraphRAG and modify it to rely exclusively on the entities and relations in the querying stage.,event,[],[],Node
+Local Search method,entity,[],[],Node
+querying stage,entity,[],[],Node
+This process begins by identifying a set of entities within the KG that are semantically related to the user query.,event,[],[],Node
+process,entity,[],[],Node
+user query,entity,[],[],Node
+These entities act as entry points for the retrieval of connected entities and relationships.,event,[],[],Node
+entry points,entity,[],[],Node
+connected entities,entity,[],[],Node
+retrieval,entity,[],[],Node
+The retrieved data sources are then ranked and filtered to fit within a single predefined context window.,event,[],[],Node
+retrieved data sources,entity,[],[],Node
+ranking,entity,[],[],Node
+filtering,entity,[],[],Node
+predefined context window,entity,[],[],Node
+The context window is used to generate a response to the user query.,event,[],[],Node
+context window,entity,[],[],Node
+response,entity,[],[],Node
+FActScore provides a fine-grained method for evaluating factual precision in long-form LLM outputs and transfers naturally to KG verification.,event,[],[],Node
+factual precision,entity,[],[],Node
+long-form LLM outputs,entity,[],[],Node
+KG verification,entity,[],[],Node
+FActScore evaluates atomic facts against a trusted text source that does not have any knowledge conflicts or overlaps.,event,[],[],Node
+atomic facts,entity,[],[],Node
+trusted text source,entity,[],[],Node
+knowledge conflicts,entity,[],[],Node
+knowledge overlaps,entity,[],[],Node
+KG triples can be treated as atomic facts and paired with reliable text sources such as GraphMERT triples with sequences and LLM triples with short chunks.,event,[],[],Node
+reliable text sources,entity,[],[],Node
+GraphMERT triples,entity,[],[],Node
+sequences,entity,[],[],Node
+LLM triples,entity,[],[],Node
+short chunks,entity,[],[],Node
+We follow the Retrieve → LM variant of automatic evaluation and strengthen triple evaluation with validity by requiring verification of triple logical alignment in addition to context support.,event,[],[],Node
+Retrieve → LM variant,entity,[],[],Node
+automatic evaluation,entity,[],[],Node
+triple evaluation,entity,[],[],Node
+validity,entity,[],[],Node
+triple logical alignment,entity,[],[],Node
+context support,entity,[],[],Node
+Malformed triples should not be deemed reliable facts because they can inflate the score.,event,[],[],Node
+malformed triples,entity,[],[],Node
+reliable facts,entity,[],[],Node
+score,entity,[],[],Node
+We denote the modified prompt-based evaluation as FActScore*.,event,[],[],Node
+modified prompt-based evaluation,entity,[],[],Node
+ValidityScore isolates ontological alignment of triples as an independent mode of evaluation using a strong LLM judge to semantically validate triples.,event,[],[],Node
+ontological alignment,entity,[],[],Node
+independent evaluation,entity,[],[],Node
+strong LLM judge,entity,[],[],Node
+semantic validation,entity,[],[],Node
+We extract a high-quality diabetes KG from a GraphMERT-compatible diabetes training dataset obtained from expert-verified sources.,event,[],[],Node
+high-quality diabetes KG,entity,[],[],Node
+diabetes training dataset,entity,[],[],Node
+expert-verified sources,entity,[],[],Node
+We build the GraphMERT-compatible diabetes training dataset from peer-reviewed medical abstracts from MEDLINE journals accessed via PubMed Central and a seed KG derived from the UMLS Metathesaurus.,event,[],[],Node
+peer-reviewed medical abstracts,entity,[],[],Node
+MEDLINE journals,entity,[],[],Node
+PubMed Central,entity,[],[],Node
+UMLS Metathesaurus,entity,[],[],Node
+"From UMLS, we select SNOMED CT, US and GO vocabularies and retrieve triples relevant to our dataset sequences based on semantic similarity matching with Gemini text-embedding-004.",event,[],[],Node
+SNOMED CT,entity,[],[],Node
+US,entity,[],[],Node
+GO,entity,[],[],Node
+vocabularies,entity,[],[],Node
+Gemini text-embedding-004,entity,[],[],Node
+For matched triples we use an injection algorithm with a similarity threshold α of 0.55 validated experimentally via grid search using GraphRAG evaluation.,event,[],[],Node
+similarity threshold α = 0.55,entity,[],[],Node
+grid search,entity,[],[],Node
+GraphRAG evaluation,entity,[],[],Node
+We employ Qwen3-32B-FP8 as a helper LLM with thinking mode turned on for entity discovery and relation matching.,event,[],[],Node
+Qwen3-32B-FP8,entity,[],[],Node
+thinking mode,entity,[],[],Node
+entity discovery,entity,[],[],Node
+relation matching,entity,[],[],Node
+For head discovery we prompt Qwen3-32B with each abstract sequence using few-shot examples to search for medical entities relevant to diabetes and its comorbidities.,event,[],[],Node
+head discovery,entity,[],[],Node
+abstract sequence,entity,[],[],Node
+few-shot examples,entity,[],[],Node
+medical entities,entity,[],[],Node
+diabetes,entity,[],[],Node
+comorbidities,entity,[],[],Node
+The outputs are validated against sequences of origin to eliminate hallucinated or misspelled entities.,event,[],[],Node
+sequences of origin,entity,[],[],Node
+validation,entity,[],[],Node
+hallucinated entities,entity,[],[],Node
+misspelled entities,entity,[],[],Node
+For relation discovery Qwen3-32B is few-shot prompted with a relation list from the training seed KG to match entities with relations that make sense in the context of the current sequence.,event,[],[],Node
+relation discovery,entity,[],[],Node
+few-shot prompts,entity,[],[],Node
+relation list,entity,[],[],Node
+training seed KG,entity,[],[],Node
+current sequence,entity,[],[],Node
+context,entity,[],[],Node
+All Qwen3-32B runs are performed on the Princeton cluster on one H100 GPU using vLLM with vendor-recommended sampling parameters.,event,[],[],Node
+Qwen3-32B runs,entity,[],[],Node
+Princeton cluster,entity,[],[],Node
+H100 GPU,entity,[],[],Node
+vLLM,entity,[],[],Node
+vendor-recommended sampling parameters,entity,[],[],Node
+Chain graphs for training are initialized with 128 root nodes each connected to seven leaves leading to a 1024-token sequence.,event,[],[],Node
+128 root nodes,entity,[],[],Node
+seven leaves,entity,[],[],Node
+1024-token sequence,entity,[],[],Node
+"We train GraphMERT with 12 hidden layers, eight attention heads, a hidden size of 512, intermediate size 2048, totaling 79.7M trainable parameters.",event,[],[],Node
+12 hidden layers,entity,[],[],Node
+eight attention heads,entity,[],[],Node
+hidden size 512,entity,[],[],Node
+intermediate size 2048,entity,[],[],Node
+79.7M parameters,entity,[],[],Node
+We train the model for 25 epochs on four H100 GPUs with BF16 precision totaling 90 GPU hours using an instantaneous batch size of 32 per GPU and effective batch size of 128 via gradient accumulation.,event,[],[],Node
+25 epochs,entity,[],[],Node
+four H100 GPUs,entity,[],[],Node
+BF16 precision,entity,[],[],Node
+90 GPU hours,entity,[],[],Node
+instantaneous batch size 32,entity,[],[],Node
+effective batch size 128,entity,[],[],Node
+gradient accumulation,entity,[],[],Node
+In the triple extraction pipeline we begin with a leaf-masked prediction over the training dataset given head entities and their relations producing a vocabulary distribution for each masked leaf.,event,[],[],Node
+triple extraction pipeline,entity,[],[],Node
+leaf-masked prediction,entity,[],[],Node
+training dataset,entity,[],[],Node
+head entities,entity,[],[],Node
+vocabulary distribution,entity,[],[],Node
+masked leaf,entity,[],[],Node
+From the top 20 tokens per leaf we prompt the helper LLM Qwen3-32B to combine tokens into coherent multi-token tails conditioned on the head relation and originating sequence.,event,[],[],Node
+top 20 tokens,entity,[],[],Node
+leaf,entity,[],[],Node
+tokens,entity,[],[],Node
+multi-token tails,entity,[],[],Node
+originating sequence,entity,[],[],Node
+We discard output tails that contain out-of-scope tokens and skip triples when no valid tail can be formed.,event,[],[],Node
+output tails,entity,[],[],Node
+out-of-scope tokens,entity,[],[],Node
+discard,entity,[],[],Node
+skip,entity,[],[],Node
+no valid tail,entity,[],[],Node
+naringenin,entity,[],[],Node
+flavonoid,entity,[],[],Node
+therapeutic role,entity,[],[],Node
+non-alcoholic fatty liver disease,entity,[],[],Node
+fibrosis,entity,[],[],Node
+obesity,entity,[],[],Node
+Qwen3-14B,entity,[],[],Node
+GraphRAG query process,entity,[],[],Node
+nomic-embed-text-v1,entity,[],[],Node
+GraphMERT extracted KG,entity,[],[],Node
+"139,565 triples",entity,[],[],Node
+LLM baseline KG,entity,[],[],Node
+"515,460 triples",entity,[],[],Node
+GraphMERT KG,entity,[],[],Node
+69.8%,entity,[],[],Node
+40.2%,entity,[],[],Node
+68.8% yes,entity,[],[],Node
+LLM baseline,entity,[],[],Node
+43.0% yes,entity,[],[],Node
+extraction pipeline,entity,[],[],Node
+β = 0.67,entity,[],[],Node
+formed tails (non-unique),entity,[],[],Node
+"109,293",entity,[],[],Node
+Naringenin is a flavonoid,event,[],[],Node
+Naringenin plays a therapeutic neuroprotective and antidepressant role,event,[],[],Node
+Naringenin has a flavonoid disposition as an inhibitor,event,[],[],Node
+Non-alcoholic fatty liver disease occurs,event,[],[],Node
+Fibrosis occurs,event,[],[],Node
+Obesity is present,event,[],[],Node
+GraphRAG evaluations were conducted with specified settings,event,[],[],Node
+Experimental results for GraphMERT and LLM KGs were reported,event,[],[],Node
+GraphMERT extracted a knowledge graph,event,[],[],Node
+GraphMERT achieved a higher ValidityScore than the LLM baseline,event,[],[],Node
+Each triple in the system is directly traceable to its originating sequence,event,[],[],Node
+Automatic cross-checking and user validation of triples is possible,event,[],[],Node
+naringenin is a flavonoid,event,[],[],Node
+naringenin plays a therapeutic role,event,[],[],Node
+naringenin has disposition as a flavonoid,event,[],[],Node
+non-alcoholic fatty liver disease causes fibrosis,event,[],[],Node
+non-alcoholic fatty liver disease is associated with obesity,event,[],[],Node
+"the diabetes corpus is split into 2,000-token chunks",event,[],[],Node
+diabetes corpus,entity,[],[],Node
+"2,000-token chunks",entity,[],[],Node
+Qwen3-32B is used to extract entities and relationships,event,[],[],Node
+"the final LLM-generated knowledge graph contains 272,346 triples",event,[],[],Node
+LLM-generated KG,entity,[],[],Node
+"272,346 triples",entity,[],[],Node
+"each experiment is conducted three times with random seeds 1, 2, and 3",event,[],[],Node
+experiment,entity,[],[],Node
+random seed 1,entity,[],[],Node
+random seed 2,entity,[],[],Node
+random seed 3,entity,[],[],Node
+the system retrieves the top 30 entities and the top 10 relationships per entity to construct context,event,[],[],Node
+system,entity,[],[],Node
+top 30 entities,entity,[],[],Node
+top 10 relationships per entity,entity,[],[],Node
+"GraphMERT extracted KG contains 139,565 triples after filtering",event,[],[],Node
+"the LLM baseline KG contains 515,460 triples",event,[],[],Node
+Validity checks with Qwen3-32B show GraphMERT attains a higher yes rate than the LLM baseline,event,[],[],Node
+higher proportion of valid triples,entity,[],[],Node
+LLM KG,entity,[],[],Node
+more relation misuse and ontology violations,entity,[],[],Node
+GPT-5 Thinking,entity,[],[],Node
+validity verdicts for triples,entity,[],[],Node
+tail incompleteness in GraphMERT triples,entity,[],[],Node
+tail incompleteness,entity,[],[],Node
+vague or semantically weak completions,entity,[],[],Node
+UMLS biomedical relations,entity,[],[],Node
+broader internal knowledge,entity,[],[],Node
+systematic relation reversal,entity,[],[],Node
+extracted knowledge graphs,entity,[],[],Node
+LLM KG on ICD-Bench,entity,[],[],Node
+9.2% overall accuracy gain on ICD-Bench,entity,[],[],Node
+injection threshold α,entity,[],[],Node
+relevance of seed triples used for training,entity,[],[],Node
+acceptance threshold β,entity,[],[],Node
+final triples generated by the pipeline,entity,[],[],Node
+optimal hyperparameters,entity,[],[],Node
+α = 0.55 and β = 0.67,entity,[],[],Node
+Seed KG sparsity,entity,[],[],Node
+GraphMERT performance but maintains advantage over LLM KG,entity,[],[],Node
+GraphMERT (no H-GAT ablation),entity,[],[],Node
+irrelevant top-k token predictions,entity,[],[],Node
+No-span MLM/MNM ablation,entity,[],[],Node
+span masking objective with one-token masking,entity,[],[],Node
+No dropout ablation,entity,[],[],Node
+dropout on relation embeddings,entity,[],[],Node
+Ablation studies,entity,[],[],Node
+component contributions to KG quality,entity,[],[],Node
+low-information 128-token sequences,entity,[],[],Node
+extracted KG,entity,[],[],Node
+predicate misuse,entity,[],[],Node
+wrong relation types or ontologically incorrect predicates,entity,[],[],Node
+overstated causality,entity,[],[],Node
+key tokens required for tail completion are missing,entity,[],[],Node
+more conservative and domain-appropriate than LLM KG,entity,[],[],Node
+The GraphMERT KG consistently produces a higher proportion of valid triples and fewer incorrect triples across all keywords,event,[],[],Node
+The LLM KG shows more relation misuse and ontology violations,event,[],[],Node
+Tail incompleteness arises when the helper LLM accepts an incomplete token as a valid tail during token combination,event,[],[],Node
+The helper LLM stitches together a completion that is contextually acceptable but semantically weak,event,[],[],Node
+Missing key tokens required for high-quality tail completion,event,[],[],Node
+The LLM still attempts a plausible but semantically weak completion,event,[],[],Node
+The LLM misinterprets UMLS biomedical relations and substitutes them with its broader internal knowledge,event,[],[],Node
+The LLM produces approximations that violate the ontology,event,[],[],Node
+Designing prompts to fully explain all relations is impractical and multiple examples fail to steer the LLM consistently,event,[],[],Node
+The LLM defaults to its own internal semantics,event,[],[],Node
+A practical mitigation is to exclude low-information 128-token sequences in the prediction stage,event,[],[],Node
+Contamination of the extracted KG by semantically weak completions would be reduced,event,[],[],Node
+GraphMERT outperforms the baseline LLM KG on the filtered endocrinology subset of ICD-Bench with a 9.2% overall accuracy gain,event,[],[],Node
+GraphMERT demonstrates advantages for downstream medical question-answering tasks,event,[],[],Node
+Performance peaks at alpha = 0.55 and beta = 0.67 in the hyperparameter grid search,event,[],[],Node
+These optimal hyperparameters yield the observed 9.2% improvement over the baseline LLM KG,event,[],[],Node
+"Lower alpha values introduce noisy, contextually irrelevant triples",event,[],[],Node
+They degrade GraphMERT performance,event,[],[],Node
+Higher alpha values impose a stricter relevance filter,event,[],[],Node
+They limit volume and diversity of injected knowledge and can prevent the model from leveraging sufficient breadth of knowledge,event,[],[],Node
+"Randomly removing 25%, 50%, and 75% of triples from the original seed KG",event,[],[],Node
+The study measures GraphMERT performance with a sparser seed KG,event,[],[],Node
+As the seed KG becomes sparser,event,[],[],Node
+GraphMERT performance generally decreases but remains effective and still outperforms the baseline LLM KG even with 75% removal,event,[],[],Node
+Ablating the H-GAT component (no H-GAT),event,[],[],Node
+Produces a large number of irrelevant tokens in the top-k predicted tokens,event,[],[],Node
+valid triples,entity,[],[],Node
+incorrect triples,entity,[],[],Node
+keywords,entity,[],[],Node
+The LLM KG shows more relation misuse and ontology violations reflected in a greater share of maybe and no verdicts,event,[],[],Node
+relation misuse,entity,[],[],Node
+ontology violations,entity,[],[],Node
+maybe verdicts,entity,[],[],Node
+no verdicts,entity,[],[],Node
+"The LLM often violates ontology, confusing methods with diseases, and misuses relations",event,[],[],Node
+ontology,entity,[],[],Node
+methods,entity,[],[],Node
+diseases,entity,[],[],Node
+GraphMERT main issues are vagueness and incomplete tails though they remain domain-appropriate,event,[],[],Node
+vagueness,entity,[],[],Node
+incomplete tails,entity,[],[],Node
+domain-appropriate,entity,[],[],Node
+incomplete token,entity,[],[],Node
+token combination,entity,[],[],Node
+Tail vagueness occurs when GraphMERT does not rank the required tail tokens within its top-20 predictions and the helper LLM stitches together a semantically weak completion,event,[],[],Node
+tail vagueness,entity,[],[],Node
+required tail tokens,entity,[],[],Node
+top-20 predictions,entity,[],[],Node
+completion,entity,[],[],Node
+Missing key tokens required for high-quality tail completion explain most cases of overstated causality and predicate misuse,event,[],[],Node
+missing key tokens,entity,[],[],Node
+high-quality tail completion,entity,[],[],Node
+mitigation,entity,[],[],Node
+prediction stage,entity,[],[],Node
+The LLM misinterprets UMLS biomedical relations and substitutes them with its broader internal knowledge resulting in approximations that violate the ontology,event,[],[],Node
+internal knowledge,entity,[],[],Node
+approximations,entity,[],[],Node
+Designing prompts to fully explain all relations is impractical and even multiple examples fail to steer the model consistently,event,[],[],Node
+multiple examples,entity,[],[],Node
+We observe systematic relation reversal in the LLM-extracted triples,event,[],[],Node
+LLM-extracted triples,entity,[],[],Node
+Extracting well-formed triples requires capturing semantic rather than syntactic representations which is challenging for LLMs trained primarily on surface text,event,[],[],Node
+well-formed triples,entity,[],[],Node
+surface text,entity,[],[],Node
+We evaluate the extracted KG by applying GraphRAG to the filtered benchmarks and assess accuracy based on the model's success rate in answering the questions,event,[],[],Node
+filtered benchmarks,entity,[],[],Node
+questions,entity,[],[],Node
+We compare accuracy using different KGs as the primary source of information and evaluate GraphMERT KG against the baseline LLM KG on the filtered endocrinology subset of ICD-Bench,event,[],[],Node
+baseline LLM KG,entity,[],[],Node
+filtered endocrinology subset,entity,[],[],Node
+ICD-Bench,entity,[],[],Node
+Our framework achieves an overall accuracy gain of 9.2% on ICD-Bench and 1.7% to 3.7% gain on other medical benchmarks,event,[],[],Node
+framework,entity,[],[],Node
+accuracy gain 9.2%,entity,[],[],Node
+medical benchmarks,entity,[],[],Node
+accuracy gain 1.7% to 3.7%,entity,[],[],Node
+We conduct ablation studies to validate design choices and understand contributions of different components,event,[],[],Node
+ablation studies,entity,[],[],Node
+design choices,entity,[],[],Node
+components,entity,[],[],Node
+Two key similarity thresholds control injections: injection threshold α determines relevance of seed triples used for training and acceptance threshold β filters final triples generated by the pipeline,event,[],[],Node
+seed triples,entity,[],[],Node
+final triples,entity,[],[],Node
+We perform a grid search over α and β and observe performance peaks at α = 0.55 and β = 0.67,event,[],[],Node
+α,entity,[],[],Node
+β,entity,[],[],Node
+performance peaks,entity,[],[],Node
+α = 0.55,entity,[],[],Node
+"Lower α likely introduces noisy, contextually irrelevant triples while higher α appear overly restrictive preventing leveraging sufficient breadth of knowledge",event,[],[],Node
+lower α,entity,[],[],Node
+noisy triples,entity,[],[],Node
+contextually irrelevant triples,entity,[],[],Node
+higher α,entity,[],[],Node
+overly restrictive,entity,[],[],Node
+breadth of knowledge,entity,[],[],Node
+A higher optimal β strengthens the importance of cross-document understanding for triple generation which is not possible in LLM-generated KGs,event,[],[],Node
+higher optimal β,entity,[],[],Node
+cross-document understanding,entity,[],[],Node
+triple generation,entity,[],[],Node
+"Using α = 0.55 and β = 0.67 we simulate knowledge sparsity by removing 25%, 50%, and 75% of triples from the original seed KG and measure GraphMERT performance",event,[],[],Node
+knowledge sparsity,entity,[],[],Node
+25% removal,entity,[],[],Node
+50% removal,entity,[],[],Node
+75% removal,entity,[],[],Node
+GraphMERT performance,entity,[],[],Node
+Even with 75% of the seed knowledge removed GraphMERT still outperforms the baseline LLM KG by 3.86%,event,[],[],Node
+75% seed knowledge removed,entity,[],[],Node
+3.86%,entity,[],[],Node
+"Ablations include No-span MLM/MNM, No H-GAT, and No dropout to evaluate impact of replacing span masking, switching off graph attention, and switching off dropout on relation embeddings",event,[],[],Node
+No-span MLM/MNM,entity,[],[],Node
+No H-GAT,entity,[],[],Node
+No dropout,entity,[],[],Node
+span masking,entity,[],[],Node
+graph attention,entity,[],[],Node
+dropout,entity,[],[],Node
+In the no H-GAT ablation we observe a large number of irrelevant tokens in top-k predicted tokens with commas and articles primarily predicted in the top 3,event,[],[],Node
+no H-GAT ablation,entity,[],[],Node
+irrelevant tokens,entity,[],[],Node
+top-k predicted tokens,entity,[],[],Node
+commas,entity,[],[],Node
+articles,entity,[],[],Node
+higher factuality and validity of triples,entity,[],[],Node
+ontology fidelity,entity,[],[],Node
+ontology-aligned relations,entity,[],[],Node
+no dropout,entity,[],[],Node
+overfitting on the seed KG vocabulary,entity,[],[],Node
+less diverse tails,entity,[],[],Node
+no-span MLM/MNM objective,entity,[],[],Node
+simpler tail completions,entity,[],[],Node
+nuance and granularity in completions,entity,[],[],Node
+no span-masking variant,entity,[],[],Node
+trivially correct triples,entity,[],[],Node
+Validit yScore,entity,[],[],Node
+no span-masking completions,entity,[],[],Node
+poorer coverage and loss of fine-grained details,entity,[],[],Node
+disabling H-GAT,entity,[],[],Node
+substantial decrease in accuracy,entity,[],[],Node
+removing dropout or H-GAT,entity,[],[],Node
+acceptance and increases rejections,entity,[],[],Node
+ontology violations than LLM KG,entity,[],[],Node
+relation directions and categories,entity,[],[],Node
+GraphMERT training,entity,[],[],Node
+relation vocabulary scope,entity,[],[],Node
+occasional incompleteness in triple tails,entity,[],[],Node
+KG signal with backbone model knowledge,entity,[],[],Node
+relation-aware retrieval and graph-level metrics,entity,[],[],Node
+proposed textual chain graphs,entity,[],[],Node
+semantic and syntactic information,entity,[],[],Node
+encoder-only transformer with graph attention,entity,[],[],Node
+neural-KG integration,entity,[],[],Node
+a key step toward domain-specific superintelligence,entity,[],[],Node
+limitations of GraphMERT,entity,[],[],Node
+dependence on seed KG and fixed relation set,entity,[],[],Node
+prioritization of frequent entities over rare ones,entity,[],[],Node
+planned improvements,entity,[],[],Node
+unifying entity spellings and token-level selection,entity,[],[],Node
+direct multi-token span prediction in semantic space,entity,[],[],Node
+Disabling dropout leads to overfitting on the seed KG vocabulary,event,[],[],Node
+there are less diverse tails,event,[],[],Node
+Training with a no-span MLM/MNM objective produces simpler tail completions,event,[],[],Node
+each individual candidate is not well aligned with the others,event,[],[],Node
+The full GraphMERT KG configuration achieves the highest performance,event,[],[],Node
+the full model achieves the best results,event,[],[],Node
+The variant without span-masking performs slightly worse,event,[],[],Node
+Removal of either dropout or H-GAT leads to a substantial decrease in accuracy,event,[],[],Node
+their importance for robust performance is underscored,event,[],[],Node
+Removing dropout or H-GAT lowers acceptance and increases rejections,event,[],[],Node
+the full model FActScore* is the highest,event,[],[],Node
+GraphMERT without span-masking reaches the same FActScore* in the 'Context and General truth' case,event,[],[],Node
+"GraphMERT without span-masking achieves the best acceptance (69.4% yes, 10.2% no)",event,[],[],Node
+the KG obtained from this variant tends to be populated with trivially correct triples,event,[],[],Node
+The KG from the no-span-masked variant is populated with trivially correct triples,event,[],[],Node
+there is a higher rate of successful tail completion: 188k against 140k with span masking,event,[],[],Node
+"Such short, obvious facts pass a validity check",event,[],[],Node
+they manifest in a higher ValidityScore,event,[],[],Node
+No-span-masked completions lack nuance and granularity provided by span masking,event,[],[],Node
+they produce poorer coverage and a loss of fine-grained domain details,event,[],[],Node
+This trade-off stresses the importance of evaluating KGs both at the graph and triple levels,event,[],[],Node
+simplicity of triples can hide poorer coverage and loss of domain details,event,[],[],Node
+We advise employing token-level MLM/MNM,event,[],[],Node
+the simplicity of triples from no-span masking is a limitation in some cases,event,[],[],Node
+GraphMERT yields higher factuality and validity of triples than LLM-based KG extraction,event,[],[],Node
+GraphMERT preserves ontology fidelity better than LLM KGs,event,[],[],Node
+GraphMERT generally employs relations correctly and preserves biomedical categories,event,[],[],Node
+the GraphMERT KG has far fewer ontology violations and hews closer to UMLS,event,[],[],Node
+The GraphMERT KG vocabulary is more conservative,event,[],[],Node
+the seed KG's limited scope tends to restate head tokens and mimic tautological triples,event,[],[],Node
+We attribute the difference in factuality and validity of triples to the usage of semantic relation embeddings,event,[],[],Node
+embeddings move predictions toward ontology-aligned ones,event,[],[],Node
+Triple-level error analysis shows GraphMERT may extract incomplete and vague but often domain-appropriate tails,event,[],[],Node
+LLMs usually produce diverse tails but frequently misuse or reverse the direction of relations,event,[],[],Node
+Our graph-level evaluation may conflate the KG signal with backbone model knowledge under GraphRAG,event,[],[],Node
+GraphRAG blends KG information with model knowledge and does not isolate KG contribution,event,[],[],Node
+Future work will include graph-level metrics that isolate the contribution of KGs,event,[],[],Node
+we address the current conflation caused by GraphRAG,event,[],[],Node
+The main limitation of GraphMERT is its reliance on the seed KG,event,[],[],Node
+running the framework requires a high-quality seed with 100-1000 examples per relation,event,[],[],Node
+"Once training is complete, the relation set is fixed",event,[],[],Node
+adding new relations requires retraining,event,[],[],Node
+GraphMERT depends on a helper LLM for tail combination,event,[],[],Node
+this introduces occasional incompleteness in the extracted triple tails,event,[],[],Node
+GraphMERT tends to prioritize frequent entities,event,[],[],Node
+it can potentially overlook rare but meaningful entities,event,[],[],Node
+We plan to extend GraphMERT to direct multi-token span prediction in the semantic space,event,[],[],Node
+this will reduce reliance on the helper LLM for tail token combining,event,[],[],Node
+We plan to conduct more rigorous graph-level evaluations,event,[],[],Node
+GraphRAG often blends KG information with model knowledge and may not retrieve the most relevant subgraph,event,[],[],Node
+seed KG vocabulary,entity,[],[],Node
+tail completions,entity,[],[],Node
+full GraphMERT KG configuration,entity,[],[],Node
+performance,entity,[],[],Node
+Table 12,entity,[],[],Node
+The variant without span-masking performs only slightly worse than the full model,event,[],[],Node
+variant without span-masking,entity,[],[],Node
+full model,entity,[],[],Node
+The full model FActScore* is the highest,event,[],[],Node
+Table 13,entity,[],[],Node
+acceptance,entity,[],[],Node
+rejections,entity,[],[],Node
+GraphMERT without span-masking reaches the same FActScore* in 'Context and General truth' case,event,[],[],Node
+GraphMERT without span-masking,entity,[],[],Node
+Context and General truth case,entity,[],[],Node
+GraphMERT without span-masking achieves the best acceptance,event,[],[],Node
+Table 14,entity,[],[],Node
+"According to GraphRAG, the KG from the no-span variant remains less informative overall",event,[],[],Node
+KG from no-span variant,entity,[],[],Node
+informativeness,entity,[],[],Node
+The KG obtained from the no-span variant tends to be populated with trivially correct triples,event,[],[],Node
+KG obtained from no-span variant,entity,[],[],Node
+This leads to a higher rate of successful tail completion: 188k against 140k with span masking,event,[],[],Node
+no-span variant,entity,[],[],Node
+successful tail completion,entity,[],[],Node
+188k,entity,[],[],Node
+140k,entity,[],[],Node
+"Such short, obvious facts pass a validity check, manifesting in a higher ValidityScore",event,[],[],Node
+short obvious facts,entity,[],[],Node
+validity check,entity,[],[],Node
+Nospan-masked completions lack the nuance and granularity provided by span masking,event,[],[],Node
+Nospan-masked completions,entity,[],[],Node
+nuance,entity,[],[],Node
+granularity,entity,[],[],Node
+This simplicity results in poorer coverage and a loss of fine-grained domain details,event,[],[],Node
+simplicity of triples,entity,[],[],Node
+coverage,entity,[],[],Node
+fine-grained domain details,entity,[],[],Node
+We advise employing token-level MLM/MNM when the simplicity of triples is not a limitation,event,[],[],Node
+token-level MLM/MNM,entity,[],[],Node
+triples simplicity,entity,[],[],Node
+advice,entity,[],[],Node
+GraphMERT users,entity,[],[],Node
+Our results show that GraphMERT yields higher factuality and validity of triples than LLM-based KG extraction,event,[],[],Node
+validity of triples,entity,[],[],Node
+LLM-based KG extraction,entity,[],[],Node
+results,entity,[],[],Node
+GraphMERT preserves ontology fidelity while outperforming LLM-based KG extraction,event,[],[],Node
+We observe a consistent difference between GraphMERT and LLM KGs in relation usage and predicate hygiene,event,[],[],Node
+relation usage,entity,[],[],Node
+predicate hygiene,entity,[],[],Node
+observations,entity,[],[],Node
+"GraphMERT generally employs relations correctly, aligns tails with heads, and preserves biomedical categories",event,[],[],Node
+heads,entity,[],[],Node
+biomedical categories,entity,[],[],Node
+syndromes,entity,[],[],Node
+complications,entity,[],[],Node
+The LLM KG often misuses or reverses the direction of relations and mixes categories in ontology-violating ways,event,[],[],Node
+socio-economic categories,entity,[],[],Node
+The GraphMERT KG has far fewer ontology violations and hews closer to UMLS,event,[],[],Node
+The GraphMERT KG vocabulary is more conservative due to the limited scope of the seed KG's vocabulary,event,[],[],Node
+GraphMERT KG vocabulary,entity,[],[],Node
+seed KG's vocabulary,entity,[],[],Node
+conservativeness,entity,[],[],Node
+We attribute the difference in factuality and validity to the usage of semantic relation embeddings,event,[],[],Node
+triple-level error analysis,entity,[],[],Node
+vague tails,entity,[],[],Node
+domain-appropriate tails,entity,[],[],Node
+factual relations,entity,[],[],Node
+diverse tails,entity,[],[],Node
+misuse relations,entity,[],[],Node
+reverse direction of relations,entity,[],[],Node
+graph-level evaluation,entity,[],[],Node
+KG signal,entity,[],[],Node
+backbone model knowledge,entity,[],[],Node
+Future work will include graph-level metrics that isolate the contribution of KGs as well as relation-aware retrieval,event,[],[],Node
+graph-level metrics,entity,[],[],Node
+contribution of KGs,entity,[],[],Node
+relation-aware retrieval,entity,[],[],Node
+main limitation,entity,[],[],Node
+reliance,entity,[],[],Node
+Running the framework requires a high-quality seed with 100-1000 examples per relation,event,[],[],Node
+running the framework,entity,[],[],Node
+high-quality seed,entity,[],[],Node
+100-1000 examples per relation,entity,[],[],Node
+"Once training is complete, the relation set is fixed and adding new relations requires retraining",event,[],[],Node
+relation set,entity,[],[],Node
+retraining,entity,[],[],Node
+GraphMERT depends on a helper LLM for tail combination which introduces occasional incompleteness,event,[],[],Node
+tail combination,entity,[],[],Node
+incompleteness,entity,[],[],Node
+Yunfan Gao et al.,entity,[],[],Node
+Retrieval-augmented generation for large language models: A survey,entity,[],[],Node
+Artur d'Avila Garcez and Luís C. Lamb,entity,[],[],Node
+Neurosymbolic AI: The 3rd wave,entity,[],[],Node
+Andrés García-Silva et al.,entity,[],[],Node
+Textual entailment for effective triple validation in object prediction,entity,[],[],Node
+R. Stuart Geiger et al.,entity,[],[],Node
+reporting of human-labeled training data provenance in machine learning papers,entity,[],[],Node
+Hatem Ghanem and Carlos Cruz,entity,[],[],Node
+Fine-tuning or prompting on LLMs for knowledge graph construction,entity,[],[],Node
+Bishwamittra Ghosh et al.,entity,[],[],Node
+logical consistency of large language models in fact-checking,entity,[],[],Node
+Rajan Gupta et al.,entity,[],[],Node
+generative AI approach for automating government report generation,entity,[],[],Node
+Lovisa Hagström et al.,entity,[],[],Node
+"effect of scaling, retrieval augmentation and form on factual consistency of language models",entity,[],[],Node
+Stevan Harnad,entity,[],[],Node
+The symbol grounding problem,entity,[],[],Node
+Pascal Hitzler et al.,entity,[],[],Node
+neuro-symbolic approaches in artificial intelligence,entity,[],[],Node
+Marvin Hofer et al.,entity,[],[],Node
+construction of knowledge graphs: current state and challenges,entity,[],[],Node
+Jiri Hron et al.,entity,[],[],Node
+training language models on the knowledge graph and hallucination detectability,entity,[],[],Node
+Edward J. Hu et al.,entity,[],[],Node
+LoRA: Low-rank adaptation of large language models,entity,[],[],Node
+Haoyu Huang et al.,entity,[],[],Node
+Can LLMs be good graph judge for knowledge graph construction?,entity,[],[],Node
+Lei Huang et al.,entity,[],[],Node
+"hallucination in large language models: principles, taxonomy, challenges",entity,[],[],Node
+N. Ibrahim et al.,entity,[],[],Node
+augmenting knowledge graphs with large language models,entity,[],[],Node
+Shadi Iskander et al.,entity,[],[],Node
+synthetic data quality for tool-using LLMs,entity,[],[],Node
+Mohamed Yahya Jaradeh et al.,entity,[],[],Node
+information extraction pipelines for knowledge graphs,entity,[],[],Node
+Shaoxiong Ji et al.,entity,[],[],Node
+"knowledge graphs: representation, acquisition, and applications",entity,[],[],Node
+Jiajie Jin et al.,entity,[],[],Node
+BIDER: Bridging knowledge inconsistency for retrieval-augmented LLMs,entity,[],[],Node
+Mandar Joshi et al.,entity,[],[],Node
+SpanBERT: improving pre-training by representing and predicting spans,entity,[],[],Node
+Tal Kadosh et al.,entity,[],[],Node
+MonoCoder: domain-specific code language model for HPC codes and tasks,entity,[],[],Node
+Jared Kaplan et al.,entity,[],[],Node
+scaling laws for neural language models,entity,[],[],Node
+Muhammad Khalifa et al.,entity,[],[],Node
+source-aware training for knowledge attribution in language models,entity,[],[],Node
+Yubin Kim et al.,entity,[],[],Node
+medical hallucinations in foundation models and their impact on healthcare,entity,[],[],Node
+Alex Krizhevsky et al.,entity,[],[],Node
+ImageNet classification with deep convolutional neural networks,entity,[],[],Node
+"Yann LeCun, Yoshua Bengio, and Geoffrey Hinton",entity,[],[],Node
+deep learning,entity,[],[],Node
+Junyi Li et al.,entity,[],[],Node
+factuality hallucination in large language models,entity,[],[],Node
+Linhao Luo et al.,entity,[],[],Node
+faithful and interpretable large language model reasoning on graphs,entity,[],[],Node
+Andreas Madsen et al.,entity,[],[],Node
+faithfulness of self-explanations from large language models,entity,[],[],Node
+John McCarthy,entity,[],[],Node
+Circumscription as a form of non-monotonic reasoning,entity,[],[],Node
+Dhruv Mehrotra and Tim Marchman,entity,[],[],Node
+critical investigation of data scraping and hallucinations in Perplexity (WIRED),entity,[],[],Node
+Sewon Min et al.,entity,[],[],Node
+FActScore: fine-grained atomic evaluation of factual precision,entity,[],[],Node
+Prakamya Mishra et al.,entity,[],[],Node
+SYNFAC-EDIT: synthetic imitation edit feedback for factual alignment in clinical summarization,entity,[],[],Node
+Seyed Mahed Mousavi et al.,entity,[],[],Node
+DyKnow: dynamically verifying time-sensitive factual knowledge in LLMs,entity,[],[],Node
+Reiichiro Nakano et al.,entity,[],[],Node
+WebGPT: browser-assisted question-answering with human feedback,entity,[],[],Node
+Deepak Nathani et al.,entity,[],[],Node
+attention-based embeddings for relation prediction in knowledge graphs,entity,[],[],Node
+Thuat Nguyen et al.,entity,[],[],Node
+CulturaX: cleaned multilingual dataset for LLMs in 167 languages,entity,[],[],Node
+Jeff Z. Pan et al.,entity,[],[],Node
+opportunities and challenges at the intersection of large language models and knowledge graphs,entity,[],[],Node
+Chuang Liu et al.,entity,[],[],Node
+Gradformer: graph transformer with exponential decay,entity,[],[],Node
+Y. Liu et al.,entity,[],[],Node
+RoBERTa: a robustly optimized BERT pretraining approach,entity,[],[],Node
+Yang Liu et al.,entity,[],[],Node
+datasets for large language models,entity,[],[],Node
+Yushan Liu et al.,entity,[],[],Node
+neural multi-hop reasoning with logical rules on biomedical knowledge graphs,entity,[],[],Node
+Xinyu Lu et al.,entity,[],[],Node
+MRE: translational knowledge graph completion model based on multiple relation embedding,entity,[],[],Node
+Gary Marcus,entity,[],[],Node
+deep learning in a critical appraisal,entity,[],[],Node
+John Haugeland published Artificial Intelligence: The Very Idea in 1985,event,[],[],Node
+Stevan Harnad published The symbol grounding problem in 1990,event,[],[],Node
+Robert K. Lindsay and colleagues published DENDRAL: A case study of the first expert system for scientific hypothesis formation in 1993,event,[],[],Node
+"Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton published Imagenet classification with deep convolutional neural networks in 2012",event,[],[],Node
+"Yann LeCun, Yoshua Bengio, and Geoffrey Hinton published Deep learning in Nature in 2015",event,[],[],Node
+Gary Marcus published Deep learning: A critical appraisal in 2018,event,[],[],Node
+Y. Liu and colleagues published RoBERTa: A robustly optimized BERT pretraining approach in 2019,event,[],[],Node
+Jared Kaplan and colleagues published Scaling laws for neural language models in 2020,event,[],[],Node
+Multiple surveys and empirical studies on LLMs and knowledge graphs were published in 2024,event,[],[],Node
+Jiri Hron and colleagues published Training language models on the knowledge graph: Insights on hallucinations and their detectability in 2024,event,[],[],Node
+Jiajie Jin and colleagues published BIDER: Bridging knowledge inconsistency for efficient retrieval-augmented LLMs via key supporting evidence in August 2024,event,[],[],Node
+Graham Neubig published Better synthetic data by retrieving and transforming existing datasets in August 2024,event,[],[],Node
+Many foundational and methodological works from 2012–2020 existed before the wave of 2024–2025 surveys and empirical evaluations,event,[],[],Node
+"A broad set of surveys and empirical papers on hallucination, synthetic data, retrieval augmentation, and knowledge graphs were published in 2024 and 2025",event,[],[],Node
+Several 2024 publications appeared in conference findings and proceedings,event,[],[],Node
+Multiple 2024 arXiv surveys and preprints on LLMs and knowledge graphs were released in 2024,event,[],[],Node
+"Raham Neubig. Better synthetic data by retrieving and transforming existing datasets, August 2024.",event,[],[],Node
+Raham Neubig,entity,[],[],Node
+In Findings of the Association for Computational Linguistics: ACL 2024.,event,[],[],Node
+Findings of the Association for Computational Linguistics,entity,[],[],Node
+ACL 2024,entity,[],[],Node
+"Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei Sun, Meng Wang, and Haofen Wang. Retrieval-augmented generation for large language models: A survey, 2024.",event,[],[],Node
+Yunfan Gao,entity,[],[],Node
+Yun Xiong,entity,[],[],Node
+Xinyu Gao,entity,[],[],Node
+Kangxiang Jia,entity,[],[],Node
+Jinliu Pan,entity,[],[],Node
+Yuxi Bi,entity,[],[],Node
+Yi Dai,entity,[],[],Node
+Jiawei Sun,entity,[],[],Node
+Meng Wang,entity,[],[],Node
+Haofen Wang,entity,[],[],Node
+arXiv:2312.10997 [cs.CL].,event,[],[],Node
+arXiv:2312.10997,entity,[],[],Node
+cs.CL,entity,[],[],Node
+Artur d'Avila Garcez and Luís C. Lamb. Neurosymbolic AI: The 3rd wave.,event,[],[],Node
+Artur d'Avila Garcez,entity,[],[],Node
+Luís C. Lamb,entity,[],[],Node
+"Artificial Intelligence Review, 56(11):12387-12406, March 2023.",event,[],[],Node
+Artificial Intelligence Review,entity,[],[],Node
+"Andrés García-Silva, Cristian Berrío, and Jose Manuel Gómez-Pérez. Textual entailment for effective triple validation in object prediction, 2023.",event,[],[],Node
+Andrés García-Silva,entity,[],[],Node
+Cristian Berrío,entity,[],[],Node
+Jose Manuel Gómez-Pérez,entity,[],[],Node
+In The Semantic Web - ISWC 2023.,event,[],[],Node
+The Semantic Web,entity,[],[],Node
+ISWC 2023,entity,[],[],Node
+"R. Stuart Geiger, Kevin Yu, Yanlai Yang, Mindy Dai, Jie Qiu, Rebekah Tang, and Jenny Huang. Garbage in, garbage out? Do machine learning application papers in social computing report where human-labeled training data comes from?, 2020.",event,[],[],Node
+R. Stuart Geiger,entity,[],[],Node
+Kevin Yu,entity,[],[],Node
+Yanlai Yang,entity,[],[],Node
+Mindy Dai,entity,[],[],Node
+Jie Qiu,entity,[],[],Node
+Rebekah Tang,entity,[],[],Node
+Jenny Huang,entity,[],[],Node
+"In Proceedings of the Conference on Fairness, Accountability, and Transparency.",event,[],[],Node
+"Proceedings of the Conference on Fairness, Accountability, and Transparency",entity,[],[],Node
+Hatem Ghanem and Carlos Cruz. Fine-tuning or prompting on LLMs: Evaluating knowledge graph construction task.,event,[],[],Node
+Hatem Ghanem,entity,[],[],Node
+Carlos Cruz,entity,[],[],Node
+"Frontiers in Big Data, 8:1505877, June 2025.",event,[],[],Node
+Frontiers in Big Data,entity,[],[],Node
+"Bishwamittra Ghosh, Sarah Hasan, Naheed Anjum Arafat, and Arijit Khan. Logical consistency of large language models in fact-checking, 2025.",event,[],[],Node
+Bishwamittra Ghosh,entity,[],[],Node
+Sarah Hasan,entity,[],[],Node
+Naheed Anjum Arafat,entity,[],[],Node
+Arijit Khan,entity,[],[],Node
+In Proceedings of the Thirteenth International Conference on Learning Representations.,event,[],[],Node
+Proceedings of the Thirteenth International Conference on Learning Representations,entity,[],[],Node
+"Rajan Gupta, Gaurav Pandey, and Saibal Kumar Pal. Automating government report generation: A generative AI approach for efficient data extraction, analysis, and visualization.",event,[],[],Node
+Rajan Gupta,entity,[],[],Node
+Gaurav Pandey,entity,[],[],Node
+Saibal Kumar Pal,entity,[],[],Node
+"Digital Government: Research and Practice, 6(1), February 2025.",event,[],[],Node
+Digital Government: Research and Practice,entity,[],[],Node
+"Lovisa Hagström, Denitsa Saynova, Tobias Norlund, Moa Johansson, and Richard Johansson. The effect of scaling, retrieval augmentation and form on the factual consistency of language models, December 2023.",event,[],[],Node
+Lovisa Hagström,entity,[],[],Node
+Denitsa Saynova,entity,[],[],Node
+Tobias Norlund,entity,[],[],Node
+Moa Johansson,entity,[],[],Node
+Richard Johansson,entity,[],[],Node
+In Proceedings of the Conference on Empirical Methods in Natural Language Processing.,event,[],[],Node
+Proceedings of the Conference on Empirical Methods in Natural Language Processing,entity,[],[],Node
+Stevan Harnad. The symbol grounding problem.,event,[],[],Node
+"Physica D: Nonlinear Phenomena, 42(1):335-346, 1990.",event,[],[],Node
+Physica D: Nonlinear Phenomena,entity,[],[],Node
+John Haugeland. Artificial Intelligence: The Very Idea.,event,[],[],Node
+John Haugeland,entity,[],[],Node
+"Dan Hendrycks and Kevin Gimpel. Gaussian error linear units (GELUs), 2023.",event,[],[],Node
+Dan Hendrycks,entity,[],[],Node
+Kevin Gimpel,entity,[],[],Node
+arXiv:1606.08415 [cs.LG].,event,[],[],Node
+arXiv:1606.08415,entity,[],[],Node
+cs.LG,entity,[],[],Node
+"Pascal Hitzler, Aaron Eberhart, Monireh Ebrahimi, Md Kamruzzaman Sarker, and Lu Zhou. Neuro-symbolic approaches in artificial intelligence.",event,[],[],Node
+Pascal Hitzler,entity,[],[],Node
+Aaron Eberhart,entity,[],[],Node
+Monireh Ebrahimi,entity,[],[],Node
+Md Kamruzzaman Sarker,entity,[],[],Node
+Lu Zhou,entity,[],[],Node
+"National Science Review, 9(6):nwac035, 2022.",event,[],[],Node
+National Science Review,entity,[],[],Node
+"Marvin Hofer, Daniel Obraczka, Alieh Saeedi, Hanna Köpcke, and Erhard Rahm. Construction of knowledge graphs: Current state and challenges.",event,[],[],Node
+Marvin Hofer,entity,[],[],Node
+Daniel Obraczka,entity,[],[],Node
+Alieh Saeedi,entity,[],[],Node
+Hanna Köpcke,entity,[],[],Node
+Erhard Rahm,entity,[],[],Node
+"Information, 15(8), 2024.",event,[],[],Node
+Information,entity,[],[],Node
+"Jiri Hron, Laura A. Culp, Gamaleldin Fathy Elsayed, Rosanne Liu, Jasper Snoek, Simon Kornblith, Alex Rizkowsky, Isabelle Simpson, Jascha Sohl-Dickstein, Noah Fiedel, Aaron T. Parisi, Alexander A. Alemi, Azade Nova, Ben Adlam, Bernd Bohnet, Gaurav Mishra, Hanie Sedghi, Izzeddin Gur, Jaehoon Lee, John D. Co-Reyes, Kathleen Kenealy, Kelvin Xu, Kevin Swersky, Igor Mordatch, Lechao Xiao, Maxwell Bileschi, Peter J. Liu, Roman Novak, Sharad Vikram, Tris Warkentin, and Jeffrey Pennington. Training language models on the knowledge graph: Insights on hallucinations and their detectability, 2024.",event,[],[],Node
+Jiri Hron,entity,[],[],Node
+Laura A. Culp,entity,[],[],Node
+Gamaleldin Fathy Elsayed,entity,[],[],Node
+Rosanne Liu,entity,[],[],Node
+Jasper Snoek,entity,[],[],Node
+Simon Kornblith,entity,[],[],Node
+Alex Rizkowsky,entity,[],[],Node
+Isabelle Simpson,entity,[],[],Node
+Jascha Sohl-Dickstein,entity,[],[],Node
+Noah Fiedel,entity,[],[],Node
+Aaron T. Parisi,entity,[],[],Node
+Alexander A. Alemi,entity,[],[],Node
+Azade Nova,entity,[],[],Node
+Ben Adlam,entity,[],[],Node
+Bernd Bohnet,entity,[],[],Node
+Gaurav Mishra,entity,[],[],Node
+Hanie Sedghi,entity,[],[],Node
+Izzeddin Gur,entity,[],[],Node
+Jaehoon Lee,entity,[],[],Node
+John D. Co-Reyes,entity,[],[],Node
+Kathleen Kenealy,entity,[],[],Node
+Kelvin Xu,entity,[],[],Node
+Kevin Swersky,entity,[],[],Node
+Igor Mordatch,entity,[],[],Node
+Lechao Xiao,entity,[],[],Node
+Maxwell Bileschi,entity,[],[],Node
+Peter J. Liu,entity,[],[],Node
+Roman Novak,entity,[],[],Node
+Sharad Vikram,entity,[],[],Node
+Tris Warkentin,entity,[],[],Node
+Jeffrey Pennington,entity,[],[],Node
+"Mayana Pereira, Sikha Pentyala, Anderson Nascimento, Rafael T. de Sousa Jr., Martine De Cock",entity,[],[],Node
+Secure multiparty computation for synthetic data generation from distributed data,entity,[],[],Node
+"Fabio Petroni, Tim Rockt&auml,schel, Sebastian Riedel, Patrick Lewis, Anton Bakhtin, Yuxiang Wu, Alexander Miller",entity,[],[],Node
+Language models can function as knowledge bases,entity,[],[],Node
+"Ori Ram, Yoav Levine, Itay Dalmedigos, Dor Muhlgay, Amnon Shashua, Kevin Leyton-Brown, Yoav Shoham",entity,[],[],Node
+In-context retrieval-augmented language models,entity,[],[],Node
+"Qiang Rao, Tiejun Wang",entity,[],[],Node
+Semantic enhancement based knowledge graph completion for graph convolutional neural networks,entity,[],[],Node
+"Rohan Rao, Benika Hall, Sunil Patel, Christopher Brissette, Gordana Neskovic",entity,[],[],Node
+"Insights, techniques, and evaluation for LLM-driven knowledge graphs",entity,[],[],Node
+Cynthia Rudin,entity,[],[],Node
+using interpretable models instead of explaining black box machine learning models for high stakes decisions,entity,[],[],Node
+"Bhaskarjit Sarmah, Benika Hall, Rohan Rao, Sunil Patel, Stefano Pasquali, Dhagash Mehta",entity,[],[],Node
+HybridRAG: integration of knowledge graphs and vector retrieval augmented generation for information extraction,entity,[],[],Node
+"Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin",entity,[],[],Node
+Attention is all you need (Transformer architecture),entity,[],[],Node
+"J. Wang, Y. Liu, P. Li, Z. Lin, S. Sindakis, S. Aggarwal",entity,[],[],Node
+"data quality dimensions, antecedents, and impacts",entity,[],[],Node
+"Tianle Xia, Liang Ding, Guojia Wan, Yibing Zhan, Bo Du, Dacheng Tao",entity,[],[],Node
+complex reasoning over knowledge graph with logic-aware curriculum tuning,entity,[],[],Node
+"Hao Yang, Jinhui Li, Chen Zhang, Alejandro P. Sierra, Bin Shen",entity,[],[],Node
+LLM-driven knowledge graph construction in sepsis care using multicenter clinical databases,entity,[],[],Node
+"Xiangyu Wang, Lyuzhou Chen, Taiyu Ban, Muhammad Usman, Yifeng Guan, Shikang Liu, Tianhao Wu, Huanhuan Chen",entity,[],[],Node
+knowledge graph quality control,entity,[],[],Node
+"Wen Zhang, Jiaoyan Chen, Juan Li, Zezhong Xu, Jeff Z. Pan, Huajun Chen",entity,[],[],Node
+knowledge graph reasoning with logics and embeddings,entity,[],[],Node
+"Ziwei Xu, Sanjay Jain, Mohan Kankanhalli",entity,[],[],Node
+hallucination is an innate limitation of large language models,entity,[],[],Node
+World Health Organization,entity,[],[],Node
+"International Statistical Classification of Diseases and Related Health Problems, 10th Revision (ICD-10)",entity,[],[],Node
+Wolfram Research Inc.,entity,[],[],Node
+Mathematica version 14.3,entity,[],[],Node
+MYCIN: A knowledge-based consultation program for infectious disease diagnosis was published in 1978,event,[],[],Node
+Symbolic and neural learning algorithms: An experimental comparison was published in 1991,event,[],[],Node
+Attention is all you need was published in 2017,event,[],[],Node
+Emergent abilities of large language models was published in 2022,event,[],[],Node
+"Introducing the knowledge graph: Things, not strings was published in 2012",event,[],[],Node
+Multiple knowledge graph surveys and method papers on knowledge graph construction and quality control were published from 2021 to 2025,event,[],[],Node
+Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead was published in 2019,event,[],[],Node
+Transparency and the black box problem: Why we do not trust AI was discussed in 2021,event,[],[],Node
+Retrieval augmentation reduces hallucination in conversation was published in 2021,event,[],[],Node
+Subsequent works on retrieval-augmented generation and methods to overcome imperfect retrieval were published in 2024 and 2025,event,[],[],Node
+Language models as knowledge bases? was published in 2019,event,[],[],Node
+Many later surveys and studies on factuality and hallucination in large language models were published in 2024 and 2025,event,[],[],Node
+"Knowledge unlearning for LLMs: Tasks, methods, and challenges was published in 2023",event,[],[],Node
+To forget or not? Towards practical knowledge unlearning for large language models was published in 2024,event,[],[],Node
+A survey of large language models was published in 2025,event,[],[],Node
+Improvements and methodologies for knowledge-augmented LLMs and knowledge graph integration were developed in papers from 2021 to 2024,event,[],[],Node
+Applications of LLM-driven knowledge graphs and clinical knowledge graph construction studies appeared in 2024 and 2025,event,[],[],Node
+Early neural network and knowledge-based system work in the 1970s through 1990s established foundational approaches,event,[],[],Node
+"Modern neurosymbolic reasoning, transformers for graphs, and LLM-based knowledge extraction research appeared from 2017 through 2025",event,[],[],Node
+"Mayana Pereira, Sikha Pentyala, Anderson Nascimento, Rafael T. de Sousa Jr., and Martine De Cock published 'Secure multiparty computation for synthetic data generation from distributed data' in 2022 on arXiv.",event,[],[],Node
+Mayana Pereira,entity,[],[],Node
+Sikha Pentyala,entity,[],[],Node
+Anderson Nascimento,entity,[],[],Node
+Rafael T. de Sousa Jr.,entity,[],[],Node
+Martine De Cock,entity,[],[],Node
+arXiv,entity,[],[],Node
+"Fabio Petroni, Tim Rocktäschel, Sebastian Riedel, Patrick Lewis, Anton Bakhtin, Yuxiang Wu, and Alexander Miller published 'Language models as knowledge bases?' in 2019 in the Proceedings of EMNLP and IJCNLP conference.",event,[],[],Node
+Fabio Petroni,entity,[],[],Node
+Tim Rocktäschel,entity,[],[],Node
+Sebastian Riedel,entity,[],[],Node
+Patrick Lewis,entity,[],[],Node
+Anton Bakhtin,entity,[],[],Node
+Yuxiang Wu,entity,[],[],Node
+Alexander Miller,entity,[],[],Node
+Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing,entity,[],[],Node
+9th International Joint Conference on Natural Language Processing,entity,[],[],Node
+"Ori Ram, Yoav Levine, Itay Dalmedigos, Dor Muhlgay, Amnon Shashua, Kevin Leyton-Brown, and Yoav Shoham published 'In-context retrieval-augmented language models' in Transactions of the Association for Computational Linguistics in 2023.",event,[],[],Node
+Ori Ram,entity,[],[],Node
+Yoav Levine,entity,[],[],Node
+Itay Dalmedigos,entity,[],[],Node
+Dor Muhlgay,entity,[],[],Node
+Amnon Shashua,entity,[],[],Node
+Kevin Leyton-Brown,entity,[],[],Node
+Yoav Shoham,entity,[],[],Node
+Transactions of the Association for Computational Linguistics,entity,[],[],Node
+"Qiang Rao and Tiejun Wang published 'Semantic enhancement based knowledge graph completion for graph convolutional neural networks' in 2023 in the Proceedings of the International Conference on Electrical, Mechanical and Computer Engineering.",event,[],[],Node
+Qiang Rao,entity,[],[],Node
+Tiejun Wang,entity,[],[],Node
+"Proceedings of the International Conference on Electrical, Mechanical and Computer Engineering",entity,[],[],Node
+"Rohan Rao, Benika Hall, Sunil Patel, Christopher Brissette, and Gordana Neskovic published 'Insights, techniques, and evaluation for LLM-driven knowledge graphs' in December 2024 on the NVIDIA developer blog.",event,[],[],Node
+Rohan Rao,entity,[],[],Node
+Benika Hall,entity,[],[],Node
+Sunil Patel,entity,[],[],Node
+Christopher Brissette,entity,[],[],Node
+Gordana Neskovic,entity,[],[],Node
+NVIDIA developer blog,entity,[],[],Node
+"Rick Rejeleene, Xiaowei Xu, and John Talburt published 'Towards trustable language models: Investigating information quality of large language models' in 2024 on arXiv.",event,[],[],Node
+Rick Rejeleene,entity,[],[],Node
+Xiaowei Xu,entity,[],[],Node
+John Talburt,entity,[],[],Node
+Cynthia Rudin published 'Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead' in Nature Machine Intelligence in 2019.,event,[],[],Node
+Nature Machine Intelligence,entity,[],[],Node
+"Bhaskarjit Sarmah, Benika Hall, Rohan Rao, Sunil Patel, Stefano Pasquali, and Dhagash Mehta published 'HybridRAG: Integrating knowledge graphs and vector retrieval augmented generation for efficient information extraction' in 2024 on arXiv.",event,[],[],Node
+Bhaskarjit Sarmah,entity,[],[],Node
+Stefano Pasquali,entity,[],[],Node
+Dhagash Mehta,entity,[],[],Node
+"Lee Sharkey, Bilal Chughtai, Joshua Batson, Jack Lindsey, Jeff Wu, Lucius Bushnaq, Nicholas GoldowskyDill, Stefan Heimersheim, Alejandro Ortega, Joseph Bloom, and others published 'Open problems in mechanistic interpretability' in 2025 on arXiv.",event,[],[],Node
+Lee Sharkey,entity,[],[],Node
+Bilal Chughtai,entity,[],[],Node
+Joshua Batson,entity,[],[],Node
+Jack Lindsey,entity,[],[],Node
+Jeff Wu,entity,[],[],Node
+Lucius Bushnaq,entity,[],[],Node
+Nicholas GoldowskyDill,entity,[],[],Node
+Stefan Heimersheim,entity,[],[],Node
+Alejandro Ortega,entity,[],[],Node
+Joseph Bloom,entity,[],[],Node
+"Jude W. Shavlik, Raymond J. Mooney, and Geoffrey G. Towell published 'Symbolic and neural learning algorithms: An experimental comparison' in Machine Learning in 1991.",event,[],[],Node
+Jude W. Shavlik,entity,[],[],Node
+Raymond J. Mooney,entity,[],[],Node
+Geoffrey G. Towell,entity,[],[],Node
+Machine Learning journal,entity,[],[],Node
+"Fobo Shi, Duantengchuan Li, Xiaoguang Wang, Bing Li, and Xindong Wu published 'TGformer: A graph transformer framework for knowledge graph embedding' in IEEE Transactions on Knowledge and Data Engineering in 2025.",event,[],[],Node
+Fobo Shi,entity,[],[],Node
+Duantengchuan Li,entity,[],[],Node
+Xiaoguang Wang,entity,[],[],Node
+Bing Li,entity,[],[],Node
+Xindong Wu,entity,[],[],Node
+IEEE Transactions on Knowledge and Data Engineering,entity,[],[],Node
+"Kurt Shuster, Spencer Poff, Moya Chen, Douwe Kiela, and Jason Weston published 'Retrieval augmentation reduces hallucination in conversation' in November 2021 in Findings of ACL: EMNLP 2021.",event,[],[],Node
+Kurt Shuster,entity,[],[],Node
+Spencer Poff,entity,[],[],Node
+Moya Chen,entity,[],[],Node
+Douwe Kiela,entity,[],[],Node
+Jason Weston,entity,[],[],Node
+Findings of the Association for Computational Linguistics: EMNLP 2021,entity,[],[],Node
+"Nianwen Si, Hao Zhang, Heyu Chang, Wenlin Zhang, Dan Qu, and Weiqiang Zhang published 'Knowledge unlearning for LLMs: Tasks, methods, and challenges' in 2023 on arXiv.",event,[],[],Node
+Nianwen Si,entity,[],[],Node
+Hao Zhang,entity,[],[],Node
+Heyu Chang,entity,[],[],Node
+Wenlin Zhang,entity,[],[],Node
+Dan Qu,entity,[],[],Node
+Weiqiang Zhang,entity,[],[],Node
+"Amit Singhal introduced 'the knowledge graph: Things, not strings' on the Google The Keyword Blog in May 2012.",event,[],[],Node
+Amit Singhal,entity,[],[],Node
+Google The Keyword Blog,entity,[],[],Node
+Richard Sutton wrote 'The bitter lesson' on the Incomplete Ideas blog in 2019.,event,[],[],Node
+Richard Sutton,entity,[],[],Node
+Incomplete Ideas (blog),entity,[],[],Node
+"Vinitra Swamy, Angelika Romanou, and Martin Jaggi published 'Interpreting language models through knowledge graph extraction' in 2021 on arXiv.",event,[],[],Node
+Vinitra Swamy,entity,[],[],Node
+Angelika Romanou,entity,[],[],Node
+Martin Jaggi,entity,[],[],Node
+"Konrad Szocik, Bartłomiej Tkacz, and Patryk Gulczyński published 'The revelation of superintelligence' in AI & Society in September 2020.",event,[],[],Node
+Konrad Szocik,entity,[],[],Node
+Bartłomiej Tkacz,entity,[],[],Node
+Patryk Gulczyński,entity,[],[],Node
+AI & Society,entity,[],[],Node
+"A. J. Thirunavukarasu, D. S. J. Ting, K. Elangovan, L. Gutierrez, T. F. Tan, and D. S. W. Ting published 'Large language models in medicine' in Nature Medicine in 2023.",event,[],[],Node
+A. J. Thirunavukarasu,entity,[],[],Node
+D. S. J. Ting,entity,[],[],Node
+K. Elangovan,entity,[],[],Node
+Proper dataset valuation by pointwise mutual information,entity,[],[],Node
+"Juan Qi, Rui Ray Chen, Yongchan Kwon, James Zou",entity,[],[],Node
+A comprehensive survey on automatic knowledge graph construction,entity,[],[],Node
+"Lingfeng Zhong, Jia Wu, Qian Li, Hao Peng, Xindong Wu",entity,[],[],Node
+Problems with cosine as a measure of embedding similarity for high frequency words,entity,[],[],Node
+"Kaitlyn Zhou, Kawin Ethayarajh, Dallas Card, Dan Jurafsky",entity,[],[],Node
+Larger and more instructable language models become less reliable,entity,[],[],Node
+"Lexin Zhou, Wout Schellaert, Fernando Martínez-Plumed, Yael Moros-Daval, Cèsar Ferri, José Hernández-Orallo",entity,[],[],Node
+LLMs for knowledge graph construction and reasoning: Recent capabilities and future opportunities,entity,[],[],Node
+"Yuqi Zhu, Xiaohan Wang, Jing Chen, Shuofei Qiao, Yixin Ou, Yunzhi Yao, Shumin Deng, Huajun Chen, Ningyu Zhang",entity,[],[],Node
+UMLS relation has_associated_finding,entity,[],[],Node
+redundant_when_tail_equals_head,entity,[],[],Node
+UMLS relation has_laterality,entity,[],[],Node
+few_possible_tails_mostly_side,entity,[],[],Node
+Excluded UMLS relations list,entity,[],[],Node
+"acted_on_by_process, active_ingredient_of, associated_procedure_of, basis_of_strength_substance_of, component_of, consider_from, direct_device_of, direct_substance_of, has_associated_finding, has_finding_context, has_interpretation, has_laterality, has_realization, has_scale_type, has_specimen, has_subject_relationship_context, has_temporal_context, inverse_was_a, mapped_from, mapped_to, moved_to, negatively_regulated_by, positively_regulated_by, possibly_replaces, precise_active_ingredient_of, realization_of, regulated_by, replaced_by, replaces, was_a, has_intent, referred_to_by, refers_to, characterizes, substance_used_by, specimen_source_topography_of, specimen_substance_of, has_active_ingredient, has_property",entity,[],[],Node
+PubMed search query,entity,[],[],Node
+diabetes_terms AND NOT sars-cov-2_or_covid-19 within 2019-04-01 to 2025-04-01 medline,entity,[],[],Node
+KG Injection Algorithm,entity,[],[],Node
+"sequences_with_heads, triples_T_per_sequence, triple_embedding_similarity_score, similarity_threshold_alpha",entity,[],[],Node
+at_most_one_injected_triple_per_head_per_sequence,entity,[],[],Node
+Preprocessing step 1,entity,[],[],Node
+drop_triples_with_score_below_alpha,entity,[],[],Node
+Preprocessing step 2,entity,[],[],Node
+retain_unique_triple_with_highest_score_when_matching_multiple_sequences,entity,[],[],Node
+Triple selection policy,entity,[],[],Node
+maximize_injection_score_then_maintain_relation_diversity,entity,[],[],Node
+Maximize diversity procedure,entity,[],[],Node
+bucket_relations_by_unique_triple_counts_select_rarest_relation_highest_score_in_bucket,entity,[],[],Node
+Maximize score then diversity,entity,[],[],Node
+bucket_by_score_then_apply_maximize_diversity_within_score_buckets_then_choose_highest_scoring_per_head,entity,[],[],Node
+Algorithm implementation,entity,[],[],Node
+Pandas,entity,[],[],Node
+Seed KG relation distribution (α=0.55),entity,[],[],Node
+GraphMERT-extracted KG relation distribution,entity,[],[],Node
+associated_with,entity,[],[],Node
+GraphMERT helper LLM,entity,[],[],Node
+selecting_associated_with_during_relation_matching,entity,[],[],Node
+Sanity screening with GPT-5 Thinking,entity,[],[],Node
+small_samples_of_triples_for_IGF-1_and_GR_from_each_KG,entity,[],[],Node
+GPT-5 screening_results_for_IGF-1,entity,[],[],Node
+GraphMERT_higher_yes_proportion_than_LLM_KG,entity,[],[],Node
+GPT-5 screening_results_for_GR,entity,[],[],Node
+GraphMERT_higher_yes_and_lower_no_proportion_than_LLM_KG,entity,[],[],Node
+Example GraphMERT-extracted triple,entity,[],[],Node
+inflammasome_activation associated_with nlrp3_pathway,entity,[],[],Node
+nlrp3,entity,[],[],Node
+Score_bucket_size_and_relation_bucket_size,entity,[],[],Node
+0.01_and_100_respectively_in_experiments,entity,[],[],Node
+Table B1 top relation,entity,[],[],Node
+isa_8627_injections,entity,[],[],Node
+We exclude some relations from the UMLS KG that add little semantic value,event,[],[],Node
+custom-defined mappings of outdated-to-new UMLS relations for backward compatibility cannot be inferred from external data,event,[],[],Node
+relations used only for cross-vocabulary mappings add little semantic value,event,[],[],Node
+has_associated_finding is a redundant relation,event,[],[],Node
+in these cases the tail subject is the same as the head subject,event,[],[],Node
+has_laterality is an example of a relation with very few possible tails,event,[],[],Node
+almost all tails are 'side',event,[],[],Node
+The second preprocessing step prevents overfitting in the semantic space on common triples,event,[],[],Node
+it retains for a triple the sequence to which the triple is most relevant when a triple matches multiple sequences,event,[],[],Node
+Drop all triples with a score less than threshold α,event,[],[],Node
+make all triples unique by retaining the triple with the highest score when a triple matches multiple sequences,event,[],[],Node
+To balance contextual relevance with relation diversity we prioritize maximize injection score then maintain relation diversity,event,[],[],Node
+we measure relation diversity by the number of unique triples that contain the relation,event,[],[],Node
+Split relations into relation buckets based on the number of unique triples,event,[],[],Node
+within each relation bucket sort all triples by score regardless of relation,event,[],[],Node
+Start with the lowest-numbered bucket and retain only the highest-score triple for its head,event,[],[],Node
+"one of the rarest possible relations in the dataset would survive for this head, increasing relation diversity overall",event,[],[],Node
+Order triples by score and split into score buckets,event,[],[],Node
+within each score bucket apply Maximize diversity,event,[],[],Node
+"Altogether, we group triples by how 'low' the score is and then favor less frequent relation types within each score bucket",event,[],[],Node
+we choose the highest-scoring triple for each head,event,[],[],Node
+The algorithm is implemented using the Pandas framework and presented in Algorithm 1,event,[],[],Node
+"In our experiments, we use score_bucket_size = 0.01 and relation_bucket_size = 100",event,[],[],Node
+Figure C1 shows the relation distribution on a logarithmic scale,event,[],[],Node
+"it illustrates that while 'isa' is most represented in the training data, the helper LLM tends to select 'associated_with' most frequently during relation matching",event,[],[],Node
+This reflects the helper LLM's inclination to select 'associated_with' during relation matching,event,[],[],Node
+the GraphMERT KG is heavily skewed towards 'associated_with' compared to the seed KG,event,[],[],Node
+"We ran a lightweight screening with GPT-5 Thinking on small, comparable samples from each KG",event,[],[],Node
+this screening should be viewed as complementary to benchmark-based verification,event,[],[],Node
+For each KG we retrieved all triples whose head contains the keywords 'insulin-like growth factor 1 (IGF-1)' and 'glucocorticoid receptor (GR)',event,[],[],Node
+the screening evaluated if these medical KG triples are valid and gave a very short reason why,event,[],[],Node
+Table C2 summarizes screening results,event,[],[],Node
+we present counts and proportions of yes/maybe/no judgments for IGF-1 and GR across KGs,event,[],[],Node
+Table C1 shows an example GraphMERT-extracted triple with novel tail vocabulary,event,[],[],Node
+the seed KG does not include the token 'nlrp3' and 'pathway' was learned and extracted from the text,event,[],[],Node
+"uan Qi, Rui Ray Chen, Yongchan Kwon, and James Zou published Proper dataset valuation by pointwise mutual information in 2025 on arXiv",event,[],[],Node
+uan Qi,entity,[],[],Node
+Rui Ray Chen,entity,[],[],Node
+Yongchan Kwon,entity,[],[],Node
+James Zou,entity,[],[],Node
+2025,entity,[],[],Node
+"Lingfeng Zhong, Jia Wu, Qian Li, Hao Peng, and Xindong Wu published A comprehensive survey on automatic knowledge graph construction in ACM Computing Surveys in November 2023",event,[],[],Node
+Lingfeng Zhong,entity,[],[],Node
+Jia Wu,entity,[],[],Node
+Qian Li,entity,[],[],Node
+Hao Peng,entity,[],[],Node
+ACM Computing Surveys,entity,[],[],Node
+November 2023,entity,[],[],Node
+"Kaitlyn Zhou, Kawin Ethayarajh, Dallas Card, and Dan Jurafsky presented Problems with cosine as a measure of embedding similarity for high frequency words at the 60th Annual Meeting of the Association for Computational Linguistics in May 2022",event,[],[],Node
+Kaitlyn Zhou,entity,[],[],Node
+Kawin Ethayarajh,entity,[],[],Node
+Dallas Card,entity,[],[],Node
+Dan Jurafsky,entity,[],[],Node
+60th Annual Meeting of the Association for Computational Linguistics,entity,[],[],Node
+May 2022,entity,[],[],Node
+"Lexin Zhou, Wout Schellaert, Fernando Martínez-Plumed, Yael Moros-Daval, Cèsar Ferri, and José Hernández-Orallo published Larger and more instructable language models become less reliable in Nature in 2024",event,[],[],Node
+Lexin Zhou,entity,[],[],Node
+Wout Schellaert,entity,[],[],Node
+Fernando Martínez-Plumed,entity,[],[],Node
+Yael Moros-Daval,entity,[],[],Node
+Cèsar Ferri,entity,[],[],Node
+José Hernández-Orallo,entity,[],[],Node
+Nature,entity,[],[],Node
+2024,entity,[],[],Node
+"Yuqi Zhu, Xiaohan Wang, Jing Chen, Shuofei Qiao, Yixin Ou, Yunzhi Yao, Shumin Deng, Huajun Chen, and Ningyu Zhang published LLMs for knowledge graph construction and reasoning in World Wide Web in August 2024",event,[],[],Node
+Yuqi Zhu,entity,[],[],Node
+Xiaohan Wang,entity,[],[],Node
+Jing Chen,entity,[],[],Node
+Shuofei Qiao,entity,[],[],Node
+Yixin Ou,entity,[],[],Node
+Yunzhi Yao,entity,[],[],Node
+Shumin Deng,entity,[],[],Node
+Huajun Chen,entity,[],[],Node
+Ningyu Zhang,entity,[],[],Node
+LLMs for knowledge graph construction and reasoning,entity,[],[],Node
+World Wide Web,entity,[],[],Node
+August 2024,entity,[],[],Node
+The authors excluded some relations from the UMLS KG because they add little semantic value,event,[],[],Node
+authors,entity,[],[],Node
+has_associated_finding was identified as a redundant relation where the tail subject is the same as the head subject,event,[],[],Node
+has_associated_finding,entity,[],[],Node
+tail subject,entity,[],[],Node
+head subject,entity,[],[],Node
+has_laterality was given as an example of a relation with very few possible tails,event,[],[],Node
+has_laterality,entity,[],[],Node
+'side',entity,[],[],Node
+The paper presented a Table A1 listing excluded UMLS relations,event,[],[],Node
+Table A1,entity,[],[],Node
+Excluded UMLS relations,entity,[],[],Node
+A PubMed search query was specified to retrieve diabetes-related records excluding SARS-CoV-2 and COVID-19 between 2019/04/01 and 2025/04/01,event,[],[],Node
+SARS-CoV-2,entity,[],[],Node
+COVID-19,entity,[],[],Node
+2019/04/01,entity,[],[],Node
+2025/04/01,entity,[],[],Node
+medline,entity,[],[],Node
+"The KG injection algorithm input included sequences with heads, triples per head capped at 40, triple embedding similarity scores, and a similarity matching threshold α",event,[],[],Node
+sequences with heads,entity,[],[],Node
+score(T),entity,[],[],Node
+40,entity,[],[],Node
+Preprocessing step 1 dropped all triples with a score less than threshold α,event,[],[],Node
+preprocessing step 1,entity,[],[],Node
+Preprocessing step 2 made all triples unique by retaining the triple with the highest score when a triple matched multiple sequences,event,[],[],Node
+preprocessing step 2,entity,[],[],Node
+Triple selection prioritized maximizing injection score first and relation diversity second,event,[],[],Node
+triple selection,entity,[],[],Node
+injection score,entity,[],[],Node
+relation diversity,entity,[],[],Node
+Maximize diversity split relations into buckets by number of unique triples and retained the highest-scoring triple from the rarest bucket for each head,event,[],[],Node
+Maximize diversity,entity,[],[],Node
+relation buckets,entity,[],[],Node
+Maximize score then diversity ordered triples by score into buckets and applied Maximize diversity within each score bucket,event,[],[],Node
+score buckets,entity,[],[],Node
+The algorithm was implemented using the Pandas framework and presented as Algorithm 1,event,[],[],Node
+algorithm,entity,[],[],Node
+Pandas framework,entity,[],[],Node
+Algorithm 1,entity,[],[],Node
+Table B1 reported seed KG relation injection counts for α = 0.55 in the training split,event,[],[],Node
+Table B1,entity,[],[],Node
+relation injection counts,entity,[],[],Node
+training split,entity,[],[],Node
+Figure C1 compared relation distributions between the GraphMERT-extracted KG and the seed KG and noted differing prevalent relations,event,[],[],Node
+Figure C1,entity,[],[],Node
+A lightweight screening with GPT-5 Thinking was run on small comparable samples from each KG as a sanity check complementary to benchmark-based verification,event,[],[],Node
+lightweight screening,entity,[],[],Node
+sanity check,entity,[],[],Node
+benchmark-based verification,entity,[],[],Node
+"For each KG, triples with heads containing 'insulin-like growth factor 1 (IGF-1)' and 'glucocorticoid receptor (GR)' were retrieved for human-inspectable samples",event,[],[],Node
+insulin-like growth factor 1 (IGF-1),entity,[],[],Node
+glucocorticoid receptor (GR),entity,[],[],Node
+The prompt asked evaluators to judge if medical KG triples are valid (yes/no/maybe) and provide a very short reason,event,[],[],Node
+prompt,entity,[],[],Node
+evaluators,entity,[],[],Node
+medical KG triples,entity,[],[],Node
+yes/no/maybe,entity,[],[],Node
+Table C1 presented an example GraphMERT-extracted triple where the seed KG did not include the token 'nlrp3' which was learned from text,event,[],[],Node
+Table C1,entity,[],[],Node
+GraphMERT-extracted triple,entity,[],[],Node
+pathway,entity,[],[],Node
+inflammasome activation,entity,[],[],Node
+nlrp3 pathway,entity,[],[],Node
+Table C2 summarized GPT-5 Thinking screening counts and proportions for IGF-1 and GR across LLM and GraphMERT KGs,event,[],[],Node
+Table C2,entity,[],[],Node
+IGF-1,entity,[],[],Node
+GR,entity,[],[],Node
+insulin resistance,entity,[],[],Node
+metabolic syndrome,entity,[],[],Node
+bone metabolism,entity,[],[],Node
+cardiac development,entity,[],[],Node
+insulin-like growth factor 1 level,entity,[],[],Node
+growth hormone treatment,entity,[],[],Node
+insulin/insulin-like growth factor 1 (IGF-1) signaling pathway,entity,[],[],Node
+insulin receptor,entity,[],[],Node
+oocyte cohort quality,entity,[],[],Node
+insulin-like growth factor 1 receptor (IGF-1R),entity,[],[],Node
+receptor,entity,[],[],Node
+glucocorticoid signaling,entity,[],[],Node
+insulin signaling,entity,[],[],Node
+glucocorticoids,entity,[],[],Node
+glucocorticoid receptor haploinsufficiency,entity,[],[],Node
+hypertension,entity,[],[],Node
+glucocorticoid receptor locus (NR3C1) polymorphisms,entity,[],[],Node
+type 2 diabetes,entity,[],[],Node
+podocyte-specific glucocorticoid receptor knockout,entity,[],[],Node
+diabetic nephropathy,entity,[],[],Node
+endothelial glucocorticoid receptor,entity,[],[],Node
+endothelial glucocorticoid signaling,entity,[],[],Node
+transcription,entity,[],[],Node
+growth hormone treatment raises IGF-1,event,[],[],Node
+IGF-1 is associated with diabetes,event,[],[],Node
+IGF-1 is associated with insulin resistance,event,[],[],Node
+IGF-1 is associated with hyperglycemia,event,[],[],Node
+the insulin/insulin-like growth factor 1 signaling pathway includes the insulin receptor,event,[],[],Node
+the insulin receptor is a component of the insulin/IGF-1 signaling pathway,event,[],[],Node
+Insulin-like growth factor 1 (IGF1) is associated with transcription.,event,[],[],Node
+insulin-like growth factor 1 (IGF1),entity,[],[],Node
+Insulin-like growth factor 1 (IGF-1) is associated with hyperglycemia.,event,[],[],Node
+hyperglycemia,entity,[],[],Node
+Insulin-like growth factor 1 level is associated with growth hormone treatment.,event,[],[],Node
+The insulin/insulin-like growth factor 1 (IGF-1) signaling pathway has the insulin receptor as a component.,event,[],[],Node
+Insulin-like growth factor 1 (IGF1) is described as playing the role of a downstream target.,event,[],[],Node
+downstream target,entity,[],[],Node
+Insulin-like growth factor 1 is associated with diabetes.,event,[],[],Node
+insulin-like growth factor 1,entity,[],[],Node
+Insulin-like growth factor 1 is associated with insulin resistance.,event,[],[],Node
+Insulin-like growth factor 1 is associated with metabolic syndrome.,event,[],[],Node
+Insulin-like growth factor 1 (IGF-1) is associated with chronic kidney disease.,event,[],[],Node
+Insulin-like growth factor 1 (IGF-1) is associated with bone metabolism.,event,[],[],Node
+Insulin-like growth factor 1 is reported as causing prostate cancer in one triple but this causal claim is rejected.,event,[],[],Node
+prostate cancer,entity,[],[],Node
+Insulin-like growth factor 1 is reported in relation to left ventricular global longitudinal strain but the relation is rejected.,event,[],[],Node
+left ventricular global longitudinal strain (LVGLS),entity,[],[],Node
+Insulin-like growth factor 1 receptor is reported as possibly causing epithelial-mesenchymal transition.,event,[],[],Node
+insulin-like growth factor 1 receptor,entity,[],[],Node
+epithelial-mesenchymal transition,entity,[],[],Node
+Insulin-like growth factor 1 is reported as playing a role in cardiovascular health.,event,[],[],Node
+cardiovascular health,entity,[],[],Node
+Insulin-like growth factor 1 (IGF-1) is noted as having been linked to oocyte cohort quality.,event,[],[],Node
+Insulin-like growth factor 1 (IGF1) is reported as having cardiac development roles.,event,[],[],Node
+Insulin-like growth factor 1 receptor is categorized as a receptor (isa relation).,event,[],[],Node
+Glucocorticoid receptor (GR) plays a role in glucocorticoid signaling.,event,[],[],Node
+Endothelial glucocorticoid receptor is described as mediating glucocorticoid signaling in endothelium.,event,[],[],Node
+endothelium,entity,[],[],Node
+Endothelial glucocorticoid receptor is discussed as having a possible therapeutic role.,event,[],[],Node
+Glucocorticoid receptor is associated with insulin signaling.,event,[],[],Node
+glucocorticoid receptor,entity,[],[],Node
+Glucocorticoid receptor plays a role in steroid signaling.,event,[],[],Node
+steroid signaling,entity,[],[],Node
+Glucocorticoid receptor is associated with glucocorticoids.,event,[],[],Node
+Glucocorticoid receptor agonists play a therapeutic role.,event,[],[],Node
+glucocorticoid receptor agonists,entity,[],[],Node
+Glucocorticoid receptor plays a role in transcription as a ligand-activated transcription factor.,event,[],[],Node
+Glucocorticoid receptor plays a role in general signaling functions.,event,[],[],Node
+signaling,entity,[],[],Node
+Glucocorticoid receptor haploinsufficiency is reported to cause hypertension.,event,[],[],Node
+Glucocorticoid receptor is associated with insulin resistance.,event,[],[],Node
+Glucocorticoid receptor locus polymorphisms are associated with type 2 diabetes (T2D).,event,[],[],Node
+glucocorticoid receptor locus (GRL) polymorphisms,entity,[],[],Node
+type 2 diabetes (T2D),entity,[],[],Node
+Podocyte-specific glucocorticoid receptor knockout mice exhibit a pathological process of diabetic nephropathy.,event,[],[],Node
+podocyte-specific glucocorticoid receptor knockout (GR pKO) mice,entity,[],[],Node
+Glucocorticoid receptor is reported as associated with miR-32-5p in a context-specific manner.,event,[],[],Node
+miR-32-5p,entity,[],[],Node
+Glucocorticoid receptor is discussed in relation to osteoporosis as a possible pathological process when signaling is excessive.,event,[],[],Node
+osteoporosis (OP),entity,[],[],Node
+CHOP,entity,[],[],Node
+protein synthesis,entity,[],[],Node
+oxidative stress,entity,[],[],Node
+ER stress,entity,[],[],Node
+β-cell death,entity,[],[],Node
+β-cells,entity,[],[],Node
+RyR function,entity,[],[],Node
+RyR,entity,[],[],Node
+leakage of ER Ca2+,entity,[],[],Node
+Leakage of ER Ca2+,entity,[],[],Node
+β-cell ER Ca2+ homeostasis,entity,[],[],Node
+Disruption of β-cell ER Ca2+ homeostasis,entity,[],[],Node
+impaired insulin secretion,entity,[],[],Node
+Impaired insulin secretion,entity,[],[],Node
+CHOP promotes protein synthesis and oxidative stress,event,[],[],Node
+CHOP deteriorates ER stress and accelerates cell death,event,[],[],Node
+ER stress damages β-cells by altering Ca2+ homeostasis,event,[],[],Node
+ER stress interferes with RyR function and causes leakage of ER Ca2+,event,[],[],Node
+Destruction of β-cell ER Ca2+ homeostasis results in impaired insulin secretion,event,[],[],Node
+further promotion of β-cell death,event,[],[],Node
+Its upstream regulator has the opposite effect.,event,[],[],Node
+upstream regulator,entity,[],[],Node
+opposite effect,entity,[],[],Node
+Previous studies suggest that CHOP deteriorates ER stress and accelerates cell death via promoting protein synthesis and oxidative stress.,event,[],[],Node
+cell death,entity,[],[],Node
+"ER stress damages β-cells, possibly through altering Ca2+ homeostasis.",event,[],[],Node
+Ca2+ homeostasis,entity,[],[],Node
+ER stress interferes with the function of RyR located in the membrane of the ER and causes leakage of ER Ca2+.,event,[],[],Node
+ER membrane,entity,[],[],Node
+ER Ca2+ leakage,entity,[],[],Node
+The destruction of β-cell ER Ca2+ homeostasis results in impaired insulin secretion and further promotion of β-cell death.,event,[],[],Node
+destruction of β-cell ER Ca2+ homeostasis,entity,[],[],Node
+diabetic cardiomyopathy,entity,[],[],Node
+diabetes mellitus,entity,[],[],Node
+diabetes retinopathy,entity,[],[],Node
+retinal structure,entity,[],[],Node
+islet cell transplant,entity,[],[],Node
+surgical transplantation,entity,[],[],Node
+endocrine pancreas,entity,[],[],Node
+extreme insulin resistance type a,entity,[],[],Node
+on-line hemodiafiltration,entity,[],[],Node
+renal failure syndrome,entity,[],[],Node
+serum creatinine level,entity,[],[],Node
+creatinine,entity,[],[],Node
+"You should only extract entities that are relevant to diabetes, its complications, and comorbidites.",event,[],[],Node
+"diabetic cardiomyopathy (dbcm), due_to, diabetes mellitus",event,[],[],Node
+"diabetes retinopathy, has_finding_site, retinal structure",event,[],[],Node
+"islet cell transplant, has_method, surgical transplantation",event,[],[],Node
+"endocrine pancreas, finding_site_of, extreme insulin resistance type a",event,[],[],Node
